@@ -1,5 +1,7 @@
 {
   "name": "Casa Azul V2",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

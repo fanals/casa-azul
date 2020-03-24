@@ -1,0 +1,13 @@
+A savoir:
+
+On utilise cordova et non pas capacitor
+
+Pour l'imprimante:
+
+Installer ce plugin (ionic cordova plugin add cordova-plugin-starprnt) mais attention car portDiscovery ne fonctionne pas... utiliser this.starprnt.printRawText("BT:PRNT Star", "EscPosMobile", printObj)
+
+Erreurs:
+
+BABEL
+https://stackoverflow.com/questions/60780664/could-not-find-plugin-proposal-numeric-separator
+
