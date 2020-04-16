@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button *ngIf='user?.device'></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf='user'>
+  <img class='logo' src='assets/logo.png' />
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="user.name" (ionChange)='save()'></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Cuenta</ion-label>
+    <ion-select [compareWith]="compareWithFn" interface="alert" [(ngModel)]="user.device" (ionChange)='changedCategory()'>
+      <ion-select-option *ngFor='let device of deviceService._devices' [value]='device'>{{device.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-content>

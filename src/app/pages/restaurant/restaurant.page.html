@@ -1,12 +1,79 @@
-<ion-header>
+<ion-header id='table-header'>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Casa Azul</ion-title>
+    <ion-title>Casa Azul V2</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <div *ngIf='tables' class='disposition'>
+    <div class='tables'>
+      <div class='beach-texture'>
+        <div class='beach'>
+          <div class='mesa-zero'>
+            <ion-button class='height-100' [color]='tables[0].opened ? "dark" : "primary"' (click)='openTable(tables[0])'>0</ion-button>
+          </div>
+          <div class='flex-1'>
+            <div class='top-tables space-evenly'>
+              <ion-button [color]='tables[1].opened ? "dark" : "primary"' (click)='openTable(tables[1])'>1</ion-button>
+              <ion-button [color]='tables[2].opened ? "dark" : "primary"' (click)='openTable(tables[2])'>2</ion-button>
+              <ion-button [color]='tables[3].opened ? "dark" : "primary"' (click)='openTable(tables[3])'>3</ion-button>
+              <ion-button [color]='tables[4].opened ? "dark" : "primary"' (click)='openTable(tables[4])'>4</ion-button>
+              <ion-button [color]='tables[5].opened ? "dark" : "primary"' (click)='openTable(tables[5])'>5</ion-button>
+              <ion-button [color]='tables[6].opened ? "dark" : "primary"' (click)='openTable(tables[6])'>6</ion-button>
+              <ion-button [color]='tables[7].opened ? "dark" : "primary"' (click)='openTable(tables[7])'>7</ion-button>
+            </div>
+            <div class='space-evenly'>
+              <ion-button>8</ion-button>
+              <ion-button>9</ion-button>
+              <ion-button>10</ion-button>
+              <ion-button class='double'>11</ion-button>
+              <ion-button>12</ion-button>
+              <ion-button>14</ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='inside-texture'>
+        <div class='inside'>
+          <div class='mesa-zero'>
+            <ion-button class='height-100'>0</ion-button>
+          </div>
+          <div class='flex-1'>
+            <div class='top-tables space-evenly'>
+              <ion-button>5</ion-button>
+              <ion-button>6</ion-button>
+              <ion-button>7</ion-button>
+              <ion-button>8</ion-button>
+              <ion-button>9</ion-button>
+            </div>
+            <div class='space-evenly'>
+              <ion-button>1</ion-button>
+              <ion-button>2</ion-button>
+              <ion-button>3</ion-button>
+              <ion-button class='double'>4</ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='llevar'>
+        <ion-button>Bar</ion-button>
+        <ion-button>Komida</ion-button>
+        <ion-button>Fito</ion-button>
+        <ion-button>Para llevar</ion-button>
+        <ion-button>Pizza 20'</ion-button>
+        <ion-button>Cocina 30'</ion-button>
+      </div>
+    </div>
+    <div class='extra-tables'>
+      <ion-button>15</ion-button>
+      <ion-button>16</ion-button>
+      <ion-button>17</ion-button>
+      <ion-button>18</ion-button>
+      <ion-button>19</ion-button>
+      <ion-button>20</ion-button>
+      <img style='width: 80px;position: absolute;bottom: 4px;' src='../../assets/seb.png' />
+    </div>
+  </div>
 </ion-content>

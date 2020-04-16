@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [{
     path: '',
-    redirectTo: 'restaurant',
+    redirectTo: 'user',
     pathMatch: 'full'
   }, {
     path: 'config',
@@ -11,6 +11,34 @@ const routes: Routes = [{
   }, {
     path: 'restaurant',
     loadChildren: () => import('./pages/restaurant/restaurant.module').then( m => m.RestaurantPageModule)
+  }, {
+    path: 'table/:id',
+    loadChildren: () => import('./pages/table/table.module').then( m => m.TablePageModule)
+  }, {
+    path: 'employees',
+    loadChildren: () => import('./employees/employees.module').then( m => m.EmployeesPageModule)
+  }, {
+    path: 'waiter-select-table',
+    loadChildren: () => import('./pages/waiter/waiter-select-table/waiter-select-table.module').then( m => m.WaiterSelectTablePageModule)
+  }, {
+    path: 'waiter-select-food/:id',
+    loadChildren: () => import('./pages/waiter/waiter-select-food/waiter-select-food.module').then( m => m.WaiterSelectFoodPageModule)
+  },
+  {
+    path: 'console',
+    loadChildren: () => import('./pages/console/console.module').then( m => m.ConsolePageModule)
+  },
+  {
+    path: 'connect',
+    loadChildren: () => import('./pages/connect/connect.module').then( m => m.ConnectPageModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
+  },
+  {
+    path: 'pizzaiolo',
+    loadChildren: () => import('./pages/pizzaiolo/pizzaiolo.module').then( m => m.PizzaioloPageModule)
   }
 ];
 

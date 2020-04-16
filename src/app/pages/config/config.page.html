@@ -8,5 +8,47 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-button expand='full' (click)='updateMenu()'>Actualizar el menu</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='connect()'>Connect to device</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='reconnect()'>Reconnect to device</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='discover()'>Discover</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='scan()'>Scan</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='close()'>Close connection</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='retrieveConnectedDevices()'>Retrieve connected devices</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='enable()'>Enable bluetooth</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='disable()'>Disable bluetooth</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='isEnabled()'>Bluetooth is enabled</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='isLocationEnabled()'>Is location enabled</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='bond()'>Bond</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='unbound()'>Unbond</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='hasPermission()'>Has Permission ?</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='requestPermission()'>Request permission</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='addService()'>Add service</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='removeService()'>Remove service</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='readDevice()'>Read device</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='writeDevice()'>Write device</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='getAdapterInfo()'>Get adapter info</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='startAdvertising()'>Start Advertising</ion-button>
+  <br><br>
+  <ion-button expand='full' (click)='stopAdvertising()'>Stop Advertising</ion-button>
 </ion-content>

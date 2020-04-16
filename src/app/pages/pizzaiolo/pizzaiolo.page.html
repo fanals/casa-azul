@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Pizzaiolo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>Pedidos hechos</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class='orders'>
+    <ion-card *ngFor='let order of orders;' class='click-effect' (click)='select(order)' color='{{getOrderColor(order)}}' [hidden]='isPreparing && order.state != OrderStateEnum["selected"]'>
+      <ion-card-header>
+        <ion-card-subtitle>{{order.waiterName}}</ion-card-subtitle>
+        <ion-card-title>{{order.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngFor='let article of order.articles; let i = index' class='article'>
+          <div class='name'>
+            {{menu.articles[article.articleMenuIndex].name}}
+            <div *ngFor='let ingredientIndex of article.plusIngredientIndexes;'>
+              + {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngFor='let ingredientIndex of article.minusIngredientIndexes;'>
+              - {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngIf='article.half && article.half.articleMenuIndex != null'>
+              Mitad {{menu.articles[article.half.articleMenuIndex].name}}
+              <div *ngFor='let ingredientIndex of article.half.plusIngredientIndexes;'>
+                + {{menu.ingredients[ingredientIndex].name}}
+              </div>
+              <div *ngFor='let ingredientIndex of article.half.minusIngredientIndexes;'>
+                - {{menu.ingredients[ingredientIndex].name}}
+              </div>
+            </div>
+          </div>
+        </ion-item>
+        <ion-item-divider color='medium' class='ion-text-center'>
+          <ion-label>Cocina</ion-label>
+        </ion-item-divider>
+        <ion-item *ngFor='let article of order.kitchenArticles; let i = index' class='article'>
+          <div class='name'>
+            {{menu.articles[article.articleMenuIndex].name}}
+          </div>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-button [hidden]='isPreparing' color='primary' expand='full' (click)='prepareOrders()'>OK</ion-button>
+  <div [hidden]='!isPreparing' class='flex'>
+    <ion-button class='flex-1' color='primary' expand='full' (click)='isPreparing = false'>Ver pedidos</ion-button>
+    <ion-button class='flex-1' color='dark' expand='full' (click)='itsReady()'>Todo listo</ion-button>
+  </div>
+</ion-footer>

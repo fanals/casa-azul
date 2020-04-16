@@ -1,0 +1,93 @@
+<ion-header *ngIf='table' id='table-header'>
+  <ion-toolbar> 
+    <ion-buttons class='action-buttons'>
+      <ion-button color="primary" fill='solid'>{{table.name}}</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" fill='solid' class='show-tables' (click)='backButton()'>Mesas</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf='table'>
+  <div id='table'>
+    <div class='bill'>
+      <ion-select [selectedText]='table.bills[selectedBillIndex].name' cancelText="Cancelar" okText="Ok" interface="alert" [interfaceOptions]='{header: "Cuenta"}' [(ngModel)]='selectedBillIndex'>
+        <ion-select-option *ngFor='let bill of table.bills; let i = index' [value]='i'>{{bill.name}}</ion-select-option>
+      </ion-select>
+      <ion-list class='articles' lines='full'>
+        <ion-item (click)='modifyArticle(i)' *ngFor='let article of table.bills[selectedBillIndex].newBatch.articles; let i = index;' class='article click-effect'>
+          <div class='name'>
+            {{menu.articles[article.articleMenuIndex].name}}
+            <div *ngFor='let ingredientIndex of article.plusIngredientIndexes;'>
+              + {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngFor='let ingredientIndex of article.minusIngredientIndexes;'>
+              - {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngIf='article.half && article.half.articleMenuIndex != null'>
+              <div class='ion-text-center'>---</div>
+              {{menu.articles[article.half.articleMenuIndex].name}}
+              <div *ngFor='let ingredientIndex of article.half.plusIngredientIndexes;'>
+                + {{menu.ingredients[ingredientIndex].name}}
+              </div>
+              <div *ngFor='let ingredientIndex of article.half.minusIngredientIndexes;'>
+                - {{menu.ingredients[ingredientIndex].name}}
+              </div>
+            </div>
+          </div>
+          <!-- <div class='price'>{{article.price}}</div> -->
+        </ion-item>
+      </ion-list>
+      <ion-list lines='full'>
+        <ion-item>
+          <ion-checkbox slot="start" [(ngModel)]='table.bills[selectedBillIndex].service'></ion-checkbox>
+          <ion-label>SE: <span>{{billService.getService(table.bills[selectedBillIndex]) | number}}</span></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox slot="start" [(ngModel)]='table.bills[selectedBillIndex].itbis'></ion-checkbox>
+          <ion-label>IT: <span>{{billService.getItbis(table.bills[selectedBillIndex]) | number}}</span></ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-list lines='full'>
+        <ion-item (click)='sendToServer()' color='primary' class='click-effect total'>
+          <ion-label><span class='nb'>{{billService.getTotal(table.bills[selectedBillIndex]) | number}}</span></ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div class='choosing-articles' *ngIf='menu'>
+      <div class='categories'>
+        <ng-container *ngFor='let category of menu.articleCategories;let i = index'>
+          <ion-button *ngIf='category.display' color='light' mode="ios" (click)='shortcut(i)'>{{category.name}}</ion-button>
+        </ng-container>
+      </div>
+      <div id='articles-list'>
+        <ng-container *ngFor='let category of menu.articleCategories;let i = index'>
+          <ion-item-group *ngIf='category.display' id='shortcut-{{i}}'>
+            <ion-item-divider color='medium' class='ion-text-center'>
+              <ion-label class='width-100'>{{category.name}}</ion-label>
+            </ion-item-divider>
+            <div class='category' *ngIf="category.articleIndexes.length / 2 as stop">
+              <ion-list lines='full'>
+                <ng-container *ngFor='let articleIndex of category.articleIndexes; let i = index;'>
+                  <ion-item class='click-effect' (click)='addArticleIndex(articleIndex)' *ngIf='i < stop'>
+                    <label>{{menu.articles[articleIndex].name}}</label>
+                    <!-- <label slot='end'>{{article.price}}</label> -->
+                  </ion-item>
+                </ng-container>
+              </ion-list>
+              <ion-list lines='full'>
+                <ng-container *ngFor='let articleIndex of category.articleIndexes; let i = index;'>
+                  <ion-item class='click-effect' (click)='addArticleIndex(articleIndex)' *ngIf='i >= stop'>
+                    <label>{{menu.articles[articleIndex].name}}</label>
+                    <!-- <label slot='end'>{{article.price}}</label> -->
+                  </ion-item>
+                </ng-container>
+              </ion-list>
+            </div>
+          </ion-item-group>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ion-content>

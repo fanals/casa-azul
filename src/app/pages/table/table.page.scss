@@ -1,0 +1,121 @@
+ion-content {
+  --overflow: hidden;
+}
+
+#table-header {
+  .action-buttons {
+    ion-button {
+      margin-left: 5px;
+      --padding-start: 20px;
+      --padding-end: 20px;
+    }
+  }
+  .show-tables {
+    --padding-start: 20px;
+    --padding-end: 20px;
+    margin-right: 40px;
+    text-transform: initial;
+  }
+  .history-button {
+    margin-right: 14px;
+  }
+}
+
+#table {
+  display: flex;
+  height: 100%;
+  .bill {
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .articles {
+      flex: 1;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+      .article {
+        --padding-start: 8px;
+        --min-height: 40px;
+        .name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          flex: 1;
+        }
+        .price {
+          margin-left: 20px;
+          width: 35px;
+          text-align: right;
+        }
+      }
+    }
+    .taxes {
+      display: flex;
+      flex-direction: row;
+      border-top: 1px solid #d8d8d8;
+      ion-item {
+        flex: 1;
+        --padding-start: 10px;
+        font-size: 15px;
+        ion-checkbox {
+          margin-right: 8px;
+        }
+        ion-label {
+          margin-right: 0;
+          span {
+            float: right;
+            color: gray;
+          }
+        }
+        &.service {
+          border-right: 1px solid var(--ion-item-border-color,var(--ion-border-color,var(--ion-color-step-250,#c8c7cc)));
+        }
+      }
+    }
+    .total {
+      font-size: 22px;
+      font-weight: bold;
+      --padding-bottom: 3px;
+      --padding-top: 3px;
+      .nb {
+        float: right;
+      }
+    }
+  }
+  .choosing-articles {
+    background-color: var(--ion-color-light);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    #articles-list {
+      border-left: 1px solid var(--ion-color-medium);
+      flex: 1;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+      .category {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        ion-list {
+          width: 40%;
+        }
+      }
+      ion-item-divider {
+        text-transform: capitalize;
+      }
+    }
+    .categories {
+      background-color: var(--ion-color-medium);
+      display: flex;
+      ion-button {
+        --border-radius: 0;
+        margin: 0;
+        text-transform: capitalize;
+        flex: 1;
+        border-left: 1px solid var(--ion-color-medium);
+      }
+      ion-button:first-child {
+        border-left: 0;
+      }
+    }
+  }
+}

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { TablesService } from 'src/app/services/tables.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RestaurantPage implements OnInit {
 
-  constructor() { }
+  public tables;
+
+  constructor(public navCtrl: NavController,
+              public userService: UserService,
+              public tablesService: TablesService) {}
 
   ngOnInit() {
+    this.tablesService.get().then(tables => {
+      console.log(tables);
+      this.tables = tables;
+    });
+  }
+
+  openTable(table) {
+    this.navCtrl.navigateForward('table/'+table.id, {animated: false});
   }
 
 }
