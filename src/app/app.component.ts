@@ -27,9 +27,9 @@ export class AppComponent implements OnInit {
     devices: ['main']
   }, {
     title: 'Pedidos',
-    url: '/pizzaiolo',
+    url: '/orders',
     icon: 'restaurant',
-    devices: ['pizza']
+    devices: ['pizza', 'bar', 'kitchen']
   }, {
     title: 'Casa azul',
     url: '/waiter-select-table',
@@ -72,9 +72,9 @@ export class AppComponent implements OnInit {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByName('black');
       this.splashScreen.hide();
-      this.bluetooth.init();
-      this.userService.get().then(user => {
+      this.userService.isLoggedIn().then(user => {
         this.user = user;
+        this.bluetooth.init(user);
       });
     });
   }

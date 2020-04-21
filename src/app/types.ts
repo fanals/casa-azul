@@ -39,25 +39,31 @@ export interface MenuType {
   ingredientsCategories: IngredientCategoryMenuType[],
 }
 
+export enum ArticleCategoryEnum {
+  'bar',
+  'kitchen',
+  'pizza'
+}
+
 export interface ArticleMenuType {
   id: number,
   name: string,
   price: number,
   ingredientCategoryIndex: number, // -1 if has no ingredients
-  canBeHalf: boolean
+  category: ArticleCategoryEnum
 }
 
 export interface ArticleType {
-  articleMenuIndex: number,
-  half?: ArticleType,
-  plusIngredientIndexes?: number[],
-  minusIngredientIndexes?: number[],
+  ami: number, // Article Menu Index
+  q: number, // Quantity
+  half?: ArticleType, // Half pizza
+  pii?: number[], // Plus ingredient Indexes
+  mii?: number[], // Minus ingredient Indexes
 }
 
 export interface BatchType {
-  user: UserType,
+  waiterName: string,
   date: string,
-  readonly: boolean,
   articles: ArticleType[]
 }
 
@@ -77,13 +83,25 @@ export enum OrderStateEnum {
   'ready'
 }
 
-export interface PizzaOrderType {
-  id: number,
-  name: string,
-  waiterName: string,
-  articles: ArticleType[],
-  kitchenArticles: ArticleType[],
-  state: OrderStateEnum;
+export interface OrderType {
+  n: string, // Name
+  wn: string, // Waiter Name
+  as: ArticleType[], // Articles
+  oas: ArticleType[], // Other articles
+  oaso: boolean, // Other articles opened
+  st: OrderStateEnum // State
+}
+
+export interface TableOrderBillType {
+  bid: number, // Bill id
+  n: string, // Bill name
+  as: ArticleType[], // Articles
+}
+
+export interface TableOrderType {
+  tid: number, // Table id
+  wn: string, // Waiter Name
+  bs: TableOrderBillType[] // Bills
 }
 
 export interface TableType {
@@ -91,4 +109,14 @@ export interface TableType {
   name: string; 
   opened: boolean;
   bills: BillType[];
+}
+
+export interface PacketType {
+  s: ServicesEnum;
+  d: any; // Data
+}
+
+export enum ServicesEnum {
+  'Batch',
+  'Order'
 }

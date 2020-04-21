@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
-import { BluetoothService } from 'src/app/services/bluetooth.service';
+import { TestbluetoothService } from 'src/app/services/testbluetooth.service';
 
 @Component({
   selector: 'app-config',
@@ -9,7 +9,8 @@ import { BluetoothService } from 'src/app/services/bluetooth.service';
 })
 export class ConfigPage implements OnInit {
 
-  constructor(public menu: MenuService, public bluetooth: BluetoothService) {}
+  constructor(public menu: MenuService,
+              public testBluetooth: TestbluetoothService) {}
 
   ngOnInit() {
   }
@@ -31,7 +32,7 @@ export class ConfigPage implements OnInit {
   }
 
   scan() {
-    this.bluetooth.scanForDevices();
+    this.testBluetooth.scanForDevices();
   }
 
   close() {
@@ -39,23 +40,23 @@ export class ConfigPage implements OnInit {
   }
 
   retrieveConnectedDevices() {
-    this.bluetooth.retrieveConnectedDevices();
+    //this.bluetooth.retrieveConnectedDevices();
   }
 
   enable() {
-    this.bluetooth.enable();
+    //this.bluetooth.enable();
   }
 
   disable() {
-    this.bluetooth.disable();
+    //this.bluetooth.disable();
   }
 
   isEnabled() {
-    this.bluetooth.isEnabled();
+    //this.bluetooth.isEnabled();
   }
 
   isLocationEnabled() {
-    this.bluetooth.isLocationEnabled();
+    //this.bluetooth.isLocationEnabled();
   }
 
   bond() {
@@ -75,7 +76,7 @@ export class ConfigPage implements OnInit {
   }
 
   addService() {
-    this.bluetooth.addService();
+    //this.bluetooth.addService();
   }
 
   readDevice() {
@@ -87,7 +88,7 @@ export class ConfigPage implements OnInit {
   }
 
   getAdapterInfo() {
-    this.bluetooth.getAdapterInfo();
+    //this.bluetooth.getAdapterInfo();
   }
 
   startAdvertising() {
@@ -95,7 +96,7 @@ export class ConfigPage implements OnInit {
   }
 
   stopAdvertising() {
-    this.bluetooth.stopAdvertising();
+    //this.bluetooth.stopAdvertising();
   }
 
 }

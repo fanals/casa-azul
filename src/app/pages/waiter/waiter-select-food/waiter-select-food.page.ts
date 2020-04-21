@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
-import { BluetoothService } from 'src/app/services/bluetooth.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { TablesService } from 'src/app/services/tables.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
-import { MenuType, TableType, BillType, UserType, BatchType, ArticleType } from 'src/app/types';
+import { MenuType, TableType, BillType, UserType, BatchType, ArticleType, ServicesEnum, PacketType, TableOrderType, TableOrderBillType } from 'src/app/types';
 import { UserService } from 'src/app/services/user.service';
 import { BillService } from 'src/app/services/bill.service';
 import { ArticlePage } from '../../article/article.page';
+import { BlesenderService } from 'src/app/services/blesender.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-waiter-select-food',
@@ -26,11 +27,12 @@ export class WaiterSelectFoodPage implements OnInit {
               public alertService: AlertService,
               public tablesService: TablesService,
               public route: ActivatedRoute,
+              public blesender: BlesenderService,
               public modalController: ModalController,
               public userService: UserService,
+              public loading: LoadingService,
               public navCtrl: NavController,
-              public billService: BillService,
-              public bluetoothService: BluetoothService) {}
+              public billService: BillService) {}
 
   ngOnInit() {
     this.menuService.get().then(menu => {
@@ -49,9 +51,8 @@ export class WaiterSelectFoodPage implements OnInit {
            service: true,
            itbis: true,
            newBatch:{
-            user: this.user,
+            waiterName: this.user.name,
             date: 'Now',
-            readonly: false,
             articles: []
           }
         }, {
@@ -61,9 +62,8 @@ export class WaiterSelectFoodPage implements OnInit {
            service: true,
            itbis: true,
            newBatch:{
-            user: this.user,
+            waiterName: this.user.name,
             date: 'Now',
-            readonly: false,
             articles: []
           }
         }];
@@ -81,18 +81,25 @@ export class WaiterSelectFoodPage implements OnInit {
   }
 
   addArticleIndex(articleIndex) {
-    this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({articleMenuIndex:articleIndex});
+    this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q:1, ami:articleIndex});
   }
 
   sendToServer() {
-    // let toSend = {s:'ba',ba:this.batch};
-    // this.bluetoothService.send('main', toSend).then(res => {
-    //   this.alertService.display('Enviado');
-    // }).catch(error => {
-    //   if (error.error == "no-service") {
-    //     this.alertService.display('El servicio no esta activado en el iPad');
-    //   }
-    // });
+    this.loading.show("Enviando", 5000);
+    let tableOrderBills: TableOrderBillType[] = []; 
+    for (let i = 0, max = this.table.bills.length; i<max; ++i) {
+      let bill = this.table.bills[i];
+      tableOrderBills.push({bid: -1, n: bill.name, as: bill.newBatch.articles});
+    }
+    let tableOrder: TableOrderType = {
+      tid: this.table.id,
+      wn: this.user.name,
+      bs: tableOrderBills
+    }
+    let packet:PacketType = {s:ServicesEnum['Batch'], d:tableOrder};
+    this.blesender.send('main', packet).then(res => {
+      this.loading.dismiss();
+    });
   }
 
   async modifyArticle(i) {

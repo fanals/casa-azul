@@ -3,11 +3,15 @@ import { MenuService } from 'src/app/services/menu.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { TablesService } from 'src/app/services/tables.service';
-import { TableType, UserType, MenuType } from 'src/app/types';
+import { TableType, UserType, MenuType, ServicesEnum } from 'src/app/types';
 import { UserService } from 'src/app/services/user.service';
 import { ArticlePage } from '../article/article.page';
 import { BillService } from 'src/app/services/bill.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { BluetoothService } from 'src/app/services/bluetooth.service';
+import { OrdersService } from 'src/app/services/orders.service';
+import { LoadingService } from 'src/app/services/loading.service';
+import { BlesenderService } from 'src/app/services/blesender.service';
 
 @Component({
   selector: 'app-table',
@@ -24,10 +28,14 @@ export class TablePage implements OnInit {
   constructor(public menuService: MenuService,
               public route: ActivatedRoute,
               public userService: UserService,
+              public loading: LoadingService,
+              public bluetooth: BluetoothService,
+              public ordersService: OrdersService,
               public tablesService: TablesService,
               public navCtrl: NavController,
               public billService: BillService,
               public alertService: AlertService,
+              public blesender: BlesenderService,
               public modalController: ModalController) {
 
   }
@@ -43,9 +51,8 @@ export class TablePage implements OnInit {
            service: true,
            itbis: true,
            newBatch:{
-            user: this.user,
+            waiterName: this.user.name,
             date: 'Now',
-            readonly: false,
             articles: []
           }
         }, {
@@ -55,9 +62,8 @@ export class TablePage implements OnInit {
            service: true,
            itbis: true,
            newBatch:{
-            user: this.user,
+            waiterName: this.user.name,
             date: 'Now',
-            readonly: false,
             articles: []
           }
         }];
@@ -86,9 +92,8 @@ export class TablePage implements OnInit {
           service: true,
           itbis: true,
           newBatch:{
-            user: this.user,
+            waiterName: this.user.name,
             date: 'Now',
-            readonly: false,
             articles: []
           }
         });
@@ -121,7 +126,7 @@ export class TablePage implements OnInit {
   }
 
   addArticleIndex(articleIndex) {
-    this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({articleMenuIndex:articleIndex});
+    this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q: 1, ami:articleIndex});
   }
 
   editBillName() {
@@ -130,15 +135,20 @@ export class TablePage implements OnInit {
     });
   }
 
-  sendToKitchen() {
-    this.table.opened = true;
+  async sendToKitchen() {
+    this.loading.show('Enviando...', 5000);
+    let orders = this.ordersService.createOrders(this.table);
+    for (let i = 0, max = orders.length; i<max;++i) {
+      let packet = {s: ServicesEnum['Order'], d:orders[i].order};
+      await this.blesender.send(orders[i].device, packet);
+    }
+    this.loading.dismiss();
     let bill = this.table.bills[this.selectedBillIndex];
     let batch = this.table.bills[this.selectedBillIndex].newBatch;
     bill.batches.unshift(batch);
     this.table.bills[this.selectedBillIndex].newBatch = {
-      user: this.user,
+      waiterName: this.user.name,
       date: 'Now',
-      readonly: false,
       articles: []
     };
   }

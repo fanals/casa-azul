@@ -37,8 +37,8 @@ const routes: Routes = [{
     loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   },
   {
-    path: 'pizzaiolo',
-    loadChildren: () => import('./pages/pizzaiolo/pizzaiolo.module').then( m => m.PizzaioloPageModule)
+    path: 'orders',
+    loadChildren: () => import('./pages/orders/orders.module').then( m => m.OrdersPageModule)
   }
 ];
 

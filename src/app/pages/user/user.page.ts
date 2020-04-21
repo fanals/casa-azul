@@ -32,7 +32,7 @@ export class UserPage implements OnInit {
 
   changedCategory() {
     this.userService.save().then(() => {
-      this.bluetooth.addService();
+      this.alert.fixed('Reiniciar el app');
     });
   }
 

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PizzaioloPageRoutingModule } from './pizzaiolo-routing.module';
+import { OrdersPageRoutingModule } from './orders-routing.module';
 
-import { PizzaioloPage } from './pizzaiolo.page';
+import { OrdersPage } from './orders.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PizzaioloPageRoutingModule
+    OrdersPageRoutingModule
   ],
-  declarations: [PizzaioloPage]
+  declarations: [OrdersPage]
 })
-export class PizzaioloPageModule {}
+export class OrdersPageModule {}

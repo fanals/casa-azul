@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ConsoleService } from './console.service';
-import { TableType } from '../types';
+import { TableType, TableOrderType, BillType } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -80,21 +80,28 @@ export class TablesService {
     this.storage.set('tables', this._tables);
   }
 
-  // TODO: Quand on reçoit un batch, l'ajouter à la facture en cours
-  // Ne pas en créer une nouvelle
-  addBatch(batch) {
-    this.console.log('Adding batch to table', batch);
-    this.getTableById(batch.tableId).then((table:any) => {
-      let bill = {id: 0, name: 'Principal', batches: [{
-        user: {name: batch.user},
-        date: '17:30',
-        articles: batch.articles
-      }]};
-      this.console.log('Pushing bill', bill);
-      table.bills.push(bill);
+  addTableOrder(tableOrder: TableOrderType) {
+    this.console.log('Received table order', tableOrder);
+    this.getTableById(tableOrder.tid).then((table:TableType) => {
       table.opened = true;
-      this.console.log('Bill added on table', table);
-      this.console.log('tables', this._tables);
+      for (let i = 0, max = tableOrder.bs.length;i<max;++i) {
+        table.bills.push({
+          id: 0,
+          service: true,
+          itbis: true,
+          newBatch: {
+            waiterName: 'iPad',
+            date: 'Now',
+            articles: []
+          },
+          name: tableOrder.bs[i].n,
+          batches: [{
+            waiterName: tableOrder.wn,
+            date: '17:30',
+            articles: tableOrder.bs[i].as
+          }]
+        });
+      }
     });
   }
 

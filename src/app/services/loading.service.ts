@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, resolveForwardRef } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 
 @Injectable({
@@ -6,23 +6,37 @@ import { LoadingController } from '@ionic/angular';
 })
 export class LoadingService {
 
-  private _loading;
+  private _loading = null;
+  private _timer = null;
 
   constructor(public loadingController: LoadingController) {}
 
-  show(message = 'Loading') {
-    this._presentLoading(message); 
-  }
-
-  dismiss() {
-    this._loading.dismiss();
-  }
-
-  async _presentLoading(message) {
-    this._loading = await this.loadingController.create({
-      message: message
+  public show(message = 'Loading', timer = 0) {
+    return new Promise(async (resolve) => {
+      this.dismiss();
+      this._loading = await this.loadingController.create({
+        message: message
+      });
+      this._loading.present();
+      if (timer) {
+        this._timer = setTimeout(() => {
+          this._timer = null;
+          this.dismiss();
+        }, timer);
+      }
+      resolve();
     });
-    await this._loading.present();
+  }
+
+  public dismiss() {
+    if (this._timer) {
+      clearTimeout(this._timer);
+      this._timer = null;
+    }
+    if (this._loading) {
+      this._loading.dismiss();
+      this._loading = null;
+    }
   }
 
 }

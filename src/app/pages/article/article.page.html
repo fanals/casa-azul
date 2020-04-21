@@ -1,45 +1,45 @@
-<ion-header>
+<ion-header *ngIf='articleMenu'>
   <ion-toolbar>
-    <ion-title>{{articleMenu?.name}}</ion-title>
+    <ion-title>{{articleMenu.name}}</ion-title>
     <ion-buttons slot="end">
       <ion-button color='primary' (click)='ok()'>OK</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf='articleMenu'>
   <div *ngIf='canModifyIngredients'>
     <ion-list-header>
       <ion-label>Mas</ion-label>
     </ion-list-header>
-    <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.plusIngredientIndexes'>
+    <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.pii'>
       <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes;' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
     </ion-select>
     <ion-list-header>
       <ion-label>Menos</ion-label>
     </ion-list-header>
-    <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.minusIngredientIndexes'>
+    <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.mii'>
       <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
     </ion-select>
   </div>
-  <div *ngIf='canBeHalf'>
+  <div *ngIf="articleMenu.category == ArticleCategoryEnum['pizza']">
     <ion-list-header>
       <ion-label>Mitad</ion-label>
     </ion-list-header>
-    <ion-select cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.articleMenuIndex'>
+    <ion-select cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.ami'>
       <ion-select-option *ngFor='let pizza of pizzas;' [value]='pizza'>{{menu.articles[pizza].name}}</ion-select-option>
     </ion-select>
-    <div *ngIf='article.half.articleMenuIndex != null'>
+    <div *ngIf='article.half.ami != null'>
       <ion-list-header>
         <ion-label>Mas</ion-label>
       </ion-list-header>
-      <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.plusIngredientIndexes'>
+      <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.pii'>
         <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes;' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
       </ion-select>
       <ion-list-header>
         <ion-label>Menos</ion-label>
       </ion-list-header>
-      <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.minusIngredientIndexes'>
+      <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.mii'>
         <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
       </ion-select>
     </div>

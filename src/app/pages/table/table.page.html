@@ -27,25 +27,25 @@
         <div *ngIf='table.bills[this.selectedBillIndex].newBatch.articles.length'>
           <ion-item-divider color='medium'>
             <ion-label>
-              {{table.bills[this.selectedBillIndex].newBatch.user.name}} - {{table.bills[this.selectedBillIndex].newBatch.date}}
+              {{table.bills[this.selectedBillIndex].newBatch.waiterName}} - {{table.bills[this.selectedBillIndex].newBatch.date}}
             </ion-label>
           </ion-item-divider>
           <ion-button (click)='sendToKitchen()' expand='full' color='success'>Enviar</ion-button>
           <ion-item *ngFor='let article of table.bills[this.selectedBillIndex].newBatch.articles; let i = index' class='article click-effect' (click)='modifyArticle(table.bills[this.selectedBillIndex].newBatch, i)'>
             <div class='name'>
-              {{menu.articles[article.articleMenuIndex].name}}
-              <div *ngFor='let ingredientIndex of article.plusIngredientIndexes;'>
+              {{menu.articles[article.ami].name}}
+              <div *ngFor='let ingredientIndex of article.pii;'>
                 + {{menu.ingredients[ingredientIndex].name}}
               </div>
-              <div *ngFor='let ingredientIndex of article.minusIngredientIndexes;'>
+              <div *ngFor='let ingredientIndex of article.mii;'>
                 - {{menu.ingredients[ingredientIndex].name}}
               </div>
-              <div *ngIf='article.half && article.half.articleMenuIndex != null'>
-                Mitad {{menu.articles[article.half.articleMenuIndex].name}}
-                <div *ngFor='let ingredientIndex of article.half.plusIngredientIndexes;'>
+              <div *ngIf='article.half && article.half.ami != null'>
+                Mitad {{menu.articles[article.half.ami].name}}
+                <div *ngFor='let ingredientIndex of article.half.pii;'>
                   + {{menu.ingredients[ingredientIndex].name}}
                 </div>
-                <div *ngFor='let ingredientIndex of article.half.minusIngredientIndexes;'>
+                <div *ngFor='let ingredientIndex of article.half.mii;'>
                   - {{menu.ingredients[ingredientIndex].name}}
                 </div>
               </div>
@@ -56,24 +56,24 @@
         <div *ngFor='let batch of table.bills[selectedBillIndex].batches;'>
           <ion-item-divider color='tertiary'>
             <ion-label>
-              {{batch.user.name}} - {{batch.date}}
+              {{batch.waiterName}} - {{batch.date}}
             </ion-label>
           </ion-item-divider>
           <ion-item *ngFor='let article of batch.articles; let i = index' class='article click-effect' (click)='modifyArticle(batch, i)'>
             <div class='name'>
-              {{menu.articles[article.articleMenuIndex].name}}
-              <div *ngFor='let ingredientIndex of article.plusIngredientIndexes;'>
+              {{menu.articles[article.ami].name}}
+              <div *ngFor='let ingredientIndex of article.pii;'>
                 + {{menu.ingredients[ingredientIndex].name}}
               </div>
-              <div *ngFor='let ingredientIndex of article.minusIngredientIndexes;'>
+              <div *ngFor='let ingredientIndex of article.mii;'>
                 - {{menu.ingredients[ingredientIndex].name}}
               </div>
-              <div *ngIf='article.half && article.half.articleMenuIndex != null'>
-                Mitad {{menu.articles[article.half.articleMenuIndex].name}}
-                <div *ngFor='let ingredientIndex of article.half.plusIngredientIndexes;'>
+              <div *ngIf='article.half && article.half.ami != null'>
+                Mitad {{menu.articles[article.half.ami].name}}
+                <div *ngFor='let ingredientIndex of article.half.pii;'>
                   + {{menu.ingredients[ingredientIndex].name}}
                 </div>
-                <div *ngFor='let ingredientIndex of article.half.minusIngredientIndexes;'>
+                <div *ngFor='let ingredientIndex of article.half.mii;'>
                   - {{menu.ingredients[ingredientIndex].name}}
                 </div>
               </div>

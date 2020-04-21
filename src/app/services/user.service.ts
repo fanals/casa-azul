@@ -40,7 +40,7 @@ export class UserService {
   }
 
   isLoggedIn() {
-    return new Promise(resolve => {
+    return new Promise<UserType>(resolve => {
       this.get().then(user => {
         if (user.device)
           resolve(user);

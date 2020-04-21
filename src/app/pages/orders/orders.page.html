@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Pedidos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>Pedidos hechos</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf='menu && orders'>
+  <div class='orders'>
+    <ion-card *ngFor='let order of orders;' (click)='select(order)' color='{{getOrderColor(order)}}' [hidden]='isPreparing && order.st != OrderStateEnum["selected"]'>
+      <ion-card-header>
+        <ion-card-subtitle>{{order.wn}}</ion-card-subtitle>
+        <ion-card-title>{{order.n}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content (click)='$event.stopPropagation()'>
+        <div *ngFor='let article of order.as; let i = index' class='article'>
+          <div class='quantity'>{{ article.q }}</div>
+          <div>
+            {{ menu.articles[article.ami].name}}
+            <div *ngFor='let ingredientIndex of article.pii;'>
+              + {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngFor='let ingredientIndex of article.mii;'>
+              - {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngIf='article.half && article.half.ami != null'>
+              Mitad {{menu.articles[article.half.ami].name}}
+              <div *ngFor='let ingredientIndex of article.half.pii;'>
+                + {{menu.ingredients[ingredientIndex].name}}
+              </div>
+              <div *ngFor='let ingredientIndex of article.half.mii;'>
+                - {{menu.ingredients[ingredientIndex].name}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf='order.kas && order.kas.length'>
+          <ion-item-divider color='medium' class='ion-text-center' (click)='order.kaso = !order.kaso'>
+            <ion-label>{{user?.device.slug == "pizza" ? 'Cocina' : 'Pizza'}}</ion-label>
+          </ion-item-divider>
+          <div [hidden]='!order.kaso'>
+            <div *ngFor='let article of order.kas; let i = index' class='article'>
+              <div class='quantity'>{{ article.q }}</div>
+              <div>{{menu.articles[article.ami].name}}</div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-button [hidden]='isPreparing' color='primary' expand='full' (click)='prepareOrders()'>OK</ion-button>
+  <div [hidden]='!isPreparing' class='flex'>
+    <ion-button class='flex-1' color='primary' expand='full' (click)='isPreparing = false'>Ver pedidos</ion-button>
+    <ion-button class='flex-1' color='dark' expand='full' (click)='itsReady()'>Listo</ion-button>
+  </div>
+</ion-footer>

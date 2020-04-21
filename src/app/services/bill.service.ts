@@ -20,28 +20,28 @@ export class BillService {
   }
 
   getArticlePrice(article:ArticleType) {
-    let articlePrice = this._menu.articles[article.articleMenuIndex].price;
+    let articlePrice = this._menu.articles[article.ami].price;
     let ingredientsPrice = 0;
-    if (article.plusIngredientIndexes) {
-      for (let i = 0,max = article.plusIngredientIndexes.length;i<max;++i) {
-        ingredientsPrice += this._menu.ingredients[article.plusIngredientIndexes[i]].price;
+    if (article.pii) {
+      for (let i = 0,max = article.pii.length;i<max;++i) {
+        ingredientsPrice += this._menu.ingredients[article.pii[i]].price;
       }
-      if (article.minusIngredientIndexes) {
-        for (let i = 0,max = article.minusIngredientIndexes.length;i<max;++i) {
-          ingredientsPrice -= this._menu.ingredients[article.minusIngredientIndexes[i]].price;
+      if (article.mii) {
+        for (let i = 0,max = article.mii.length;i<max;++i) {
+          ingredientsPrice -= this._menu.ingredients[article.mii[i]].price;
         } 
       }
     }
-    if (article.half && article.half.articleMenuIndex != null) {
+    if (article.half && article.half.ami != null) {
       ingredientsPrice /= 2;
-      articlePrice = (articlePrice / 2) + (this._menu.articles[article.half.articleMenuIndex].price / 2);
-      if (article.half.plusIngredientIndexes) {
-        for (let i = 0,max = article.half.plusIngredientIndexes.length;i<max;++i) {
-          ingredientsPrice += this._menu.ingredients[article.half.plusIngredientIndexes[i]].price / 2;
+      articlePrice = (articlePrice / 2) + (this._menu.articles[article.half.ami].price / 2);
+      if (article.half.pii) {
+        for (let i = 0,max = article.half.pii.length;i<max;++i) {
+          ingredientsPrice += this._menu.ingredients[article.half.pii[i]].price / 2;
         }
-        if (article.half.minusIngredientIndexes) {
-          for (let i = 0,max = article.half.minusIngredientIndexes.length;i<max;++i) {
-            ingredientsPrice -= this._menu.ingredients[article.half.minusIngredientIndexes[i]].price / 2;
+        if (article.half.mii) {
+          for (let i = 0,max = article.half.mii.length;i<max;++i) {
+            ingredientsPrice -= this._menu.ingredients[article.half.mii[i]].price / 2;
           } 
         }
       }

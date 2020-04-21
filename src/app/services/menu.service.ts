@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
-import { MenuType, IngredientMenuType } from '../types';
+import { MenuType, IngredientMenuType, ArticleCategoryEnum } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -115,11 +115,10 @@ export class MenuService {
     for (let i = 0, max = menu.categories.length; i < max; ++i) {
       let category = menu.categories[i];
       let ingredientCategoryIndex = formattedMenu.ingredientsCategories.findIndex((c) => c.name == category.name);
-      let canBeHalf = category.name == 'pizza';
       let articleIndexes = [];
       for (let j = 0, maxj = category.articles.length; j < maxj; ++j) {
         let article = category.articles[j];
-        formattedMenu.articles[articleIndex] = {id: article.id, name: article.name, price:article.price, ingredientCategoryIndex: ingredientCategoryIndex, canBeHalf: canBeHalf};
+        formattedMenu.articles[articleIndex] = {id: article.id, name: article.name, price:article.price, ingredientCategoryIndex: ingredientCategoryIndex, category: this._getArticleCategory(category)};
         articleIndexes.push(articleIndex);
         articleIndex++;
       }
@@ -132,6 +131,14 @@ export class MenuService {
     }
     formattedMenu.articleCategories.unshift({name: 'Frecuente', display: true, articleIndexes: articleIndexes});
     return formattedMenu;
+  }
+
+  _getArticleCategory(category) {
+    if (category.name == 'pizza')
+      return ArticleCategoryEnum['pizza'];
+    if (['carne', 'pescado', 'pasta', 'ensalada', 'postre', 'extra'].findIndex(c => c == category.name) != -1)
+      return ArticleCategoryEnum['kitchen'];
+    return ArticleCategoryEnum['bar'];
   }
 
   getArticleIndexById(id) {

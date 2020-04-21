@@ -9,15 +9,22 @@ export class AlertService {
   constructor(private alert: AlertController) {}
 
   display(message) {
-    this._display(message);
-  }
-
-  async _display(message) {
-    const a = await this.alert.create({
+    this.alert.create({
       header: message,
       buttons: ['OK']
+    }).then(a => {
+      a.present()
     });
-    await a.present();
+  }
+
+  fixed(message) {
+    this.alert.create({
+      header: message,
+      backdropDismiss: false,
+      buttons: []
+    }).then(a => {
+      a.present();
+    });
   }
 
   prompt(header = 'Prompt', value = '') {

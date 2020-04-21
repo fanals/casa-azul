@@ -18,20 +18,20 @@
       <ion-list class='articles' lines='full'>
         <ion-item (click)='modifyArticle(i)' *ngFor='let article of table.bills[selectedBillIndex].newBatch.articles; let i = index;' class='article click-effect'>
           <div class='name'>
-            {{menu.articles[article.articleMenuIndex].name}}
-            <div *ngFor='let ingredientIndex of article.plusIngredientIndexes;'>
+            {{menu.articles[article.ami].name}}
+            <div *ngFor='let ingredientIndex of article.pii;'>
               + {{menu.ingredients[ingredientIndex].name}}
             </div>
-            <div *ngFor='let ingredientIndex of article.minusIngredientIndexes;'>
+            <div *ngFor='let ingredientIndex of article.mii;'>
               - {{menu.ingredients[ingredientIndex].name}}
             </div>
-            <div *ngIf='article.half && article.half.articleMenuIndex != null'>
+            <div *ngIf='article.half && article.half.ami != null'>
               <div class='ion-text-center'>---</div>
-              {{menu.articles[article.half.articleMenuIndex].name}}
-              <div *ngFor='let ingredientIndex of article.half.plusIngredientIndexes;'>
+              {{menu.articles[article.half.ami].name}}
+              <div *ngFor='let ingredientIndex of article.half.pii;'>
                 + {{menu.ingredients[ingredientIndex].name}}
               </div>
-              <div *ngFor='let ingredientIndex of article.half.minusIngredientIndexes;'>
+              <div *ngFor='let ingredientIndex of article.half.mii;'>
                 - {{menu.ingredients[ingredientIndex].name}}
               </div>
             </div>
