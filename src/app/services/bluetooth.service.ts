@@ -29,8 +29,8 @@ export class BluetoothService {
         await this._initialize();
         await this.loading.show('Init peripheral');
         await this._initPeripheral();
-        await this.loading.show('Request permission');
-        await this._requestPermission();
+        await this.loading.show('Request permissions');
+        await this._requestPermissions();
         await this.loading.show('Adding service');
         await this._addServices(user);
         await this.loading.show('Iniciando bluetooth');
@@ -79,22 +79,47 @@ export class BluetoothService {
     });
   }
 
-  private _requestPermission() {
+  private _requestPermissions() {
     return new Promise(resolve => {
       if (this.platform.is('android')) {
-        this.bluetoothle.hasPermission().then(res => {
-          if (res.hasPermission) {
+        this._coarsePermission().then(res => {
+          this._locationPermission().then(res => {
             resolve();
-          } else {
-            this.bluetoothle.requestPermission().then(res => {
-              this.console.log('Requested permission success: ', res);
-              resolve();
-            }).catch(error => this.console.log('Error requestion permission: ', error));
-          }
-        }).catch(error => this.console.log('Error haspermission: ', error));
+          });
+        });
       } else {
         resolve();
       }
+    });
+  }
+
+  private _coarsePermission() {
+    return new Promise(resolve => {
+      this.bluetoothle.hasPermission().then(res => {
+        if (res.hasPermission) {
+          resolve();
+        } else {
+          this.bluetoothle.requestPermission().then(res => {
+            this.console.log('Requested coarse permission success: ', res);
+            resolve();
+          }).catch(error => this.console.log('Error requesting coarse permission: ', error));
+        }
+      }).catch(error => this.console.log('Error coarse permission: ', error));
+    });
+  }
+
+  private _locationPermission() {
+    return new Promise(resolve => {
+      this.bluetoothle.isLocationEnabled().then(res => {
+        if (res.isLocationEnabled) {
+          resolve();
+        } else {
+          this.bluetoothle.requestLocation().then(res => {
+            this.console.log('Requested location permission success: ', res);
+            resolve();
+          }).catch(error => this.console.log('Error requesting location permission: ', error));
+        }
+      }).catch(error => this.console.log('Error location permission: ', error));
     });
   }
 
@@ -144,18 +169,27 @@ export class BluetoothService {
     return new Promise(resolve => {
       this.console.log('Will start advertising');
       let start = () => {
-        setTimeout(() => {
-          this.console.log('Starting advertising as ', user.device.name);
+        this.console.log('Starting advertising as ', user.device.name, user.device.serviceUUID);
+        if (this.platform.is('android')) {
           this.bluetoothle.startAdvertising({
-            "services":[user.device.serviceUUID], //iOS
-            "service":user.device.serviceUUID, //Android
+            "service": user.device.serviceUUID,
             "name": user.device.name,
-            "includeDeviceName": false
+            "includeDeviceName": false,
+            "includeTxPowerLevel": true
           }).then(res => {
             this.console.log('Advertising started', res);
             resolve();
           }).catch(error => this.console.log('Error advertising', error));
-        }, 5000);
+        } else {
+          this.bluetoothle.startAdvertising({
+            "services":[user.device.serviceUUID],
+            "name": user.device.name,
+            "includeDeviceName": true
+          }).then(res => {
+            this.console.log('Advertising started', res);
+            resolve();
+          }).catch(error => this.console.log('Error advertising', error));
+        }
       }
       this.bluetoothle.stopAdvertising().then(start).catch(start);
     });

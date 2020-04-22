@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ConsoleService } from './console.service';
 import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +11,53 @@ export class TestbluetoothService {
   public sendServiceUUID: string = "49a9a58d-daf3-4073-8848-c5b1ecad34fb";
 
   constructor(public console: ConsoleService,
+              public platform: Platform,
               public bluetoothle: BluetoothLE) {}
+
+    private arrayToHexString(hexData : Uint8Array) {
+      let hexString : string = '';
+      for(let i = 0; i < hexData.length; i++) {
+        hexString += this.hexToString(hexData[i]);
+      }
+      return hexString;
+    }
+    
+    private hexToString(hex : number) : string {
+      let hexString : string = hex.toString(16);
+      if (hexString.length % 2) {
+        hexString = '0' + hexString;
+      }
+      return hexString;
+    }
 
   scanForDevices() {
     return new Promise(resolve => {
       let devices;
       this.console.log('Scanning for device with service');
       this.bluetoothle.startScan({
+        isConnectable: true,
+        allowDuplicates: false
         //services: [this.sendServiceUUID],
       }).subscribe(device => {
-        this.console.log(device);
+        if (this.platform.is('android') && device.status != 'scanStarted') {
+          this.console.log(device);
+          //let bytes = this.bluetoothle.encodedStringToBytes(advertisement);
+          let advertisement:any = device.advertisement;
+          var rawData = atob(advertisement);
+          let serviceUuid = "";
+          for (var i = 20; i >= 5; i--) {
+            serviceUuid = serviceUuid + ("00" + rawData.charCodeAt(i).toString(16)).slice(-2);
+            if (i == 17 || i == 15 || i == 13 || i == 11) {
+              serviceUuid = serviceUuid + "-";
+            }
+          }
+          this.console.log(serviceUuid);
+//           let hexString = this.arrayToHexString(bytes);
+// //          let text = this.bluetoothle.bytesToString(bytes);
+//           this.console.log(Number.parseInt(hexString.substring(4, 6), 16));
+        } else {
+          this.console.log(device);
+        }
       }, error => {
         this.console.log('Error scanning', error);
       });

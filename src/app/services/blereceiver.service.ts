@@ -25,11 +25,11 @@ export class BlereceiverService {
     if (dataChunk.completed) {
       let packet:PacketType = JSON.parse(this.packetChunks.join(''));
       this.packetChunks = [];
-      this._receivedPacket(packet);
+      this._packetCompleted(packet);
     }
   }
 
-  private _receivedPacket(packet: PacketType) {
+  private _packetCompleted(packet: PacketType) {
     this.console.log('Received data', packet);
     if (packet.s == ServicesEnum['Batch']) {
       this.tablesService.addTableOrder(packet.d);
