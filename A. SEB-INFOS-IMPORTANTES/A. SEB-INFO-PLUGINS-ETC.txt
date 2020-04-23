@@ -11,3 +11,15 @@ Erreurs:
 BABEL
 https://stackoverflow.com/questions/60780664/could-not-find-plugin-proposal-numeric-separator
 
+ERR_CLEARTEXT_NOT_PERMITTED
+
+Ouvrir resources\android\xml\network_security_config.xml et remplacer par:
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+Puis ouvrir config.xml et ajouter ceci s'il n'est pas déjà présent:
+<edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:usesCleartextTraffic="true" />
+    <application android:networkSecurityConfig="@xml/network_security_config" />
+</edit-config>
