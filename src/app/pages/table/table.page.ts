@@ -8,10 +8,9 @@ import { UserService } from 'src/app/services/user.service';
 import { ArticlePage } from '../article/article.page';
 import { BillService } from 'src/app/services/bill.service';
 import { AlertService } from 'src/app/services/alert.service';
-import { BluetoothService } from 'src/app/services/bluetooth.service';
 import { OrdersService } from 'src/app/services/orders.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { BlesenderService } from 'src/app/services/blesender.service';
+import { ServerService } from 'src/app/services/server.service';
 
 @Component({
   selector: 'app-table',
@@ -29,13 +28,12 @@ export class TablePage implements OnInit {
               public route: ActivatedRoute,
               public userService: UserService,
               public loading: LoadingService,
-              public bluetooth: BluetoothService,
               public ordersService: OrdersService,
               public tablesService: TablesService,
               public navCtrl: NavController,
               public billService: BillService,
               public alertService: AlertService,
-              public blesender: BlesenderService,
+              public server: ServerService,
               public modalController: ModalController) {
 
   }
@@ -136,13 +134,15 @@ export class TablePage implements OnInit {
   }
 
   async sendToKitchen() {
-    this.loading.show('Enviando...', 5000);
     let orders = this.ordersService.createOrders(this.table);
     for (let i = 0, max = orders.length; i<max;++i) {
-      let packet = {s: ServicesEnum['Order'], d:orders[i].order};
-      await this.blesender.send(orders[i].device, packet);
+      let packet = {device: orders[i].device, service: ServicesEnum['service-order'], data:orders[i].order};
+      this.server.send(packet).then(() => {
+        console.log('Packet Sent');
+      }).catch(e => {
+        console.log('Error sending packet', e);
+      });
     }
-    this.loading.dismiss();
     let bill = this.table.bills[this.selectedBillIndex];
     let batch = this.table.bills[this.selectedBillIndex].newBatch;
     bill.batches.unshift(batch);

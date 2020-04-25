@@ -7,8 +7,7 @@ export interface DeviceType {
   id: number,
   slug: string,
   name: string,
-  serviceUUID: string,
-  address: string,
+  socket: string,
 }
 
 export interface UserType {
@@ -112,11 +111,20 @@ export interface TableType {
 }
 
 export interface PacketType {
-  s: ServicesEnum;
-  d: any; // Data
+  device: DevicesEnum,
+  service: ServicesEnum;
+  data: any;
 }
 
 export enum ServicesEnum {
-  'Batch',
-  'Order'
+  'service-batch' = 'service-batch',
+  'service-order' = 'service-order'
+}
+
+export enum DevicesEnum {
+  'bar' = 'bar',
+  'kitchen' = 'kitchen',
+  'pizza' = 'pizza',
+  'camarero' = 'camarero',
+  'main' = 'main',
 }

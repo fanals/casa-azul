@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { BluetoothService } from './services/bluetooth.service';
 import { UserService } from './services/user.service';
 import { UserType } from './types';
+import { ServerService } from './services/server.service';
+import { LoadingService } from './services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -46,11 +46,6 @@ export class AppComponent implements OnInit {
     icon: 'construct',
     devices: null
   }, {
-    title: 'Bluetooth',
-    url: '/connect',
-    icon: 'bluetooth',
-    devices: null
-  }, {
     title: 'Console',
     url: '/console',
     icon: 'book',
@@ -59,9 +54,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private bluetooth: BluetoothService,
+    private server: ServerService,
     private userService: UserService,
+    private loading: LoadingService,
     private statusBar: StatusBar
   ) {
     
@@ -71,10 +66,9 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByName('black');
-      this.splashScreen.hide();
       this.userService.isLoggedIn().then(user => {
         this.user = user;
-        this.bluetooth.init(user);
+        this.server.startMonitoring(user);
       });
     });
   }

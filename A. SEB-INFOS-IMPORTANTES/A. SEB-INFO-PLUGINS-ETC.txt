@@ -23,3 +23,18 @@ Puis ouvrir config.xml et ajouter ceci s'il n'est pas déjà présent:
     <application android:usesCleartextTraffic="true" />
     <application android:networkSecurityConfig="@xml/network_security_config" />
 </edit-config>
+
+CAN'T FIND VARIABLE NODEJS ET USES-SDK (même cause d'erreur)
+Failed to install 'nodejs-mobile-cordova': Error: Unable to graft xml at selector "/manifest/uses-sdk"
+Le can't find variable nodejs c'est a cause du fait que NodeMobile.framework n'est pas ajouté dans la liste des frameworks à la compilation. Voir xcode => targets => tab General tout en bas
+
+ionic cordova plugin remove nodejs-mobile-cordova
+ionic cordova platforms remove android
+ionic cordova plugin add nodejs-mobile-cordova
+Ouvrir plugins/nodejs-mobile-cordova/plugin.xml et supprimer:
+<edit-config file="AndroidManifest.xml" target="/manifest/uses-sdk" mode="merge">
+  <uses-sdk android:minSdkVersion="21" />
+</edit-config>
+Ajouter dans ./config.xml => <preference name="android-minSdkVersion" value="21" />
+ionic cordova platforms add android
+

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
-import { TestbluetoothService } from 'src/app/services/testbluetooth.service';
+import { ServerService } from 'src/app/services/server.service';
+import { AlertService } from 'src/app/services/alert.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-config',
@@ -10,7 +12,9 @@ import { TestbluetoothService } from 'src/app/services/testbluetooth.service';
 export class ConfigPage implements OnInit {
 
   constructor(public menu: MenuService,
-              public testBluetooth: TestbluetoothService) {}
+              public alert: AlertService,
+              public loading: LoadingService,
+              public server: ServerService) {}
 
   ngOnInit() {
   }
@@ -19,84 +23,13 @@ export class ConfigPage implements OnInit {
     this.menu.update();
   }
 
-  connect() {
-    //this.bluetooth._connectToDevice(this.bluetooth.iPadCasaAzulAndroid);
-  }
-
-  reconnect() {
-    //this.bluetooth._reconnectToDevice(this.bluetooth.iPadCasaAzulAndroid);
-  }
-
-  discover() {
-    //this.bluetooth._discover(this.bluetooth.iPadCasaAzulAndroid);
-  }
-
-  scan() {
-    this.testBluetooth.scanForDevices();
-  }
-
-  close() {
-    //this.bluetooth.closeConnection(this.bluetooth.iPadCasaAzulAndroid);
-  }
-
-  retrieveConnectedDevices() {
-    //this.bluetooth.retrieveConnectedDevices();
-  }
-
-  enable() {
-    //this.bluetooth.enable();
-  }
-
-  disable() {
-    //this.bluetooth.disable();
-  }
-
-  isEnabled() {
-    //this.bluetooth.isEnabled();
-  }
-
-  isLocationEnabled() {
-    //this.bluetooth.isLocationEnabled();
-  }
-
-  bond() {
-    //this.bluetooth.bondToDevice(this.bluetooth.iPadCasaAzulAndroid);
-  }
-
-  unbound() {
-    //this.bluetooth.unbondDevice(this.bluetooth.iPadCasaAzulAndroid);
-  }
-
-  hasPermission() {
-    //this.bluetooth.hasPermission();
-  }
-
-  requestPermission() {
-    //this.bluetooth.requestPermission();
-  }
-
-  addService() {
-    //this.bluetooth.addService();
-  }
-
-  readDevice() {
-    //this.bluetooth.readDevice(this.bluetooth.iPadCasaAzulAndroid);
-  }
-
-  writeDevice() {
-    //this.bluetooth.send(UserCategories['main'], {test: "Hello world"});
-  }
-
-  getAdapterInfo() {
-    //this.bluetooth.getAdapterInfo();
-  }
-
-  startAdvertising() {
-    //this.bluetooth.startAdvertising();
-  }
-
-  stopAdvertising() {
-    //this.bluetooth.stopAdvertising();
+  forceReconnectionToServer() {
+    if (this.server.isConnected) {
+      this.alert.display('Ya esta conectado');
+    } else {
+      this.loading.show('Conexión al iPad', 6000);
+      this.server.connect();
+    }
   }
 
 }

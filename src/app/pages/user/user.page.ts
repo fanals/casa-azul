@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UserType } from 'src/app/types';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from 'src/app/services/alert.service';
-import { BluetoothService } from 'src/app/services/bluetooth.service';
 import { ConsoleService } from 'src/app/services/console.service';
 import { DeviceService } from 'src/app/services/device.service';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { LoadingService } from 'src/app/services/loading.service';
+import { ServerService } from 'src/app/services/server.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-user',
@@ -17,8 +20,11 @@ export class UserPage implements OnInit {
 
   constructor(public userService:UserService,
               public console: ConsoleService,
+              public server: ServerService,
+              public loading: LoadingService,
+              public platform: Platform,
+              public splashScreen: SplashScreen,
               public deviceService: DeviceService,
-              public bluetooth:BluetoothService,
               public alert: AlertService) {
     
   }
@@ -27,6 +33,12 @@ export class UserPage implements OnInit {
     this.userService.get().then(user => {
       this.console.log('User is', user);
       this.user = user;
+    });
+  }
+
+  ionViewDidEnter() {
+    this.platform.ready().then(() => {
+      this.splashScreen.hide();
     });
   }
 
@@ -42,6 +54,6 @@ export class UserPage implements OnInit {
 
   compareWithFn = (o1, o2) => {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
-  };
+  }
 
 }

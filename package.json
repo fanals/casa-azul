@@ -19,7 +19,6 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
-    "@ionic-native/bluetooth-le": "^5.23.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/splash-screen": "^5.0.0",
     "@ionic-native/star-prnt": "^5.23.0",
@@ -28,12 +27,13 @@
     "@ionic/storage": "^2.2.0",
     "cordova-android": "^8.1.0",
     "cordova-ios": "^5.1.1",
-    "cordova-plugin-bluetoothle": "^4.5.9",
+    "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-starprnt": "^2.2.0",
     "cordova-sqlite-storage": "^5.0.0",
     "core-js": "^2.5.4",
     "moment": "^2.24.0",
     "ngx-socket-io": "^3.0.1",
+    "nodejs-mobile-cordova": "^0.3.5",
     "rxjs": "~6.5.1",
     "rxjs-observe": "^2.1.5",
     "tslib": "^1.9.0",
@@ -84,11 +84,11 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-starprnt": {},
-      "cordova-plugin-bluetoothle": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "cordova-plugin-console": {},
+      "nodejs-mobile-cordova": {}
     },
     "platforms": [
-      "ios",
       "android"
     ]
   }

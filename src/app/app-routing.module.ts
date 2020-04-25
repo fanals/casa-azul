@@ -29,10 +29,6 @@ const routes: Routes = [{
     loadChildren: () => import('./pages/console/console.module').then( m => m.ConsolePageModule)
   },
   {
-    path: 'connect',
-    loadChildren: () => import('./pages/connect/connect.module').then( m => m.ConnectPageModule)
-  },
-  {
     path: 'user',
     loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   },

@@ -9,9 +9,12 @@ export class ConsoleService {
 
   constructor() {}
 
-  log(data:any, data2:any = '', data3:any = '', data4:any = '') {
-    console.log(data, data2, data3, data4);
-    this.logs.unshift(JSON.stringify(data)+' '+JSON.stringify(data2)+' '+JSON.stringify(data3)+' '+JSON.stringify(data4));
+  log(...args) {
+    console.log(...args);
+    let arr = args.map(arg => {
+      return JSON.stringify(arg);
+    });
+    this.logs.unshift(arr.join(' '));
   }
 
 }

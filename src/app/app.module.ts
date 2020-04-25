@@ -6,7 +6,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { StarPRNT } from '@ionic-native/star-prnt/ngx';
-import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +13,9 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ArticlePageModule } from './pages/article/article.module';
+
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const socketIoConfig: SocketIoConfig = {url: 'http://localhost:8081', options: {autoConnect : false}};
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,11 +30,11 @@ import { ArticlePageModule } from './pages/article/article.module';
     HttpClientModule,
     IonicStorageModule.forRoot(),
     AppRoutingModule,
+    SocketIoModule.forRoot(socketIoConfig)
   ],
   providers: [
     StatusBar,
     StarPRNT,
-    BluetoothLE,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

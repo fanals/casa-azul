@@ -4,12 +4,12 @@ import { AlertService } from 'src/app/services/alert.service';
 import { TablesService } from 'src/app/services/tables.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ModalController } from '@ionic/angular';
-import { MenuType, TableType, BillType, UserType, BatchType, ArticleType, ServicesEnum, PacketType, TableOrderType, TableOrderBillType } from 'src/app/types';
+import { MenuType, TableType, BillType, UserType, BatchType, ArticleType, ServicesEnum, PacketType, TableOrderType, TableOrderBillType, DevicesEnum } from 'src/app/types';
 import { UserService } from 'src/app/services/user.service';
 import { BillService } from 'src/app/services/bill.service';
 import { ArticlePage } from '../../article/article.page';
-import { BlesenderService } from 'src/app/services/blesender.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { ServerService } from 'src/app/services/server.service';
 
 @Component({
   selector: 'app-waiter-select-food',
@@ -27,10 +27,10 @@ export class WaiterSelectFoodPage implements OnInit {
               public alertService: AlertService,
               public tablesService: TablesService,
               public route: ActivatedRoute,
-              public blesender: BlesenderService,
               public modalController: ModalController,
               public userService: UserService,
               public loading: LoadingService,
+              public server: ServerService,
               public navCtrl: NavController,
               public billService: BillService) {}
 
@@ -85,20 +85,23 @@ export class WaiterSelectFoodPage implements OnInit {
   }
 
   sendToServer() {
-    this.loading.show("Enviando", 5000);
-    let tableOrderBills: TableOrderBillType[] = []; 
-    for (let i = 0, max = this.table.bills.length; i<max; ++i) {
-      let bill = this.table.bills[i];
-      tableOrderBills.push({bid: -1, n: bill.name, as: bill.newBatch.articles});
-    }
-    let tableOrder: TableOrderType = {
-      tid: this.table.id,
-      wn: this.user.name,
-      bs: tableOrderBills
-    }
-    let packet:PacketType = {s:ServicesEnum['Batch'], d:tableOrder};
-    this.blesender.send('main', packet).then(res => {
-      this.loading.dismiss();
+    this.loading.show("Enviando").then(() => {
+      let tableOrderBills: TableOrderBillType[] = []; 
+      for (let i = 0, max = this.table.bills.length; i<max; ++i) {
+        let bill = this.table.bills[i];
+        tableOrderBills.push({bid: -1, n: bill.name, as: bill.newBatch.articles});
+      }
+      let tableOrder: TableOrderType = {
+        tid: this.table.id,
+        wn: this.user.name,
+        bs: tableOrderBills
+      }
+      let packet:PacketType = {device: DevicesEnum['main'], service:ServicesEnum['service-batch'], data:tableOrder};
+      this.server.send(packet).then(() => {
+        this.loading.dismiss();
+      }).catch(() => {
+        this.loading.dismiss();
+      });
     });
   }
 
