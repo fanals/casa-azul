@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ServerService } from 'src/app/services/server.service';
+import { ServicesEnum, PacketType, DevicesEnum } from 'src/app/types';
 
 @Component({
   selector: 'app-waiter-select-table',
@@ -8,9 +10,22 @@ import { NavController } from '@ionic/angular';
 })
 export class WaiterSelectTablePage implements OnInit {
 
-  constructor(public navCtrl:NavController) {}
+  public openedTables = [];
+
+  constructor(public navCtrl:NavController,
+              public server:ServerService) {}
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+    this.server.send({
+      service: ServicesEnum['service-get-opened-tables'],
+      device: DevicesEnum['main']
+    }, true).then((openedTables: []) => {
+      console.log('Opened tabled are', openedTables);
+      this.openedTables = openedTables;
+    });
   }
 
   openTable(id) {

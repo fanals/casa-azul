@@ -22,7 +22,9 @@ export class TablePage implements OnInit {
   public user: UserType;
   public menu: MenuType;
   public table: TableType;
+  public tableId:number;
   public selectedBillIndex = 0;
+  public currentBillIndex = 0;
 
   constructor(public menuService: MenuService,
               public route: ActivatedRoute,
@@ -39,32 +41,12 @@ export class TablePage implements OnInit {
   }
 
   ngOnInit() {
-    this.tablesService.getTableById(this.route.snapshot.paramMap.get('id')).then(table => {
+    this.tableId = Number(this.route.snapshot.paramMap.get('id'));
+    this.tablesService.getTableById(this.tableId).then(table => {
+      console.log('Table is', table);
       this.table = table;
       if (!this.table.bills.length) {
-        this.table.bills = [{
-          id: 0,
-          name: 'Principal',
-           batches: [],
-           service: true,
-           itbis: true,
-           newBatch:{
-            waiterName: this.user.name,
-            date: 'Now',
-            articles: []
-          }
-        }, {
-          id: 1,
-          name: 'Otra cuenta',
-           batches: [],
-           service: true,
-           itbis: true,
-           newBatch:{
-            waiterName: this.user.name,
-            date: 'Now',
-            articles: []
-          }
-        }];
+        this.table.bills.push(this.billService.emptyNewBill({generateUUID: true}));
       }
     });
     this.menuService.get().then(menu => {
@@ -79,23 +61,32 @@ export class TablePage implements OnInit {
     this.navCtrl.back({animated: false});
   }
 
+  deleteBill() {
+    this.alertService.validate().then(() => {
+      if (this.table.bills.length == 1) {
+        this.table.opened = false;
+        this.table.bills = [];
+        this.backButton();
+      } else {
+        this.table.bills.splice(this.currentBillIndex, 1);
+      }
+      this.tablesService.save();
+    });
+  }
+
   changingBill() {
-    if (this.selectedBillIndex == this.table.bills.length - 1) {
+    if (this.selectedBillIndex == -1) {
       this.alertService.prompt('Nombre').then((name:string) => {
-        this.table.bills[this.selectedBillIndex].name = name;
-        this.table.bills.push({
-          id: 1,
-          name: 'Otra cuenta',
-          batches: [],
-          service: true,
-          itbis: true,
-          newBatch:{
-            waiterName: this.user.name,
-            date: 'Now',
-            articles: []
-          }
-        });
+        this.table.bills.push(this.billService.emptyNewBill({generateUUID: true}));
+        this.selectedBillIndex = this.table.bills.length - 1;
+        this.currentBillIndex = this.selectedBillIndex;
+        this.table.bills[this.currentBillIndex].name = name;
+        this.tablesService.save();
+      }).catch(() => {
+        this.selectedBillIndex = this.currentBillIndex;
       });
+    } else {
+      this.currentBillIndex = this.selectedBillIndex;
     }
   }
 
@@ -110,30 +101,60 @@ export class TablePage implements OnInit {
     });
     modal.onDidDismiss().then((res:any) => {
       if (res.data.delete) {
-        batch.articles.splice(i, 1);        
+        this._removeArticleIndex(batch, i);
       } else {
         batch.articles[i] = res.data.article;
       }
+      this.tablesService.save();
     });
     return await modal.present();
   }
 
-  shortcut(i) {
-    let y = document.getElementById("shortcut-"+i).offsetTop - 137;
+  public shortcut(i) {
+    let y = document.getElementById("shortcut-"+i).offsetTop - 45;
     document.getElementById('articles-list').scrollTo(0, y);
   }
 
-  addArticleIndex(articleIndex) {
-    this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q: 1, ami:articleIndex});
+  public changeTable() {
+    if (this.table.opened) {
+      let choices = this.tablesService.getTableChoices();
+      this.alertService.select('Cambiar a:', choices, this.tableId).then((tableId:number) => {
+        if (tableId != this.tableId) {
+          this.tablesService.getTableById(tableId).then(table => {
+            table.bills = table.opened ? table.bills.concat(this.table.bills) : this.table.bills;
+            table.opened = true;
+            this.table.opened = false;
+            this.table.bills = [];
+            this.table = table;
+            this.tableId = tableId;
+            this.tablesService.save();
+          });
+        }
+      });
+    }
   }
 
-  editBillName() {
-    this.alertService.prompt('Cuenta', this.table.bills[this.selectedBillIndex].name).then(name => {
-      this.table.bills[this.selectedBillIndex].name = name;
+  public addArticleIndex(articleIndex) {
+    this.table.opened = true;
+    this.table.bills[this.currentBillIndex].newBatch.articles.unshift({q: 1, ami:articleIndex});
+    this.tablesService.save();
+  }
+
+  private _removeArticleIndex(batch, i) {
+    batch.articles.splice(i, 1);
+    if (!this.tablesService.tableHasArticles(this.table)) {
+      this.table.opened = false;
+    }
+  }
+
+  public editBillName() {
+    this.alertService.prompt('Cuenta', this.table.bills[this.currentBillIndex].name).then(name => {
+      this.table.bills[this.currentBillIndex].name = name;
     });
+    this.tablesService.save();
   }
 
-  async sendToKitchen() {
+  public sendToKitchen() {
     let orders = this.ordersService.createOrders(this.table);
     for (let i = 0, max = orders.length; i<max;++i) {
       let packet = {device: orders[i].device, service: ServicesEnum['service-order'], data:orders[i].order};
@@ -143,14 +164,11 @@ export class TablePage implements OnInit {
         console.log('Error sending packet', e);
       });
     }
-    let bill = this.table.bills[this.selectedBillIndex];
-    let batch = this.table.bills[this.selectedBillIndex].newBatch;
+    let bill = this.table.bills[this.currentBillIndex];
+    let batch = this.table.bills[this.currentBillIndex].newBatch;
     bill.batches.unshift(batch);
-    this.table.bills[this.selectedBillIndex].newBatch = {
-      waiterName: this.user.name,
-      date: 'Now',
-      articles: []
-    };
+    this.table.bills[this.currentBillIndex].newBatch = this.billService.emptyNewBatch();
+    this.tablesService.save();
   }
 
 }

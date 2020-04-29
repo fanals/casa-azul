@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { MenuService } from './menu.service';
-import { MenuType, BillType, ArticleType } from '../types';
+import { MenuType, BillType, ArticleType, BatchType, UserType } from '../types';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BillService {
 
+  private _user: UserType;
   private _menu: MenuType;
 
-  constructor(public menuService:MenuService) {
+  constructor(public menuService:MenuService,
+              public userService:UserService) {
     this._init();
   }
 
@@ -17,9 +20,47 @@ export class BillService {
     this.menuService.get().then(menu => {
       this._menu = menu;
     });
+    this.userService.get().then(user => {
+      this._user = user;
+    });
   }
 
-  getArticlePrice(article:ArticleType) {
+  public emptyNewBatch():BatchType {
+    return {
+      waiterName: this._user.name,
+      date: 'Now',
+      articles: []
+    }
+  }
+
+  public getOrCreate(tableOrder, bills, merge, i): BillType {
+    let index = merge ? i : bills.findIndex((bill) => bill.uuid == tableOrder.uuid);
+    // if (index == -1)
+    //   console.log("The bill has been deleted or the bill has already been given to client");
+    if ((merge && !bills[index]) || (!merge && (tableOrder.uuid == 'new' || index == -1))) {
+      bills.push(this.emptyNewBill({generateUUID: true}));
+      return bills[bills.length-1];
+    } 
+    return bills[index];
+  }
+
+  public emptyNewBill(opts = {generateUUID: false}) {
+    function uuidv4() {
+      return (`${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`).replace(/[018]/g, (c:any) =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+    }
+    return {
+      uuid: opts.generateUUID ? uuidv4() : 'new',
+      service: true,
+      itbis: true,
+      newBatch: this.emptyNewBatch(),
+      name: 'Principal',
+      batches: []
+    }
+  }
+
+  public getArticlePrice(article:ArticleType) {
     let articlePrice = this._menu.articles[article.ami].price;
     let ingredientsPrice = 0;
     if (article.pii) {

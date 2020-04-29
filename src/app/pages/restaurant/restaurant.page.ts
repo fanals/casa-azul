@@ -23,8 +23,8 @@ export class RestaurantPage implements OnInit {
     });
   }
 
-  openTable(table) {
-    this.navCtrl.navigateForward('table/'+table.id, {animated: false});
+  openTable(id) {
+    this.navCtrl.navigateForward('table/'+id, {animated: false});
   }
 
 }

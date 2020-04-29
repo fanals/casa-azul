@@ -10,6 +10,7 @@ import { PacketType } from 'src/app/types';
 import { TablesService } from './tables.service';
 import { OrdersService } from './orders.service';
 import { AlertService } from './alert.service';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -24,16 +25,23 @@ export class ServerService {
               private tablesService: TablesService,
               private ordersService: OrdersService,
               private http: HttpClient,
+              private platform: Platform,
               private alertService: AlertService,
               private statusBar: StatusBar,
               private storage: Storage,
               private socket: Socket) {
   }
 
-  public send(packet: PacketType) {
+  public send(packet: PacketType, retry = false) {
     return new Promise((resolve, reject) => {
       if (!this.isConnected) {
-        this.alertService.display('El iPad no esta conectado');
+        if (retry) {
+          setTimeout(() => {
+            this.send(packet, true).then(resolve).catch(reject);
+          }, 2000);
+        } else {
+          reject('El iPad no esta conectado');
+        }
       } else {
         this.socket.emit('send', packet, (res) => {
           if (res && res.error) {
@@ -45,7 +53,7 @@ export class ServerService {
             });
             reject(res.error);
           } else {
-            resolve();
+            resolve(res);
           }
         });
       }
@@ -56,9 +64,11 @@ export class ServerService {
     this._user = user;
     this._listening();
     if (user.device.slug == 'main') {
-      this._startServer().then(() => {
-        this.connect();
-      });
+      if (this.platform.is('cordova')) {
+        this._startServer().then(() => {
+          this.connect();
+        });
+      }
     } else {
       this.connect();
     }
@@ -73,9 +83,11 @@ export class ServerService {
       this.socket.connect();
     }).catch(e => {
       this.console.log('Error getting url', e);
-      setTimeout(() => {
-        this.connect();
-      }, 30000);
+      if (this.platform.is('cordova')) {
+        setTimeout(() => {
+          this.connect();
+        }, 5000);
+      }
     });
   }
 
@@ -164,9 +176,32 @@ export class ServerService {
     this.statusBar.backgroundColorByHexString('#5cc593');
   }
 
-  private _listening() {
-    this.socket.fromEvent('connect').subscribe((e) => {
-      console.log('Connected', e);
+  private _listeningForMainServices() {
+    this.socket.on(ServicesEnum['service-new-table-order'], (tableOrder: TableOrderType, cb) => {
+      this.tablesService.addTableOrder(tableOrder).then(table => {
+        cb(table);
+      });
+    });
+    this.socket.on(ServicesEnum['service-get-opened-tables'], (cb) => {
+      cb(this.tablesService.getOpenedTables());
+    });
+    this.socket.on(ServicesEnum['service-get-table'], (tableId:number, cb) => {
+      this.tablesService.getTableById(tableId).then((table) => {
+        cb(table);
+      });
+    });
+  }
+
+  private _listeningForKitchenServices() {
+    this.socket.on(ServicesEnum['service-order'], (order: OrderType, cb) => {
+      this.ordersService.add(order);
+      cb();
+    });
+  }
+
+  private _listeningForSocketConnection() {
+    this.socket.fromEvent('connect').subscribe(() => {
+      console.log('Connected to server');
       if (this._user.device.slug != 'main')
         this._setGreenStatusBar();
       this.isConnected = true;
@@ -182,30 +217,32 @@ export class ServerService {
     this.socket.fromEvent('error').subscribe((e) => {
       this.console.log('Socket error', e);
     });
+  }
+
+  private _listeningForDeviceConnection() {
+    this.socket.fromEvent('device-connected').subscribe((device:string) => {
+      this.console.log('Device is connected', device);
+      this._kitchenDevices[device] = 'connected';
+      console.log('Kitchen Devices are', this._kitchenDevices);
+      console.log('Kitchen devices length', Object.keys(this._kitchenDevices).length);
+      if (Object.keys(this._kitchenDevices).length == 3)
+        this._allDevicesAreConnected();
+    });
+    this.socket.fromEvent('device-disconnected').subscribe((device:string) => {
+      this.console.log('Device is disconnected', device);
+      if (this._kitchenDevices[device])
+        delete this._kitchenDevices[device];
+      this._setRedStatusBar();
+    });
+  }
+
+  private _listening() {
+    this._listeningForSocketConnection();
     if (this._user.device.slug == 'main') {
-      this.socket.on(ServicesEnum['service-batch'], (tableOrder: TableOrderType, cb) => {
-        this.tablesService.addTableOrder(tableOrder);
-        cb();
-      });
-      this.socket.fromEvent('device-connected').subscribe((device:string) => {
-        this.console.log('Device is connected', device);
-        this._kitchenDevices[device] = 'connected';
-        console.log('Kitchen Devices are', this._kitchenDevices);
-        console.log('Kitchen devices length', Object.keys(this._kitchenDevices).length);
-        if (Object.keys(this._kitchenDevices).length == 3)
-          this._allDevicesAreConnected();
-      });
-      this.socket.fromEvent('device-disconnected').subscribe((device:string) => {
-        this.console.log('Device is disconnected', device);
-        if (this._kitchenDevices[device])
-          delete this._kitchenDevices[device];
-        this._setRedStatusBar();
-      });
+      this._listeningForDeviceConnection();
+      this._listeningForMainServices();
     } else if (['bar', 'pizza', 'kitchen'].indexOf(this._user.device.slug) != -1) {
-      this.socket.on(ServicesEnum['service-order'], (order: OrderType, cb) => {
-        this.ordersService.add(order);
-        cb();
-      });
+      this._listeningForKitchenServices();
     }
   }
 

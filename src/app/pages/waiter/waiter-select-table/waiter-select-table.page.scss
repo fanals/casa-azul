@@ -1,5 +1,4 @@
 .content {
-  padding: 0 1%;
 
   .button {
     display: inline-block;
@@ -9,14 +8,19 @@
     width: 100px;
     height: 100px;
     font-size: 30px;
+    background-color: var(--ion-color-primary);
+    color: white;
+    &.opened {
+      background-color: var(--ion-color-dark);
+    }
   }
 
   .beach {
-    margin-top: 20px;
+    background: url('../../../../assets/sand-texture.jpg');
+    padding: 20px 5px;
     display: flex;
     flex-direction: row;
     .button {
-      background-color: var(--ion-color-warning);
       max-width: 13%;
     }
     .mesa-zero {
@@ -39,13 +43,12 @@
   }
 
   .inside {
-    margin-top: 20px;
+    background: url('../../../../assets/wood-texture.png');
+    padding: 20px 5px;
     display: flex;
     flex-direction: row;
     width: 100%;
-    padding: 0 1%;
     .button {
-      background-color: var(--ion-color-primary);
       max-width: 19%;
     }
     .mesa-zero {
@@ -68,18 +71,17 @@
   }
 
   .extra {
-    margin-top: 20px;
+    padding: 20px 5px;
+    background-color: var(--ion-color-light);
     .button {
-      background-color: var(--ion-color-success);
       max-width: 16%;
     }
   }
 
   .bar {
-    margin-top: 20px;
+    padding: 20px 5px;
+    background-color: var(--ion-color-medium);
     .button {
-      color: white;
-      background-color: var(--ion-color-dark);
       width: 100%;
     }
   }

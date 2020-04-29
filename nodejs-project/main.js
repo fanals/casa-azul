@@ -39,9 +39,10 @@ io.on('connection', (newSocket) => {
 
   newSocket.on('send', (data, cb) => {
     if (devicesSocket[data.device]) {
-      devicesSocket[data.device].emit(data.service, data.data, () => {
-        cb();
-      });
+      if (data.data !== null && data.data !== undefined)
+        devicesSocket[data.device].emit(data.service, data.data, cb);
+      else
+        devicesSocket[data.device].emit(data.service, cb);
     } else {
       cb({error: 'Device is not connected: '+data.device})
     }

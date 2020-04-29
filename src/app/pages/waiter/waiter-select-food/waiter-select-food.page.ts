@@ -21,7 +21,10 @@ export class WaiterSelectFoodPage implements OnInit {
   public user:UserType;
   public menu:MenuType;
   public table:TableType;
+  public tableId:number;
+  public notConnectedToServer = false;
   public selectedBillIndex = 0;
+  public currentBillIndex = 0;
 
   constructor(public menuService: MenuService,
               public alertService: AlertService,
@@ -35,44 +38,56 @@ export class WaiterSelectFoodPage implements OnInit {
               public billService: BillService) {}
 
   ngOnInit() {
-    this.menuService.get().then(menu => {
-      this.menu = menu;
-      return this.userService.get();
-    }).then(user => {
-      this.user = user;
-      return this.tablesService.getTableById(this.route.snapshot.paramMap.get('id'));
-    }).then(table => {
-      this.table = table;
-      if (!this.table.bills.length) {
-        this.table.bills = [{
-          id: 0,
-          name: 'Principal',
-           batches: [],
-           service: true,
-           itbis: true,
-           newBatch:{
-            waiterName: this.user.name,
-            date: 'Now',
-            articles: []
-          }
-        }, {
-          id: 1,
-          name: 'Otra cuenta',
-           batches: [],
-           service: true,
-           itbis: true,
-           newBatch:{
-            waiterName: this.user.name,
-            date: 'Now',
-            articles: []
-          }
-        }];
-      }
+    this.loading.show().then(() => {
+      this.tableId = Number(this.route.snapshot.paramMap.get('id'));
+      this.menuService.get().then(menu => {
+        this.menu = menu;
+        return this.userService.get();
+      }).then(user => {
+        this.user = user;
+        return this.server.send({
+          service: ServicesEnum['service-get-table'],
+          device: DevicesEnum['main'],
+          data: this.tableId
+        });
+      }).then((table: TableType) => {
+        this._setTable(table);
+      }).catch((e) => {
+        this.alertService.display(e);
+        this.notConnectedToServer = true;
+        this.tablesService.getTableById(this.tableId).then(table => {
+          this._setTable(table);
+        });
+      });
+    });
+  }
+
+  private _setTable(table: TableType) {
+    console.log('table is', table);
+    this.table = table;
+    if (!this.table.bills.length) {
+      this.table.bills.push(this.billService.emptyNewBill());
+    } else {
+      this.table.bills.forEach(bill => bill.newBatch = this.billService.emptyNewBatch());  
+    }
+    this.loading.dismiss();
+  }
+
+  public editBillName() {
+    this.alertService.prompt('Cuenta', this.table.bills[this.currentBillIndex].name).then(name => {
+      this.table.bills[this.currentBillIndex].name = name;
     });
   }
 
   backButton() {
-    this.navCtrl.back({animated: false});
+    if (this.table.bills.findIndex(bill => !!bill.newBatch.articles.length) != -1) {
+      let msg = 'No enviaste la orden, si cambias de mesa perdera la orden, seguir como quiera ?';
+      this.alertService.validate(msg).then(() => {
+        this.navCtrl.back({animated: false});
+      });
+    } else {
+      this.navCtrl.back({animated: false});
+    }
   }
 
   shortcut(i) {
@@ -81,45 +96,62 @@ export class WaiterSelectFoodPage implements OnInit {
   }
 
   addArticleIndex(articleIndex) {
-    this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q:1, ami:articleIndex});
+    this.table.bills[this.currentBillIndex].newBatch.articles.unshift({q:1, ami:articleIndex});
+  }
+
+  changingBill() {
+    if (this.selectedBillIndex == -1) {
+      this.alertService.prompt('Nombre').then((name:string) => {
+        this.table.bills.push(this.billService.emptyNewBill());
+        this.selectedBillIndex = this.table.bills.length - 1;
+        this.currentBillIndex = this.selectedBillIndex;
+        this.table.bills[this.currentBillIndex].name = name;
+      }).catch(() => {
+        this.selectedBillIndex = this.currentBillIndex;
+      });
+    } else {
+      this.currentBillIndex = this.selectedBillIndex;
+    }
   }
 
   sendToServer() {
-    this.loading.show("Enviando").then(() => {
-      let tableOrderBills: TableOrderBillType[] = []; 
-      for (let i = 0, max = this.table.bills.length; i<max; ++i) {
-        let bill = this.table.bills[i];
-        tableOrderBills.push({bid: -1, n: bill.name, as: bill.newBatch.articles});
-      }
-      let tableOrder: TableOrderType = {
-        tid: this.table.id,
-        wn: this.user.name,
-        bs: tableOrderBills
-      }
-      let packet:PacketType = {device: DevicesEnum['main'], service:ServicesEnum['service-batch'], data:tableOrder};
-      this.server.send(packet).then(() => {
+    this.loading.show().then(() => {
+      this.server.send({
+        device: DevicesEnum['main'],
+        service: ServicesEnum['service-new-table-order'],
+        data: {
+          tableId: this.tableId,
+          merge: this.notConnectedToServer,
+          waiterName: this.user.name,
+          bills: this.table.bills.map(bill => {
+            return {uuid: bill.uuid, name: bill.name, articles: bill.newBatch.articles};
+          })
+        }
+      }).then((table: TableType) => {
+        this._setTable(table);
+      }).catch((e) => {
         this.loading.dismiss();
-      }).catch(() => {
-        this.loading.dismiss();
+        this.alertService.display(e);
       });
     });
   }
 
-  async modifyArticle(i) {
+  async modifyArticle(batch, i) {
     const modal = await this.modalController.create({
       component: ArticlePage,
       componentProps: {
-        article: this.table.bills[this.selectedBillIndex].newBatch.articles[i],
+        article: batch.articles[i],
       },
       animated: false,
       showBackdrop: false
     });
     modal.onDidDismiss().then((res:any) => {
       if (res.data.delete) {
-        this.table.bills[this.selectedBillIndex].newBatch.articles.splice(i, 1);        
+        batch.articles.splice(i, 1);
       } else {
-        this.table.bills[this.selectedBillIndex].newBatch.articles[i] = res.data.article;
+        batch.articles[i] = res.data.article;
       }
+      this.tablesService.save();
     });
     return await modal.present();
   }

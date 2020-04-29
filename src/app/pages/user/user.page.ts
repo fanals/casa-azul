@@ -8,6 +8,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ServerService } from 'src/app/services/server.service';
 import { Platform } from '@ionic/angular';
+import { catchError, timeout } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user',
@@ -23,6 +25,7 @@ export class UserPage implements OnInit {
               public server: ServerService,
               public loading: LoadingService,
               public platform: Platform,
+              public http: HttpClient,
               public splashScreen: SplashScreen,
               public deviceService: DeviceService,
               public alert: AlertService) {

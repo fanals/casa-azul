@@ -61,13 +61,13 @@ export interface ArticleType {
 }
 
 export interface BatchType {
-  waiterName: string,
-  date: string,
-  articles: ArticleType[]
+  waiterName: string;
+  date: string;
+  articles: ArticleType[];
 }
 
 export interface BillType {
-  id: number,
+  uuid: string,
   name: string,
   service: boolean,
   itbis: boolean,
@@ -92,33 +92,35 @@ export interface OrderType {
 }
 
 export interface TableOrderBillType {
-  bid: number, // Bill id
-  n: string, // Bill name
-  as: ArticleType[], // Articles
+  uuid: string;
+  name: string;
+  articles: ArticleType[];
 }
 
 export interface TableOrderType {
-  tid: number, // Table id
-  wn: string, // Waiter Name
-  bs: TableOrderBillType[] // Bills
+  tableId: number;
+  merge: boolean;
+  waiterName: string;
+  bills: TableOrderBillType[];
 }
 
 export interface TableType {
-  id: number;
-  name: string; 
+  name: string;
   opened: boolean;
   bills: BillType[];
 }
 
 export interface PacketType {
-  device: DevicesEnum,
+  device: DevicesEnum;
   service: ServicesEnum;
-  data: any;
+  data?: any;
 }
 
 export enum ServicesEnum {
-  'service-batch' = 'service-batch',
-  'service-order' = 'service-order'
+  'service-new-table-order' = 'service-new-table-order',
+  'service-new-kitchen-order' = 'service-new-kitchen-order',
+  'service-get-opened-tables' = 'service-get-opened-tables',
+  'service-get-table' = 'service-get-table'
 }
 
 export enum DevicesEnum {

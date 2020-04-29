@@ -27,10 +27,30 @@ export class AlertService {
     });
   }
 
+  validate(message: string = 'Confirmar') {
+    return new Promise<string>((resolve) => {
+      this.alert.create({
+        backdropDismiss: true,
+        header: message,
+        buttons: [{
+          text: 'No',
+          role: 'cancel'
+          }, {
+          text: 'Si',
+          handler: () => {
+            resolve();
+          }
+        }]
+      }).then(a => {
+        a.present();
+      });
+    });
+  }
+
   prompt(header = 'Prompt', value = '') {
     return new Promise<string>((resolve, reject) => {
       this.alert.create({
-        backdropDismiss: false,
+        backdropDismiss: true,
         header: header,
         inputs: [{
           name: 'text',
@@ -39,8 +59,10 @@ export class AlertService {
         }],
         buttons: [{
           text: 'Cancelar',
-          role: 'cancel'
-          }, {
+          role: 'cancel',
+          handler: () => {
+            reject();
+          }}, {
           text: 'OK',
           handler: (data) => {
             resolve(data.text);
@@ -52,6 +74,36 @@ export class AlertService {
           firstInput.focus();
           return;
         });
+      });
+    });
+  }
+
+  select(title, choices, checkedValue) {
+    return new Promise((resolve) => {
+      let inputs = choices.map((choice, index) => {
+        return {
+          name: 'radio'+index,
+          type: 'radio',
+          label: choice.label,
+          value: choice.value,
+          checked: choice.value == checkedValue
+        };
+      });
+      this.alert.create({
+        header: title,
+        backdropDismiss: true,
+        inputs: inputs,
+        buttons: [{
+          text: 'Cancel',
+          role: 'cancel'
+        }, {
+          text: 'Ok',
+          handler: (value) => {
+            resolve(value);
+          }
+        }
+      ]}).then(a => {
+        a.present();
       });
     });
   }

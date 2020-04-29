@@ -11,58 +11,58 @@
   <div class='content'>
     <div class='beach'>
       <div class='mesa-zero'>
-        <div class='button height-100 click-effect' (click)='openTable(0)'>0</div>
+        <div class='button height-100 click-effect' [class.opened]='openedTables[0]' (click)='openTable(0)'>0</div>
       </div>
       <div class='flex-1'>
         <div class='top-tables space-evenly flex-wrap'>
-          <div class='button click-effect' (click)='openTable(1)'>1</div>
-          <div class='button click-effect' (click)='openTable(2)'>2</div>
-          <div class='button click-effect' (click)='openTable(3)'>3</div>
-          <div class='button click-effect' (click)='openTable(4)'>4</div>
-          <div class='button click-effect' (click)='openTable(5)'>5</div>
-          <div class='button click-effect' (click)='openTable(6)'>6</div>
-          <div class='button click-effect' (click)='openTable(7)'>7</div>
+          <div class='button click-effect' [class.opened]='openedTables[1]' (click)='openTable(1)'>1</div>
+          <div class='button click-effect' [class.opened]='openedTables[2]' (click)='openTable(2)'>2</div>
+          <div class='button click-effect' [class.opened]='openedTables[3]' (click)='openTable(3)'>3</div>
+          <div class='button click-effect' [class.opened]='openedTables[4]' (click)='openTable(4)'>4</div>
+          <div class='button click-effect' [class.opened]='openedTables[5]' (click)='openTable(5)'>5</div>
+          <div class='button click-effect' [class.opened]='openedTables[6]' (click)='openTable(6)'>6</div>
+          <div class='button click-effect' [class.opened]='openedTables[7]' (click)='openTable(7)'>7</div>
         </div>
         <div class='space-evenly flex-wrap'>
-          <div class='button click-effect' (click)='openTable(8)'>8</div>
-          <div class='button click-effect' (click)='openTable(9)'>9</div>
-          <div class='button click-effect' (click)='openTable(10)'>10</div>
-          <div class='button double click-effect' (click)='openTable(11)'>11</div>
-          <div class='button click-effect' (click)='openTable(12)'>12</div>
-          <div class='button click-effect' (click)='openTable(13)'>14</div>
+          <div class='button click-effect' [class.opened]='openedTables[8]' (click)='openTable(8)'>8</div>
+          <div class='button click-effect' [class.opened]='openedTables[9]' (click)='openTable(9)'>9</div>
+          <div class='button click-effect' [class.opened]='openedTables[10]' (click)='openTable(10)'>10</div>
+          <div class='button double click-effect' [class.opened]='openedTables[11]' (click)='openTable(11)'>11</div>
+          <div class='button click-effect' [class.opened]='openedTables[12]' (click)='openTable(12)'>12</div>
+          <div class='button click-effect' [class.opened]='openedTables[13]' (click)='openTable(13)'>14</div>
         </div>
       </div>
     </div>
     <div class='inside'>
       <div class='mesa-zero'>
-        <div class='button height-100 click-effect' (click)='openTable(14)'>0</div>
+        <div class='button height-100 click-effect' [class.opened]='openedTables[14]' (click)='openTable(14)'>0</div>
       </div>
       <div class='flex-1'>
         <div class='top-tables space-evenly flex-wrap'>
-          <div class='button click-effect' (click)='openTable(19)'>5</div>
-          <div class='button click-effect' (click)='openTable(20)'>6</div>
-          <div class='button click-effect' (click)='openTable(21)'>7</div>
-          <div class='button click-effect' (click)='openTable(22)'>8</div>
-          <div class='button click-effect' (click)='openTable(23)'>9</div>
+          <div class='button click-effect' [class.opened]='openedTables[19]' (click)='openTable(19)'>5</div>
+          <div class='button click-effect' [class.opened]='openedTables[20]' (click)='openTable(20)'>6</div>
+          <div class='button click-effect' [class.opened]='openedTables[21]' (click)='openTable(21)'>7</div>
+          <div class='button click-effect' [class.opened]='openedTables[22]' (click)='openTable(22)'>8</div>
+          <div class='button click-effect' [class.opened]='openedTables[23]' (click)='openTable(23)'>9</div>
         </div>
         <div class='space-evenly flex-wrap'>
-          <div class='button click-effect' (click)='openTable(15)'>1</div>
-          <div class='button click-effect' (click)='openTable(16)'>2</div>
-          <div class='button click-effect' (click)='openTable(17)'>3</div>
-          <div class='button double click-effect' (click)='openTable(18)'>4</div>
+          <div class='button click-effect' [class.opened]='openedTables[15]' (click)='openTable(15)'>1</div>
+          <div class='button click-effect' [class.opened]='openedTables[16]' (click)='openTable(16)'>2</div>
+          <div class='button click-effect' [class.opened]='openedTables[17]' (click)='openTable(17)'>3</div>
+          <div class='button double click-effect' [class.opened]='openedTables[18]' (click)='openTable(18)'>4</div>
         </div>
       </div>
     </div>
     <div class='extra space-evenly flex-wrap'>
-      <div class='button click-effect' (click)='openTable(24)'>15</div>
-      <div class='button click-effect' (click)='openTable(25)'>16</div>
-      <div class='button click-effect' (click)='openTable(26)'>17</div>
-      <div class='button click-effect' (click)='openTable(27)'>18</div>
-      <div class='button click-effect' (click)='openTable(28)'>19</div>
-      <div class='button click-effect' (click)='openTable(29)'>20</div>
+      <div class='button click-effect' [class.opened]='openedTables[24]' (click)='openTable(24)'>15</div>
+      <div class='button click-effect' [class.opened]='openedTables[25]' (click)='openTable(25)'>16</div>
+      <div class='button click-effect' [class.opened]='openedTables[26]' (click)='openTable(26)'>17</div>
+      <div class='button click-effect' [class.opened]='openedTables[27]' (click)='openTable(27)'>18</div>
+      <div class='button click-effect' [class.opened]='openedTables[28]' (click)='openTable(28)'>19</div>
+      <div class='button click-effect' [class.opened]='openedTables[29]' (click)='openTable(29)'>20</div>
     </div>
     <div class='bar'>
-      <div class='button click-effect' (click)='openTable(30)'>Bar</div>
+      <div class='button click-effect' [class.opened]='openedTables[30]' (click)='openTable(30)'>Bar</div>
     </div>
   </div>
 </ion-content>
