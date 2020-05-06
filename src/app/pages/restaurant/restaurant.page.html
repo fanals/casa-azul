@@ -12,25 +12,25 @@
       <div class='beach-texture'>
         <div class='beach'>
           <div class='mesa-zero'>
-            <ion-button class='height-100' [color]='tables[0].opened ? "dark" : "primary"' (click)='openTable(0)'>0</ion-button>
+            <ion-button class='height-100' [color]='getTableColor(0)' (click)='openTable(0)'>0</ion-button>
           </div>
           <div class='flex-1'>
             <div class='top-tables space-evenly'>
-              <ion-button [color]='tables[1].opened ? "dark" : "primary"' (click)='openTable(1)'>1</ion-button>
-              <ion-button [color]='tables[2].opened ? "dark" : "primary"' (click)='openTable(2)'>2</ion-button>
-              <ion-button [color]='tables[3].opened ? "dark" : "primary"' (click)='openTable(3)'>3</ion-button>
-              <ion-button [color]='tables[4].opened ? "dark" : "primary"' (click)='openTable(4)'>4</ion-button>
-              <ion-button [color]='tables[5].opened ? "dark" : "primary"' (click)='openTable(5)'>5</ion-button>
-              <ion-button [color]='tables[6].opened ? "dark" : "primary"' (click)='openTable(6)'>6</ion-button>
-              <ion-button [color]='tables[7].opened ? "dark" : "primary"' (click)='openTable(7)'>7</ion-button>
+              <ion-button [color]='getTableColor(1)' (click)='openTable(1)'>1</ion-button>
+              <ion-button [color]='getTableColor(2)' (click)='openTable(2)'>2</ion-button>
+              <ion-button [color]='getTableColor(3)' (click)='openTable(3)'>3</ion-button>
+              <ion-button [color]='getTableColor(4)' (click)='openTable(4)'>4</ion-button>
+              <ion-button [color]='getTableColor(5)' (click)='openTable(5)'>5</ion-button>
+              <ion-button [color]='getTableColor(6)' (click)='openTable(6)'>6</ion-button>
+              <ion-button [color]='getTableColor(7)' (click)='openTable(7)'>7</ion-button>
             </div>
             <div class='space-evenly'>
-              <ion-button [color]='tables[8].opened ? "dark" : "primary"' (click)='openTable(8)'>8</ion-button>
-              <ion-button [color]='tables[9].opened ? "dark" : "primary"' (click)='openTable(9)'>9</ion-button>
-              <ion-button [color]='tables[10].opened ? "dark" : "primary"' (click)='openTable(10)'>10</ion-button>
-              <ion-button class='double' [color]='tables[11].opened ? "dark" : "primary"' (click)='openTable(11)'>11</ion-button>
-              <ion-button [color]='tables[12].opened ? "dark" : "primary"' (click)='openTable(12)'>12</ion-button>
-              <ion-button [color]='tables[13].opened ? "dark" : "primary"' (click)='openTable(13)'>14</ion-button>
+              <ion-button [color]='getTableColor(8)' (click)='openTable(8)'>8</ion-button>
+              <ion-button [color]='getTableColor(9)' (click)='openTable(9)'>9</ion-button>
+              <ion-button [color]='getTableColor(10)' (click)='openTable(10)'>10</ion-button>
+              <ion-button class='double' [color]='getTableColor(11)' (click)='openTable(11)'>11</ion-button>
+              <ion-button [color]='getTableColor(12)' (click)='openTable(12)'>12</ion-button>
+              <ion-button [color]='getTableColor(13)' (click)='openTable(13)'>14</ion-button>
             </div>
           </div>
         </div>
@@ -38,21 +38,21 @@
       <div class='inside-texture'>
         <div class='inside'>
           <div class='mesa-zero'>
-            <ion-button [color]='tables[14].opened ? "dark" : "primary"' (click)='openTable(14)' class='height-100'>0</ion-button>
+            <ion-button [color]='getTableColor(14)' (click)='openTable(14)' class='height-100'>0</ion-button>
           </div>
           <div class='flex-1'>
             <div class='top-tables space-evenly'>
-              <ion-button [color]='tables[19].opened ? "dark" : "primary"' (click)='openTable(19)'>5</ion-button>
-              <ion-button [color]='tables[20].opened ? "dark" : "primary"' (click)='openTable(20)'>6</ion-button>
-              <ion-button [color]='tables[21].opened ? "dark" : "primary"' (click)='openTable(21)'>7</ion-button>
-              <ion-button [color]='tables[22].opened ? "dark" : "primary"' (click)='openTable(22)'>8</ion-button>
-              <ion-button [color]='tables[23].opened ? "dark" : "primary"' (click)='openTable(23)'>9</ion-button>
+              <ion-button [color]='getTableColor(19)' (click)='openTable(19)'>5</ion-button>
+              <ion-button [color]='getTableColor(20)' (click)='openTable(20)'>6</ion-button>
+              <ion-button [color]='getTableColor(21)' (click)='openTable(21)'>7</ion-button>
+              <ion-button [color]='getTableColor(22)' (click)='openTable(22)'>8</ion-button>
+              <ion-button [color]='getTableColor(23)' (click)='openTable(23)'>9</ion-button>
             </div>
             <div class='space-evenly'>
-              <ion-button [color]='tables[15].opened ? "dark" : "primary"' (click)='openTable(15)'>1</ion-button>
-              <ion-button [color]='tables[16].opened ? "dark" : "primary"' (click)='openTable(16)'>2</ion-button>
-              <ion-button [color]='tables[17].opened ? "dark" : "primary"' (click)='openTable(17)'>3</ion-button>
-              <ion-button [color]='tables[18].opened ? "dark" : "primary"' (click)='openTable(18)' class='double'>4</ion-button>
+              <ion-button [color]='getTableColor(15)' (click)='openTable(15)'>1</ion-button>
+              <ion-button [color]='getTableColor(16)' (click)='openTable(16)'>2</ion-button>
+              <ion-button [color]='getTableColor(17)' (click)='openTable(17)'>3</ion-button>
+              <ion-button [color]='getTableColor(18)' (click)='openTable(18)' class='double'>4</ion-button>
             </div>
           </div>
         </div>
@@ -67,12 +67,12 @@
       </div>
     </div>
     <div class='extra-tables'>
-      <ion-button [color]='tables[24].opened ? "dark" : "primary"' (click)='openTable(24)'>15</ion-button>
-      <ion-button [color]='tables[25].opened ? "dark" : "primary"' (click)='openTable(25)'>16</ion-button>
-      <ion-button [color]='tables[26].opened ? "dark" : "primary"' (click)='openTable(26)'>17</ion-button>
-      <ion-button [color]='tables[27].opened ? "dark" : "primary"' (click)='openTable(27)'>18</ion-button>
-      <ion-button [color]='tables[28].opened ? "dark" : "primary"' (click)='openTable(28)'>19</ion-button>
-      <ion-button [color]='tables[29].opened ? "dark" : "primary"' (click)='openTable(29)'>20</ion-button>
+      <ion-button [color]='getTableColor(24)' (click)='openTable(24)'>15</ion-button>
+      <ion-button [color]='getTableColor(25)' (click)='openTable(25)'>16</ion-button>
+      <ion-button [color]='getTableColor(26)' (click)='openTable(26)'>17</ion-button>
+      <ion-button [color]='getTableColor(27)' (click)='openTable(27)'>18</ion-button>
+      <ion-button [color]='getTableColor(28)' (click)='openTable(28)'>19</ion-button>
+      <ion-button [color]='getTableColor(29)' (click)='openTable(29)'>20</ion-button>
       <img style='width: 80px;position: absolute;bottom: 4px;' src='../../assets/seb.png' />
     </div>
   </div>

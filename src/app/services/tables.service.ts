@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ConsoleService } from './console.service';
-import { TableType, TableOrderType, BillType, TableOrderBillType } from '../types';
+import { TableType, TableOrderType } from '../types';
 import { BillService } from './bill.service';
 
 @Injectable({
@@ -18,37 +18,37 @@ export class TablesService {
 
   private _initTables() {
     this._tables = [
-      { name: 'Playa 0', opened: false, bills: []},
-      { name: 'Playa 1', opened: false, bills: []},
-      { name: 'Playa 2', opened: false, bills: []},
-      { name: 'Playa 3', opened: false, bills: []},
-      { name: 'Playa 4', opened: false, bills: []},
-      { name: 'Playa 5', opened: false, bills: []},
-      { name: 'Playa 6', opened: false, bills: []},
-      { name: 'Playa 7', opened: false, bills: []},
-      { name: 'Playa 8', opened: false, bills: []},
-      { name: 'Playa 9', opened: false, bills: []},
-      { name: 'Playa 10', opened: false, bills: []},
-      { name: 'Playa 11', opened: false, bills: []},
-      { name: 'Playa 12', opened: false, bills: []},
-      { name: 'Playa 14', opened: false, bills: []},
-      { name: 'Terraza 0', opened: false, bills: []},
-      { name: 'Terraza 1', opened: false, bills: []},
-      { name: 'Terraza 2', opened: false, bills: []},
-      { name: 'Terraza 3', opened: false, bills: []},
-      { name: 'Terraza 4', opened: false, bills: []},
-      { name: 'Terraza 5', opened: false, bills: []},
-      { name: 'Terraza 6', opened: false, bills: []},
-      { name: 'Terraza 7', opened: false, bills: []},
-      { name: 'Terraza 8', opened: false, bills: []},
-      { name: 'Terraza 9', opened: false, bills: []},
-      { name: 'Extra 15', opened: false, bills: []},
-      { name: 'Extra 16', opened: false, bills: []},
-      { name: 'Extra 17', opened: false, bills: []},
-      { name: 'Extra 18', opened: false, bills: []},
-      { name: 'Extra 19', opened: false, bills: []},
-      { name: 'Extra 20', opened: false, bills: []},
-      { name: 'Bar 1', opened: false, bills: []}
+      { name: 'Playa 0', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 1', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 2', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 3', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 4', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 5', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 6', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 7', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 8', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 9', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 10', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 11', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 12', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 14', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 0', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 1', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 2', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 3', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 4', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 5', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 6', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 7', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 8', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 9', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 15', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 16', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 17', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 18', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 19', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 20', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Bar 1', opened: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []}
     ];
   }
 
@@ -162,6 +162,15 @@ export class TablesService {
 
   public getTableChoices() {
     return this._tables.map((table, index) => {return {value: index, label: table.name+(table.opened ? ' (Abierta)' : '')}});
+  }
+
+  public askForBill(tableId) {
+    return new Promise(resolve => {
+      this.getTableById(tableId).then((table) => {
+        table.billAsked = true;
+        resolve(table);
+      });
+    });
   }
 
 }

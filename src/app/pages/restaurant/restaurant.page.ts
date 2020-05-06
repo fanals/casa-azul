@@ -27,4 +27,14 @@ export class RestaurantPage implements OnInit {
     this.navCtrl.navigateForward('table/'+id, {animated: false});
   }
 
+  getTableColor(id) {
+    if (this.tables[id].billSent)
+      return 'success';
+    if (this.tables[id].billAsked)
+      return 'warning';
+    if (this.tables[id].opened)
+      return 'dark';
+    return 'primary';
+  }
+
 }

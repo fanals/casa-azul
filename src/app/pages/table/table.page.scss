@@ -2,6 +2,54 @@ ion-content {
   --overflow: hidden;
 }
 
+.new-batch {
+  border: 5px solid red;
+}
+
+.condensed-bills {
+  display: flex;
+  flex-wrap: wrap;
+  ion-card {
+    flex: 1 0 18%;
+    margin: 10px 2px;
+    ion-card-content {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+  .quantity {
+    width: 40px;
+    margin-right: 10px;
+    text-align: right;
+  }
+  .bill {
+    border: 5px solid lightsteelblue;
+    &.sent {
+      border: 5px solid var(--ion-color-success);
+    }
+    &.history {
+      border: 5px solid var(--ion-color-warning);
+    }
+  }
+}
+
+.bill-name {
+  width: 278px;
+  position: relative;
+  text-align: center;
+  ion-button {
+    position: absolute;
+    right: 0;
+    top: -7px;
+  }
+}
+
+.change-table-button {
+  position: absolute;
+  top: -3px;
+  font-size: 15px;
+}
+
 #table-header {
   .action-buttons {
     ion-button {
@@ -13,11 +61,10 @@ ion-content {
   .show-tables {
     --padding-start: 20px;
     --padding-end: 20px;
-    margin-right: 40px;
     text-transform: initial;
   }
   .history-button {
-    margin-right: 14px;
+    margin-right: 40px;
   }
 }
 

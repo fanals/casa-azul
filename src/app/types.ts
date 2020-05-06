@@ -67,12 +67,20 @@ export interface BatchType {
 }
 
 export interface BillType {
+  sent: boolean,
   uuid: string,
   name: string,
   service: boolean,
   itbis: boolean,
   newBatch: BatchType,
   batches: BatchType[]
+}
+
+export interface CondensedBillType {
+  name: string,
+  newBatch: BatchType,
+  sent: boolean,
+  articles: ArticleType[]
 }
 
 export enum OrderStateEnum {
@@ -107,7 +115,11 @@ export interface TableOrderType {
 export interface TableType {
   name: string;
   opened: boolean;
+  canChangePlace: boolean;
+  billAsked: boolean;
+  billSent: boolean;
   bills: BillType[];
+  history: BillType[];
 }
 
 export interface PacketType {
@@ -120,6 +132,7 @@ export enum ServicesEnum {
   'service-new-table-order' = 'service-new-table-order',
   'service-new-kitchen-order' = 'service-new-kitchen-order',
   'service-get-opened-tables' = 'service-get-opened-tables',
+  'service-ask-for-bill' = 'service-ask-for-bill',
   'service-get-table' = 'service-get-table'
 }
 

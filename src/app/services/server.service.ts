@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserType, ServicesEnum, TableOrderType, OrderType } from '../types';
+import { UserType, ServicesEnum, TableOrderType, OrderType, TableType } from '../types';
 import { Socket } from 'ngx-socket-io';
 import { ConsoleService } from './console.service';
 import { catchError, timeout } from 'rxjs/operators';
@@ -33,6 +33,7 @@ export class ServerService {
   }
 
   public send(packet: PacketType, retry = false) {
+    this.console.log('Sending packet', packet);
     return new Promise((resolve, reject) => {
       if (!this.isConnected) {
         if (retry) {
@@ -43,8 +44,11 @@ export class ServerService {
           reject('El iPad no esta conectado');
         }
       } else {
+        this.console.log('Emit packet', packet);
         this.socket.emit('send', packet, (res) => {
           if (res && res.error) {
+            this.console.log('Error sending', res.error);
+            this.console.log('Adding to storage to send later', packet);
             this.storage.get('packets').then(packets => {
               if (!packets)
                 packets = [];
@@ -176,9 +180,24 @@ export class ServerService {
     this.statusBar.backgroundColorByHexString('#5cc593');
   }
 
+  public sendToKitchen(waiterName, tableName, articles) {
+    let orders = this.ordersService.createOrders(waiterName, tableName, articles);
+    this.console.log('Send to kitchen', orders);
+    for (let i = 0, max = orders.length; i<max;++i) {
+      let packet = {device: orders[i].device, service: ServicesEnum['service-new-kitchen-order'], data:orders[i].order};
+      this.send(packet).then(() => {
+        console.log('Packet Sent');
+      }).catch(e => {
+        console.log('Error sending packet', e);
+      });
+    }
+  }
+
   private _listeningForMainServices() {
     this.socket.on(ServicesEnum['service-new-table-order'], (tableOrder: TableOrderType, cb) => {
-      this.tablesService.addTableOrder(tableOrder).then(table => {
+      this.tablesService.addTableOrder(tableOrder).then((table: TableType) => {
+        let articles = tableOrder.bills.flatMap(bill => bill.articles);
+        this.sendToKitchen(tableOrder.waiterName, table.name, articles);
         cb(table);
       });
     });
@@ -190,10 +209,15 @@ export class ServerService {
         cb(table);
       });
     });
+    this.socket.on(ServicesEnum['service-ask-for-bill'], (tableId:number, cb) => {
+      this.tablesService.askForBill(tableId).then((table) => {
+        cb(table);
+      });
+    });
   }
 
   private _listeningForKitchenServices() {
-    this.socket.on(ServicesEnum['service-order'], (order: OrderType, cb) => {
+    this.socket.on(ServicesEnum['service-new-kitchen-order'], (order: OrderType, cb) => {
       this.ordersService.add(order);
       cb();
     });
@@ -250,9 +274,9 @@ export class ServerService {
     this.console.log('All devices are connected');
     this._setGreenStatusBar();
     this.storage.get('packets').then(packets => {
-      this.console.log('Packets are', packets.length, packets);
       this.storage.set('packets', null);
       if (packets) {
+        this.console.log('Packets are', packets);
         packets.forEach(packet => {
           this.console.log('Sending packet', packet);
           this.send(packet);

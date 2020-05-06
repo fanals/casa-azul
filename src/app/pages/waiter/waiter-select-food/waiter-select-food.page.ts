@@ -10,6 +10,7 @@ import { BillService } from 'src/app/services/bill.service';
 import { ArticlePage } from '../../article/article.page';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ServerService } from 'src/app/services/server.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-waiter-select-food',
@@ -82,7 +83,7 @@ export class WaiterSelectFoodPage implements OnInit {
   backButton() {
     if (this.table.bills.findIndex(bill => !!bill.newBatch.articles.length) != -1) {
       let msg = 'No enviaste la orden, si cambias de mesa perdera la orden, seguir como quiera ?';
-      this.alertService.validate(msg).then(() => {
+      this.alertService.confirm(msg).then(() => {
         this.navCtrl.back({animated: false});
       });
     } else {
@@ -132,6 +133,20 @@ export class WaiterSelectFoodPage implements OnInit {
       }).catch((e) => {
         this.loading.dismiss();
         this.alertService.display(e);
+      });
+    });
+  }
+
+  public askForBill() {
+    this.alertService.confirm().then(() => {
+      this.loading.show();
+      this.server.send({
+        service: ServicesEnum['service-ask-for-bill'],
+        device: DevicesEnum['main'],
+        data: this.tableId
+      }).then(() => {
+        this.alertService.display('Cuenta lista');
+        this.loading.dismiss();
       });
     });
   }

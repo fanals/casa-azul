@@ -27,7 +27,7 @@ export class AlertService {
     });
   }
 
-  validate(message: string = 'Confirmar') {
+  confirm(message: string = 'Confirmar') {
     return new Promise<string>((resolve) => {
       this.alert.create({
         backdropDismiss: true,
@@ -108,4 +108,26 @@ export class AlertService {
     });
   }
 
+  special() {
+    let buttons = [{
+      text: 'Modificar',
+      handler: () => {
+        console.log('Modificar');
+      },
+      cssClass: "warning"
+    }, {
+      text: 'Cerrar',
+      handler: () => {
+        console.log('Cerrar');
+      },
+      cssClass: "success"
+    }];
+    this.alert.create({
+      header: 'Cerrar mesa',
+      backdropDismiss: true,
+      buttons: buttons
+    }).then(a => {
+      a.present();
+    });
+  }
 }

@@ -4,6 +4,7 @@ import { OrderType, MenuType, OrderStateEnum, ArticleCategoryEnum, UserType } fr
 import { MenuService } from './menu.service';
 import { UserService } from './user.service';
 import { ConsoleService } from './console.service';
+import { ArticleService } from './article.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class OrdersService {
   constructor(private storage: Storage,
               private userService: UserService,
               private console: ConsoleService,
+              private articleService: ArticleService,
               private menuService: MenuService) {
     this.menuService.get().then(menu => {
       this._menu = menu;
@@ -64,54 +66,43 @@ export class OrdersService {
     });
   }
 
-  public _articleToString(a) {
-    return '['+a.ami+'|'+(a.half ? this._articleToString(a.half) : '')+'|'+(a.mii ? a.mii.sort().join(',') : '')+'|'+(a.pii ? a.pii.sort().join(',') : '')+']';
-  }
-
-  public _articlesAreEqual(a1, a2) {
-    return this._articleToString(a1) === this._articleToString(a2);
-  }
-
-  public _separateArticles(table) {
-    let articles = {'pizza': [], 'bar': [], 'kitchen': []};
-    for (let i = 0, max = table.bills.length; i<max; ++i) {
-      let bill = table.bills[i];
-      for (let j = 0, maxj = bill.newBatch.articles.length; j<maxj; ++j) {
-        let article = bill.newBatch.articles[j];
-        let category = this._menu.articles[article.ami].category;
-        let index = -1;
-        if (category == ArticleCategoryEnum['pizza']) {
-          if ((index = articles.pizza.findIndex(a => this._articlesAreEqual(a, article))) != -1) {
-            articles.pizza[index].q++;
-          } else {
-            articles.pizza.push(article);
-          }
-        } else if (category == ArticleCategoryEnum['kitchen']) {
-          if ((index = articles.kitchen.findIndex(a => this._articlesAreEqual(a, article))) != -1) {
-            articles.kitchen[index].q++;
-          } else {
-            articles.kitchen.push(article);
-          }
+  public _separateArticles(articles) {
+    let separatedArticles = {'pizza': [], 'bar': [], 'kitchen': []};
+    for (let i = 0, max = articles.length; i<max; ++i) {
+      let article = articles[i];
+      let category = this._menu.articles[article.ami].category;
+      let index = -1;
+      if (category == ArticleCategoryEnum['pizza']) {
+        if ((index = separatedArticles.pizza.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
+          separatedArticles.pizza[index].q++;
         } else {
-          if ((index = articles.bar.findIndex(a => this._articlesAreEqual(a, article))) != -1) {
-            articles.bar[index].q++;
-          } else {
-            articles.bar.push(article);
-          }
+          separatedArticles.pizza.push(JSON.parse(JSON.stringify(article)));
         }
-      }
+      } else if (category == ArticleCategoryEnum['kitchen']) {
+        if ((index = separatedArticles.kitchen.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
+          separatedArticles.kitchen[index].q++;
+        } else {
+          separatedArticles.kitchen.push(JSON.parse(JSON.stringify(article)));
+        }
+      } else {
+        if ((index = separatedArticles.bar.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
+          separatedArticles.bar[index].q++;
+        } else {
+          separatedArticles.bar.push(JSON.parse(JSON.stringify(article)));
+        }
+      } 
     }
-    return articles;
+    return separatedArticles;
   }
 
-  public createOrders(table) {
+  public createOrders(userName, tableName, articles) {
     let orders = [];
-    let articles = this._separateArticles(table);
+    articles = this._separateArticles(articles);
     this.console.log('separated articles', articles);
     if (articles.pizza.length) {
       orders.push({device: 'pizza', order: {
-        n: table.name,
-        wn: this._user.name,
+        n: tableName,
+        wn: userName,
         as: articles.pizza,
         oas: articles.kitchen,
         oaso: false,
@@ -120,8 +111,8 @@ export class OrdersService {
     }
     if (articles.kitchen.length) {
       orders.push({device: 'kitchen', order: {
-        n: table.name,
-        wn: this._user.name,
+        n: tableName,
+        wn: userName,
         as: articles.kitchen,
         oas: articles.pizza,
         oaso: false,
@@ -130,8 +121,8 @@ export class OrdersService {
     }
     if (articles.bar.length) {
       orders.push({device: 'bar', order: {
-        n: table.name,
-        wn: this._user.name,
+        n: tableName,
+        wn: userName,
         as: articles.bar,
         oas: [],
         oaso: false,

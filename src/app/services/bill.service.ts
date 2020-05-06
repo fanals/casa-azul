@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MenuService } from './menu.service';
-import { MenuType, BillType, ArticleType, BatchType, UserType } from '../types';
+import { MenuType, BillType, ArticleType, BatchType, UserType, CondensedBillType } from '../types';
 import { UserService } from './user.service';
+import { ArticleService } from './article.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class BillService {
   private _menu: MenuType;
 
   constructor(public menuService:MenuService,
+              public articleService:ArticleService,
               public userService:UserService) {
     this._init();
   }
@@ -51,11 +53,12 @@ export class BillService {
       );
     }
     return {
+      sent: false,
       uuid: opts.generateUUID ? uuidv4() : 'new',
       service: true,
       itbis: true,
       newBatch: this.emptyNewBatch(),
-      name: 'Principal',
+      name: 'Cuenta',
       batches: []
     }
   }
@@ -126,4 +129,26 @@ export class BillService {
     let subtotal = this.getSubtotal(bill);
     return subtotal + this.getItbis(bill, subtotal) + this.getService(bill, subtotal);
   }
+
+  condensed(bills:BillType[]): CondensedBillType[] {
+    let index = 0;
+    let condensedBills:CondensedBillType[] = [];
+    for (let a = 0; a < bills.length; a++) {
+      let bill = bills[a];
+      condensedBills[a] = {name: bill.name, newBatch: bill.newBatch, sent: bill.sent, articles: []};
+      for (let i = 0; i < bill.batches.length; i++) {
+        let batch = bill.batches[i];
+        for (let j = 0; j < batch.articles.length; j++) {
+          let article = batch.articles[j];
+          if ((index = condensedBills[a].articles.findIndex(art => this.articleService.areEqual(art, article))) != -1) {
+            condensedBills[a].articles[index].q += article.q;
+          } else {
+            condensedBills[a].articles.push(JSON.parse(JSON.stringify(article)));
+          }
+        }
+      }
+    }
+    return condensedBills;
+  }
+
 }

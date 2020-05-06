@@ -22,7 +22,7 @@ export class WaiterSelectTablePage implements OnInit {
     this.server.send({
       service: ServicesEnum['service-get-opened-tables'],
       device: DevicesEnum['main']
-    }, true).then((openedTables: []) => {
+    }).then((openedTables: []) => {
       console.log('Opened tabled are', openedTables);
       this.openedTables = openedTables;
     });
