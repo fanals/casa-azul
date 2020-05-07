@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { HttpClient } from '@angular/common/http';
 import { MenuType, IngredientMenuType, ArticleCategoryEnum } from '../types';
+import { CajipadService } from './cajipad.service';
 
 @Injectable({
   providedIn: 'root'
@@ -85,16 +85,13 @@ export class MenuService {
     {name: 'Mescla de mariscos', price: 150}
   ];
 
-  constructor(private storage: Storage, private http: HttpClient) {}
+  constructor(private storage: Storage, private cajipad: CajipadService) {}
 
   update() {
     console.log('Update menu');
     return new Promise(resolve => {
-      let url = 'http://casazul.fanals.fr/carte/casazul/json';
-      this.http.get(url).subscribe(menu => {
-        console.log('Received menu', menu);
+      this.cajipad.getMenu().then(menu => {
         this._menu = this._formatMenu(menu);
-        console.log('Formatted menu', this._menu);
         this.storage.set('menu', this._menu);
         resolve();
       });
@@ -118,7 +115,7 @@ export class MenuService {
       let articleIndexes = [];
       for (let j = 0, maxj = category.articles.length; j < maxj; ++j) {
         let article = category.articles[j];
-        formattedMenu.articles[articleIndex] = {id: article.id, name: article.name, price:article.price, ingredientCategoryIndex: ingredientCategoryIndex, category: this._getArticleCategory(category)};
+        formattedMenu.articles[articleIndex] = {id: article.id, name: article.name, price:article.price, ingredientCategoryIndex: ingredientCategoryIndex, category: category.name, deviceCategory: this._getArticleCategory(category)};
         articleIndexes.push(articleIndex);
         articleIndex++;
       }

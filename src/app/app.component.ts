@@ -16,9 +16,14 @@ export class AppComponent implements OnInit {
   public user: UserType;
   public selectedIndex = 0;
   public appPages = [{
-    title: 'Casa Azul',
+    title: 'Mesas',
     url: '/restaurant',
     icon: 'restaurant',
+    devices: ['main']
+  }, {
+    title: 'Total del dia',
+    url: '/totaltoday',
+    icon: 'wallet',
     devices: ['main']
   }, {
     title: 'Empleados',

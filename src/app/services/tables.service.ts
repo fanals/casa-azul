@@ -18,42 +18,45 @@ export class TablesService {
 
   private _initTables() {
     this._tables = [
-      { name: 'Playa 0', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 1', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 2', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 3', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 4', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 5', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 6', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 7', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 8', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 9', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 10', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 11', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 12', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 14', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 0', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 1', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 2', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 3', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 4', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 5', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 6', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 7', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 8', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 9', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 15', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 16', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 17', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 18', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 19', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 20', opened: false, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Bar 1', opened: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []}
+      { name: 'Playa 0', slug:'playa0', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 1', slug:'playa1', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 2', slug:'playa2', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 3', slug:'playa3', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 4', slug:'playa4', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 5', slug:'playa5', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 6', slug:'playa6', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 7', slug:'playa7', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 8', slug:'playa8', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 9', slug:'playa9', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 10', slug:'playa10', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 11', slug:'playa11', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 12', slug:'playa12', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 14', slug:'playa14', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 0', slug:'terraza0', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 1', slug:'terraza1', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 2', slug:'terraza2', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 3', slug:'terraza3', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 4', slug:'terraza4', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 5', slug:'terraza5', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 6', slug:'terraza6', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 7', slug:'terraza7', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 8', slug:'terraza8', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 9', slug:'terraza9', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 15', slug:'playa15', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 16', slug:'playa16', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 17', slug:'playa17', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 18', slug:'playa18', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 19', slug:'playa19', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 20', slug:'playa20', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Bar', slug:'bar1', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Komida', slug:'komida', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Fito', slug:'fito', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Para llevar', slug:'llevar', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []}
     ];
   }
 
   public get() {
-    return new Promise(resolve => {
+    return new Promise<TableType[]>(resolve => {
       if (!this._tables) {
         this.storage.get('tables').then((tables) => {
           if (!tables) {
@@ -116,7 +119,7 @@ export class TablesService {
         table.opened = true;
         for (let i = 0, max = tableOrder.bills.length;i<max;++i) {
           let tableOrderBill = tableOrder.bills[i];
-          let bill = this.billService.getOrCreate(tableOrderBill.uuid, table.bills, tableOrder, i);
+          let bill = this.billService.getOrCreate(tableOrderBill.uuid, table, tableOrder, i);
           if (!tableOrder.merge)
             bill.name = tableOrderBill.name;
           bill.batches.unshift({
@@ -161,7 +164,7 @@ export class TablesService {
   }
 
   public getTableChoices() {
-    return this._tables.map((table, index) => {return {value: index, label: table.name+(table.opened ? ' (Abierta)' : '')}});
+    return this._tables.filter(table => table.canChangePlace).map((table, index) => {return {value: index, label: table.name+(table.opened ? ' (Abierta)' : '')}});
   }
 
   public askForBill(tableId) {
@@ -171,6 +174,13 @@ export class TablesService {
         resolve(table);
       });
     });
+  }
+
+  public clearHistory() {
+    this._tables.forEach(table => {
+      table.history = [];
+    });
+    this.save();
   }
 
 }

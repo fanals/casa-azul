@@ -67,7 +67,7 @@ export class WaiterSelectFoodPage implements OnInit {
     console.log('table is', table);
     this.table = table;
     if (!this.table.bills.length) {
-      this.table.bills.push(this.billService.emptyNewBill());
+      this.table.bills.push(this.billService.emptyNewBill({generateUUID: false, withItbis: this.table.withItbis, withService: this.table.withService}));
     } else {
       this.table.bills.forEach(bill => bill.newBatch = this.billService.emptyNewBatch());  
     }
@@ -103,7 +103,7 @@ export class WaiterSelectFoodPage implements OnInit {
   changingBill() {
     if (this.selectedBillIndex == -1) {
       this.alertService.prompt('Nombre').then((name:string) => {
-        this.table.bills.push(this.billService.emptyNewBill());
+        this.table.bills.push(this.billService.emptyNewBill({generateUUID: false, withItbis: this.table.withItbis, withService: this.table.withService}));
         this.selectedBillIndex = this.table.bills.length - 1;
         this.currentBillIndex = this.selectedBillIndex;
         this.table.bills[this.currentBillIndex].name = name;

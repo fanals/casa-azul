@@ -22,7 +22,7 @@
       <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
     </ion-select>
   </div>
-  <div *ngIf="articleMenu.category == ArticleCategoryEnum['pizza']">
+  <div *ngIf="articleMenu.deviceCategory == ArticleCategoryEnum['pizza']">
     <ion-list-header>
       <ion-label>Mitad</ion-label>
     </ion-list-header>

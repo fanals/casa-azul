@@ -35,6 +35,10 @@ const routes: Routes = [{
   {
     path: 'orders',
     loadChildren: () => import('./pages/orders/orders.module').then( m => m.OrdersPageModule)
+  },
+  {
+    path: 'totaltoday',
+    loadChildren: () => import('./pages/totaltoday/totaltoday.module').then( m => m.TotaltodayPageModule)
   }
 ];
 

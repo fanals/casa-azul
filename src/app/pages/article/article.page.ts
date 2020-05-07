@@ -31,7 +31,7 @@ export class ArticlePage implements OnInit {
       if (this.canModifyIngredients) {
         this.ingredientIndexes = this.menu.ingredientsCategories[this.articleMenu.ingredientCategoryIndex].ingredientIndexes;
       }
-      if (this.articleMenu.category == ArticleCategoryEnum['pizza']) {
+      if (this.articleMenu.deviceCategory == ArticleCategoryEnum['pizza']) {
         if (!this.article.half) {
           this.article.half = {q: 1, ami: null};
         }

@@ -49,7 +49,8 @@ export interface ArticleMenuType {
   name: string,
   price: number,
   ingredientCategoryIndex: number, // -1 if has no ingredients
-  category: ArticleCategoryEnum
+  deviceCategory: ArticleCategoryEnum,
+  category: string,
 }
 
 export interface ArticleType {
@@ -114,8 +115,11 @@ export interface TableOrderType {
 
 export interface TableType {
   name: string;
+  slug: string;
   opened: boolean;
   canChangePlace: boolean;
+  withService: boolean;
+  withItbis: boolean;
   billAsked: boolean;
   billSent: boolean;
   bills: BillType[];
@@ -126,6 +130,21 @@ export interface PacketType {
   device: DevicesEnum;
   service: ServicesEnum;
   data?: any;
+}
+
+export interface ComptaArticleBillType {
+  nb: number;
+  name: string;
+  category: string;
+  price: number;
+}
+
+export interface ComptaBillType {
+  tableSlug: string;
+  subtotal: number;
+  servicio: number;
+  itbis: number;
+  articles: ComptaArticleBillType[]
 }
 
 export enum ServicesEnum {
@@ -143,3 +162,5 @@ export enum DevicesEnum {
   'camarero' = 'camarero',
   'main' = 'main',
 }
+
+

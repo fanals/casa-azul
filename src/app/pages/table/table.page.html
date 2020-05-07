@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start" *ngIf='selectedBillIndex != -1 && !showingHistory'>
       <div class='bill-name'>
+        <ion-menu-button style='position: absolute;left:0;top:-7px;'></ion-menu-button>
         {{table.bills[selectedBillIndex]?.name}}
         <ion-button fill='clear' color="primary" (click)='selectBill()'>
           <ion-icon name="documents-outline"></ion-icon>

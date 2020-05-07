@@ -49,7 +49,7 @@ export class TablePage implements OnInit {
       console.log('Table is', table);
       this.table = table;
       if (!this.table.bills.length) {
-        this.table.bills.push(this.billService.emptyNewBill({generateUUID: true}));
+        this.table.bills.push(this.billService.emptyNewBill({generateUUID: true, withItbis: this.table.withItbis, withService: this.table.withService}));
       } else if (this.table.bills.length > 1 || this.table.bills[this.selectedBillIndex].sent) {
         this.selectBill();
       }
@@ -113,7 +113,7 @@ export class TablePage implements OnInit {
 
   addBill() {
     this.alertService.prompt('Nombre').then((name:string) => {
-      let bill = this.billService.emptyNewBill({generateUUID: true});
+      let bill = this.billService.emptyNewBill({generateUUID: true, withItbis: this.table.withItbis, withService: this.table.withService});
       bill.name = name;
       this.table.bills.push(bill);
       this.tablesService.save();

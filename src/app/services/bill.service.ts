@@ -35,18 +35,18 @@ export class BillService {
     }
   }
 
-  public getOrCreate(tableOrder, bills, merge, i): BillType {
-    let index = merge ? i : bills.findIndex((bill) => bill.uuid == tableOrder.uuid);
+  public getOrCreate(tableOrder, table, merge, i): BillType {
+    let index = merge ? i : table.bills.findIndex((bill) => bill.uuid == tableOrder.uuid);
     // if (index == -1)
     //   console.log("The bill has been deleted or the bill has already been given to client");
-    if ((merge && !bills[index]) || (!merge && (tableOrder.uuid == 'new' || index == -1))) {
-      bills.push(this.emptyNewBill({generateUUID: true}));
-      return bills[bills.length-1];
+    if ((merge && !table.bill[index]) || (!merge && (tableOrder.uuid == 'new' || index == -1))) {
+      table.bills.push(this.emptyNewBill({generateUUID: true, withItbis: table.withItbis, withService: table.withService}));
+      return table.bills[table.bills.length-1];
     } 
-    return bills[index];
+    return table.bills[index];
   }
 
-  public emptyNewBill(opts = {generateUUID: false}) {
+  public emptyNewBill(opts = {generateUUID: false, withService: true, withItbis: true}): BillType {
     function uuidv4() {
       return (`${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`).replace(/[018]/g, (c:any) =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -55,8 +55,8 @@ export class BillService {
     return {
       sent: false,
       uuid: opts.generateUUID ? uuidv4() : 'new',
-      service: true,
-      itbis: true,
+      service: opts.withService,
+      itbis: opts.withItbis,
       newBatch: this.emptyNewBatch(),
       name: 'Cuenta',
       batches: []
@@ -125,7 +125,7 @@ export class BillService {
     return subtotal;
   }
 
-  getTotal(bill) {
+  getTotal(bill):number {
     let subtotal = this.getSubtotal(bill);
     return subtotal + this.getItbis(bill, subtotal) + this.getService(bill, subtotal);
   }

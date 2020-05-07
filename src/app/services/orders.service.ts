@@ -70,15 +70,15 @@ export class OrdersService {
     let separatedArticles = {'pizza': [], 'bar': [], 'kitchen': []};
     for (let i = 0, max = articles.length; i<max; ++i) {
       let article = articles[i];
-      let category = this._menu.articles[article.ami].category;
+      let deviceCategory = this._menu.articles[article.ami].deviceCategory;
       let index = -1;
-      if (category == ArticleCategoryEnum['pizza']) {
+      if (deviceCategory == ArticleCategoryEnum['pizza']) {
         if ((index = separatedArticles.pizza.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
           separatedArticles.pizza[index].q++;
         } else {
           separatedArticles.pizza.push(JSON.parse(JSON.stringify(article)));
         }
-      } else if (category == ArticleCategoryEnum['kitchen']) {
+      } else if (deviceCategory == ArticleCategoryEnum['kitchen']) {
         if ((index = separatedArticles.kitchen.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
           separatedArticles.kitchen[index].q++;
         } else {
