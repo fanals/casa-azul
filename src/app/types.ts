@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export interface ChunkType {
   completed: boolean,
   chunk: string
@@ -92,12 +94,15 @@ export enum OrderStateEnum {
 }
 
 export interface OrderType {
-  n: string, // Name
-  wn: string, // Waiter Name
-  as: ArticleType[], // Articles
-  oas: ArticleType[], // Other articles
-  oaso: boolean, // Other articles opened
-  st: OrderStateEnum // State
+  name: string,
+  waiterName: string,
+  articles: ArticleType[],
+  otherArticles: ArticleType[],
+  otherArticlesOpened: boolean,
+  state: OrderStateEnum,
+  nbArticles: number,
+  readyIn?: number,
+  startingPreparingAt?: moment.Moment,
 }
 
 export interface TableOrderBillType {

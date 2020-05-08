@@ -5,6 +5,8 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { ConsoleService } from 'src/app/services/console.service';
 import { UserService } from 'src/app/services/user.service';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.page.html',
@@ -17,6 +19,9 @@ export class OrdersPage implements OnInit {
   public user: UserType;
   public orders: OrderType[];
   public isPreparing: boolean = false;
+  public isShowingHistory: boolean = false;
+  public historyIndex: number = 0;
+  public history: OrderType[][];
 
   constructor(public menuService: MenuService,
               public zone: NgZone,
@@ -34,6 +39,8 @@ export class OrdersPage implements OnInit {
     this.ordersService.get().then(orders => {
       this.console.log('Orders are', orders);
       this.orders = orders;
+      this.ordersService.setReadyIn(this.orders);
+      this.isPreparing = this.orders[0] && this.orders[0].state == OrderStateEnum['preparing'];
       // this.orders = [{
       //   n: "Playa 1",
       //   st: OrderStateEnum['new'],
@@ -73,26 +80,74 @@ export class OrdersPage implements OnInit {
   }
 
   select(order) {
-    order.st = order.st == OrderStateEnum['selected'] ? OrderStateEnum['new'] : OrderStateEnum['selected'];
+    if (order.state == OrderStateEnum['ready'])
+      return;
+    if (this.isPreparing) {
+      this.isPreparing = false;
+      this.orders.forEach(order => {
+        if (order.state == OrderStateEnum['preparing']) {
+          order.state = OrderStateEnum['selected'];
+        }
+      });
+    }
+    order.state = order.state == OrderStateEnum['selected'] ? OrderStateEnum['new'] : OrderStateEnum['selected'];
   }
 
   prepareOrders() {
-    if (this.orders.findIndex(o => o.st == OrderStateEnum['selected']) != -1)
-      this.isPreparing = true;
+    let hasSelectedOrders = false;
+    this.orders.forEach(order => {
+      if (order.state == OrderStateEnum['selected']) {
+        hasSelectedOrders = true;
+        order.state = OrderStateEnum['preparing'];
+        order.startingPreparingAt = moment();
+      }
+    });
+    if (hasSelectedOrders) {
+      this.isPreparing = true; 
+      this.orders.sort((a, b) => b.state - a.state);      
+      this.ordersService.setReadyIn(this.orders);
+      this.ordersService.save();
+    }
+  }
+
+  toggleHistory() {
+    this.historyIndex = 0;
+    this.isShowingHistory = !this.isShowingHistory;
+    if (this.isShowingHistory) {
+      this.ordersService.getHistory().then(history => {
+        this.history = history;
+        this.orders = this.history[this.historyIndex];
+      });
+    } else {
+      this.ordersService.get().then(orders => {
+        this.orders = orders;
+      });
+    }
   }
 
   getOrderColor(order) {
     if (this.isPreparing)
       return 'dark';
-    return order.st == OrderStateEnum["selected"] ? "primary" : "";
+    return order.state == OrderStateEnum["selected"] ? "primary" : "";
   }
 
   itsReady() {
-    let index;
-    while ((index = this.orders.findIndex(o => o.st == OrderStateEnum['selected'])) != -1) {
-      this.orders.splice(index, 1);
-    }
     this.isPreparing = false;
+    this.orders = this.ordersService.saveHistory(this.orders);
+  }
+
+  historyBack() {  
+    if (this.history[this.historyIndex + 1]) {
+      this.historyIndex++;
+      this.orders = this.history[this.historyIndex];
+    }
+  }
+
+  historyFront() {
+    if (this.history[this.historyIndex - 1]) {
+      this.historyIndex--;
+      this.orders = this.history[this.historyIndex];
+    }
   }
 
 }

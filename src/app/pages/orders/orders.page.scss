@@ -21,5 +21,24 @@ ion-item-divider {
       padding-left: 5px;
       padding-right: 5px;
     }
+    border: 5px solid white;
+    &.dark {
+      border-color: var(--ion-color-dark);
+      ion-card-title {
+        color: var(--ion-color-dark);
+      }
+    }
+    &.success {
+      border-color: var(--ion-color-success);
+      ion-card-title {
+        color: var(--ion-color-success);
+      }
+    }
+    &.primary {
+      border-color: var(--ion-color-primary);
+      ion-card-title {
+        color: var(--ion-color-primary);
+      }
+    }
   }
 }
