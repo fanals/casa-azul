@@ -206,4 +206,16 @@ export class OrdersService {
     return orders;
   }
 
+  public getEstimatedWaitingTime() {
+    return new Promise(resolve => {
+      this.get().then(orders => {
+        if (!orders.length) {
+          resolve(0);
+        } else {
+          resolve(orders[orders.length-1].readyIn + 5);
+        }
+      });
+    });
+  }
+
 }

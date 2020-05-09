@@ -6,6 +6,12 @@ ion-content {
   border: 5px solid red;
 }
 
+.show-tables {
+  --padding-start: 20px;
+  --padding-end: 20px;
+  text-transform: initial;
+}
+
 .condensed-bills {
   display: flex;
   flex-wrap: wrap;
@@ -59,11 +65,6 @@ ion-content {
       --padding-start: 20px;
       --padding-end: 20px;
     }
-  }
-  .show-tables {
-    --padding-start: 20px;
-    --padding-end: 20px;
-    text-transform: initial;
   }
   .history-button {
     margin-right: 40px;

@@ -41,6 +41,11 @@ export class AppComponent implements OnInit {
     icon: 'restaurant',
     devices: ['waiter']
   }, {
+    title: 'Pedidos en curso',
+    url: '/overview',
+    icon: 'apps',
+    devices: ['main', 'waiter']
+  }, {
     title: 'Usuario',
     url: '/user',
     icon: 'person',

@@ -157,7 +157,10 @@ export enum ServicesEnum {
   'service-new-kitchen-order' = 'service-new-kitchen-order',
   'service-get-opened-tables' = 'service-get-opened-tables',
   'service-ask-for-bill' = 'service-ask-for-bill',
-  'service-get-table' = 'service-get-table'
+  'service-get-table' = 'service-get-table',
+  'service-get-orders' = 'service-get-orders',
+  'service-get-orders-history' = 'service-get-orders-history',
+  'service-get-waiting-time' = 'service-get-waiting-time'
 }
 
 export enum DevicesEnum {

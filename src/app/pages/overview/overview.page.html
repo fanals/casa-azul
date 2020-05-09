@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-segment [(ngModel)]='device' (ionChange)="changedDevice($event)">
+      <ion-segment-button value="pizza">
+        <ion-label>Pizza</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="kitchen">
+        <ion-label>Cocina</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="bar">
+        <ion-label>Bar</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="end">
+      <ion-button color="primary" fill='solid' (click)='openRestaurantPage()' class='show-tables'>Mesas</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h2 style='text-align:center;'>{{waitingTime}}min</h2>
+  <div class='orders'>
+    <ion-card *ngFor='let order of orders;' [class.primary]='order.state == OrderStateEnum["preparing"]' [class.success]='order.state == OrderStateEnum["ready"]'>
+      <ion-card-header>
+        <ion-card-subtitle style='text-transform: initial;'>{{order.waiterName}} - {{order.readyIn}}min</ion-card-subtitle>
+        <ion-card-title>{{order.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngFor='let article of order.articles; let i = index' class='article'>
+          <div class='quantity'>{{ article.q }}</div>
+          <div>
+            {{ menu.articles[article.ami].name}}
+            <div *ngFor='let ingredientIndex of article.pii;'>
+              + {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngFor='let ingredientIndex of article.mii;'>
+              - {{menu.ingredients[ingredientIndex].name}}
+            </div>
+            <div *ngIf='article.half && article.half.ami != null'>
+              Mitad {{menu.articles[article.half.ami].name}}
+              <div *ngFor='let ingredientIndex of article.half.pii;'>
+                + {{menu.ingredients[ingredientIndex].name}}
+              </div>
+              <div *ngFor='let ingredientIndex of article.half.mii;'>
+                - {{menu.ingredients[ingredientIndex].name}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf='order.otherArticles && order.otherArticles.length'>
+          <ion-item-divider color='medium' class='ion-text-center' (click)='order.otherArticlesOpened = !order.otherArticlesOpened'>
+            <ion-label>Otros</ion-label>
+          </ion-item-divider>
+          <div [hidden]='!order.otherArticlesOpened'>
+            <div *ngFor='let article of order.otherArticles; let i = index' class='article'>
+              <div class='quantity'>{{ article.q }}</div>
+              <div>{{menu.articles[article.ami].name}}</div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class='flex' *ngIf='isShowingHistory'>
+    <div style='width:50%'>
+      <ion-button [hidden]='!history[historyIndex-1]' color='success' expand='full' (click)='historyFront()'><ion-icon name="arrow-back-circle-outline"></ion-icon></ion-button>
+    </div>
+    <div style='width:50%'>
+      <ion-button [hidden]='!history[historyIndex+1]' color='success' expand='full' (click)='historyBack()'><ion-icon name="arrow-forward-circle-outline"></ion-icon></ion-button>
+    </div>
+  </div>
+  <ion-item style='max-width: 400px;margin:auto'>
+    <ion-label>Pedidos hechos</ion-label>
+    <ion-toggle color='success' [(ngModel)]="isShowingHistory" (ionChange)='toggleHistory()'></ion-toggle>
+  </ion-item>
+</ion-footer>

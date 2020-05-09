@@ -221,6 +221,15 @@ export class ServerService {
       this.ordersService.add(order);
       cb();
     });
+    this.socket.on(ServicesEnum['service-get-orders'], (cb) => {
+      this.ordersService.get().then(cb);
+    });
+    this.socket.on(ServicesEnum['service-get-orders-history'], (cb) => {
+      this.ordersService.getHistory().then(cb);
+    });
+    this.socket.on(ServicesEnum['service-get-waiting-time'], (cb) => {
+      this.ordersService.getEstimatedWaitingTime().then(cb);
+    });
   }
 
   private _listeningForSocketConnection() {

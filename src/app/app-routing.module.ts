@@ -39,6 +39,10 @@ const routes: Routes = [{
   {
     path: 'totaltoday',
     loadChildren: () => import('./pages/totaltoday/totaltoday.module').then( m => m.TotaltodayPageModule)
+  },
+  {
+    path: 'overview',
+    loadChildren: () => import('./pages/overview/overview.module').then( m => m.OverviewPageModule)
   }
 ];
 
