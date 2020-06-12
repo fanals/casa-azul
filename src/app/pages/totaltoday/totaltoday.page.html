@@ -11,25 +11,25 @@
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle>Total del dia</ion-card-subtitle>
-      <ion-card-title>Mercredi 25 Janvier</ion-card-title>
+      <ion-card-title style='text-transform: capitalize;'>{{todayDate}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
         <ion-item>
           <ion-label>Total</ion-label>
-          <span slot="end">{{data.total}}</span>
+          <span slot="end">{{data.total | number}}</span>
         </ion-item>
         <ion-item>
           <ion-label>10%</ion-label>
-          <span slot="end">{{data.service}}</span>
+          <span slot="end">{{data.service | number}}</span>
         </ion-item>
         <ion-item>
           <ion-label>Total + 10%</ion-label>
-          <span slot="end">{{data.total + data.service}}</span>
+          <span slot="end">{{data.total + data.service | number}}</span>
         </ion-item>
         <ion-item>
           <ion-label>Mesas abiertas</ion-label>
-          <span slot="end">{{data.openedTables}}</span>
+          <span slot="end">{{data.openedTables | number}}</span>
         </ion-item>
       </ion-list>
       <ion-button expand='full' (click)='closeSession()'>Cerrar session</ion-button>

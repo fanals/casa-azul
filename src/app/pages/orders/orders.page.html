@@ -39,7 +39,7 @@
           </div>
         </div>
         <div *ngIf='order.otherArticles && order.otherArticles.length'>
-          <ion-item-divider color='medium' class='ion-text-center' (click)='order.otherArticlesOpened = !order.otherArticlesOpened'>
+          <ion-item-divider color='medium' class='ion-text-center' (click)='order.otherArticlesOpened = !order.otherArticlesOpened;$event.stopPropagation();'>
             <ion-label>{{user?.device.slug == "pizza" ? 'Cocina' : 'Pizza'}}</ion-label>
           </ion-item-divider>
           <div [hidden]='!order.otherArticlesOpened'>

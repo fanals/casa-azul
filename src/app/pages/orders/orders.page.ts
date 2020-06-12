@@ -41,30 +41,6 @@ export class OrdersPage implements OnInit {
       this.orders = orders;
       this.ordersService.setReadyIn(this.orders);
       this.isPreparing = this.orders[0] && this.orders[0].state == OrderStateEnum['preparing'];
-      // this.orders = [{
-      //   n: "Playa 1",
-      //   st: OrderStateEnum['new'],
-      //   wn: "Camilo",
-      //   kaso: false,
-      //   as: [{
-      //     q: 1,
-      //     ami: 2,
-      //     pii: [2]
-      //   }, {
-      //     q: 1,
-      //     ami: 4
-      //   }, {
-      //     q: 1,
-      //     ami: 4
-      //   }],
-      //   kas: [{
-      //     q: 1,
-      //     ami: 12
-      //   }, {
-      //     q: 1,
-      //     ami: 14
-      //   }]
-      // }];
     });
     this.ordersService.changeDetectionEmitter.subscribe(() => {
       this.zone.run(() => { 

@@ -7,6 +7,9 @@ import { MenuService } from 'src/app/services/menu.service';
 import { BillService } from 'src/app/services/bill.service';
 import { AlertService } from 'src/app/services/alert.service';
 
+import * as moment from 'moment';
+import { PrinterService } from 'src/app/services/printer.service';
+
 @Component({
   selector: 'app-totaltoday',
   templateUrl: './totaltoday.page.html',
@@ -17,8 +20,10 @@ export class TotaltodayPage implements OnInit {
   private _menu: MenuType;
   private _tables: TableType[];
   public data;
+  public todayDate = '';
 
   constructor(private cajipad: CajipadService,
+              private printer: PrinterService,
               private billService: BillService,
               private tablesService: TablesService,
               private menuService: MenuService,
@@ -33,6 +38,9 @@ export class TotaltodayPage implements OnInit {
     this.menuService.get().then(menu => {
       this._menu = menu;
     });
+    moment.locale('es');
+    let h = moment().hour();    
+    this.todayDate = moment().format("dddd D MMMM")+' '+(h > 19 || h < 8 ? '(Noche)' : '(Dia)');
   }
 
   closeSession() {
@@ -40,11 +48,16 @@ export class TotaltodayPage implements OnInit {
       this.loading.show('Cerrando session').then(() => { 
         let bills: ComptaBillType[] = this._getComptaBills();
         console.log('Bills:', bills);
-        this.cajipad.closeSession(bills).then(res => {
-          this.tablesService.clearHistory();
-          this._setData();
-          this.loading.dismiss();
-          this.alert.display('Session cerrada');
+        this.printer.printTotalOfTheDay(this.todayDate, this.data.total, this.data.service).then(() => {
+          console.log('Printed total of the day');
+          this.cajipad.closeSession(bills).then(res => {
+            this.tablesService.clearHistory();
+            this._setData();
+            this.loading.dismiss();
+            this.alert.display('Session cerrada');
+          });
+        }).catch((error) => {
+          this.alert.display(error);
         });
       });
     });

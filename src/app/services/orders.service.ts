@@ -111,20 +111,32 @@ export class OrdersService {
 
   public setReadyIn(orders) {
     let state = OrderStateEnum['preparing'];
-    let timeToCook = 4;
-    let timeToPrepare = 1;
-    let nbArticlesMax = 10;
+    let config = {
+      'pizza': {
+        timeToCook: 4,
+        timeToPrepare: 0.5,
+        nbArticlesMax: 10
+      }, 'kitchen': {
+        timeToCook: 5,
+        timeToPrepare: 2,
+        nbArticlesMax: 4
+      }, 'bar': {
+        timeToCook: 1,
+        timeToPrepare: 0.5,
+        nbArticlesMax: 6
+      }
+    };
     let onGoing = {index: 0, nbArticles: 0, minutes: 0};
     let readyIn = 0;
     orders.forEach((order:OrderType, index) => {
-      if (onGoing.nbArticles + order.nbArticles <= nbArticlesMax && (order.state == state || !index)) {
+      if (onGoing.nbArticles + order.nbArticles <= config[this._user.device.slug].nbArticlesMax && (order.state == state || !index)) {
         onGoing.nbArticles = onGoing.nbArticles + order.nbArticles; 
       } else {
         onGoing.index = index;
         onGoing.nbArticles = order.nbArticles;
         onGoing.minutes = readyIn;
       }
-      readyIn = onGoing.nbArticles * timeToPrepare + timeToCook + onGoing.minutes - (order.state == OrderStateEnum['preparing'] ? moment().diff(moment(order.startingPreparingAt), 'minutes') : 0);
+      readyIn = onGoing.nbArticles * config[this._user.device.slug].timeToPrepare + config[this._user.device.slug].timeToCook + onGoing.minutes - (order.state == OrderStateEnum['preparing'] ? moment().diff(moment(order.startingPreparingAt), 'minutes') : 0);
       if (readyIn < 0)
         readyIn = 0;
       for (let i = onGoing.index; i <= index; i++) {
@@ -212,7 +224,8 @@ export class OrdersService {
         if (!orders.length) {
           resolve(0);
         } else {
-          resolve(orders[orders.length-1].readyIn + 5);
+          this.setReadyIn(orders);
+          resolve(Math.ceil((orders[orders.length-1].readyIn + 5) / 5) * 5);
         }
       });
     });

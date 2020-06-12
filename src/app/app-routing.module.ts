@@ -16,7 +16,7 @@ const routes: Routes = [{
     loadChildren: () => import('./pages/table/table.module').then( m => m.TablePageModule)
   }, {
     path: 'employees',
-    loadChildren: () => import('./employees/employees.module').then( m => m.EmployeesPageModule)
+    loadChildren: () => import('./pages/employees/employees.module').then( m => m.EmployeesPageModule)
   }, {
     path: 'waiter-select-table',
     loadChildren: () => import('./pages/waiter/waiter-select-table/waiter-select-table.module').then( m => m.WaiterSelectTablePageModule)
