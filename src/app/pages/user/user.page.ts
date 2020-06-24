@@ -59,4 +59,8 @@ export class UserPage implements OnInit {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
   }
 
+  testdoubleclick() {
+    console.log('Test testdoubleclick');
+  }
+
 }
