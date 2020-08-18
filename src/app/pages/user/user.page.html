@@ -9,7 +9,6 @@
 
 <ion-content *ngIf='user'>
   <img class='logo' src='assets/logo.png' />
-  <ion-button (click)='testdoubleclick()'>Test double click</ion-button>
   <ion-item>
     <ion-label position="stacked">Nombre</ion-label>
     <ion-input [(ngModel)]="user.name" (ionChange)='save()'></ion-input>

@@ -31,12 +31,16 @@ io.on('connection', (newSocket) => {
   let socketDevice = null;
 
   newSocket.on('device', (device) => {
+    consolelog('Socket.io: connected');
+    consolelog(device);
     socketDevice = device;
     devicesSocket[device] = newSocket;
-    if (device == 'bar' || device == 'kitchen' || device == 'pizza')
+    if (device == 'bar' || device == 'kitchen' || device == 'pizza') {
+      consolelog('Emit device-connected', device);
       devicesSocket['main'].emit('device-connected', device);
+    }
   });
-
+  
   newSocket.on('send', (data, cb) => {
     if (devicesSocket[data.device]) {
       if (data.data !== null && data.data !== undefined)

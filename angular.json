@@ -30,9 +30,10 @@
                 "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
               },
-              { "glob": "**/*",
-                "input": "./nodejs-project",
-                "output": "./nodejs-project"
+              {
+                "glob": "**/*",
+                "input": "nodejs-project",
+                "output": "nodejs-project"
               }
             ],
             "styles": [

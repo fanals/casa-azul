@@ -66,6 +66,7 @@ export class ServerService {
 
   public startMonitoring(user) {
     this._user = user;
+    this.console.log("Start monitoring", user.device);
     this._listening();
     if (user.device.slug == 'main') {
       if (this.platform.is('cordova')) {
@@ -81,6 +82,7 @@ export class ServerService {
   public connect() {
     this.socket.disconnect();
     this._getServerURL().then(url => {
+      this.console.log('Connecting to server', url);
       this.storage.set('serverurl', url);
       this.socket.ioSocket.io.opts.query = { reconnection: true };
       this.socket.ioSocket.io.uri = url;
@@ -234,11 +236,12 @@ export class ServerService {
 
   private _listeningForSocketConnection() {
     this.socket.fromEvent('connect').subscribe(() => {
-      console.log('Connected to server');
+      this.console.log('Connected to server');
       if (this._user.device.slug != 'main')
         this._setGreenStatusBar();
       this.isConnected = true;
       if (['main', 'bar', 'kitchen', 'pizza'].indexOf(this._user.device.slug) != -1) {
+        this.console.log('Emit device: ', this._user.device.slug);
         this.socket.emit('device', this._user.device.slug);
       }
     });

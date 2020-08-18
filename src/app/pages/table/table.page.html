@@ -181,10 +181,6 @@
             </ion-item-divider>
             <div class='category' *ngIf="category.articleIndexes.length / 2 as stop">
               <ion-list lines='full'>
-                <ion-button (click)='addArticleIndex(3)' (dblclick)='addArticleIndex(1)'>
-                  <label>Test</label>
-                  <label slot='end'>70</label>
-                </ion-button>
                 <ng-container *ngFor='let articleIndex of category.articleIndexes; let i = index;'>
                   <ion-item tappable class='click-effect' (click)='addArticleIndex(articleIndex)' *ngIf='i < stop'>
                     <label>{{menu.articles[articleIndex].name}}</label>
