@@ -7,6 +7,7 @@ import { ConsoleService } from './console.service';
 import { ArticleService } from './article.service';
 
 import * as moment from 'moment';
+import { SoundService } from './sound.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class OrdersService {
   constructor(private storage: Storage,
               private userService: UserService,
               private console: ConsoleService,
+              private sound: SoundService,
               private articleService: ArticleService,
               private menuService: MenuService) {
     this.menuService.get().then(menu => {
@@ -85,6 +87,7 @@ export class OrdersService {
 
   public add(order: OrderType) {
     this.console.log('Adding order', order);
+    this.sound.play(this._user.device.slug);
     this.get().then(orders => {
       orders.push(order);
       this.setReadyIn(orders);

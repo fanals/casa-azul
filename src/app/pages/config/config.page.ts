@@ -3,6 +3,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { ServerService } from 'src/app/services/server.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
   selector: 'app-config',
@@ -13,6 +14,7 @@ export class ConfigPage implements OnInit {
 
   constructor(public menu: MenuService,
               public alert: AlertService,
+              public sound: SoundService,
               public loading: LoadingService,
               public server: ServerService) {}
 
@@ -30,6 +32,10 @@ export class ConfigPage implements OnInit {
       this.loading.show('Conexión al iPad', 6000);
       this.server.connect();
     }
+  }
+
+  playSound(sound) {
+    this.sound.play(sound);
   }
 
 }

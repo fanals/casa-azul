@@ -22,18 +22,18 @@
           <div>
             {{ menu.articles[article.ami].name}}
             <div *ngFor='let ingredientIndex of article.pii;'>
-              + {{menu.ingredients[ingredientIndex].name}}
+              MAS {{menu.ingredients[ingredientIndex].name}}
             </div>
             <div *ngFor='let ingredientIndex of article.mii;'>
-              - {{menu.ingredients[ingredientIndex].name}}
+              SIN {{menu.ingredients[ingredientIndex].name}}
             </div>
             <div *ngIf='article.half && article.half.ami != null'>
               Mitad {{menu.articles[article.half.ami].name}}
               <div *ngFor='let ingredientIndex of article.half.pii;'>
-                + {{menu.ingredients[ingredientIndex].name}}
+                MAS {{menu.ingredients[ingredientIndex].name}}
               </div>
               <div *ngFor='let ingredientIndex of article.half.mii;'>
-                - {{menu.ingredients[ingredientIndex].name}}
+                SIN {{menu.ingredients[ingredientIndex].name}}
               </div>
             </div>
           </div>
