@@ -1,49 +1,62 @@
 <ion-header *ngIf='articleMenu'>
   <ion-toolbar>
     <ion-title>{{articleMenu.name}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button color='primary' (click)='ok()'>OK</ion-button>
-    </ion-buttons>
+    <!-- <ion-buttons slot="end">
+      <ion-button color='danger' (click)='delete()'>Cerrar</ion-button>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf='articleMenu'>
   <div *ngIf='canModifyIngredients'>
-    <ion-list-header>
-      <ion-label>Mas</ion-label>
-    </ion-list-header>
-    <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.pii'>
-      <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes;' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
-    </ion-select>
-    <ion-list-header>
-      <ion-label>Menos</ion-label>
-    </ion-list-header>
-    <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.mii'>
-      <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
-    </ion-select>
+    <ion-list>
+      <ion-item>
+        <ion-label>Mas</ion-label>  
+        <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.pii'>
+          <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes;' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Menos</ion-label>  
+        <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.mii'>
+          <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
   </div>
   <div *ngIf="articleMenu.deviceCategory == ArticleCategoryEnum['pizza']">
-    <ion-list-header>
-      <ion-label>Mitad</ion-label>
-    </ion-list-header>
-    <ion-select cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.ami'>
-      <ion-select-option *ngFor='let pizza of pizzas;' [value]='pizza'>{{menu.articles[pizza].name}}</ion-select-option>
-    </ion-select>
+    <ion-list>
+      <ion-item>
+        <ion-label>Mitad</ion-label>
+        <ion-select cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.ami'>
+          <ion-select-option *ngFor='let pizza of pizzas;' [value]='pizza'>{{menu.articles[pizza].name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
     <div *ngIf='article.half.ami != null'>
-      <ion-list-header>
-        <ion-label>Mas</ion-label>
-      </ion-list-header>
-      <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.pii'>
-        <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes;' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
-      </ion-select>
-      <ion-list-header>
-        <ion-label>Menos</ion-label>
-      </ion-list-header>
-      <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.mii'>
-        <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
-      </ion-select>
+      <ion-list>
+        <ion-item>
+          <ion-label>Mas</ion-label>
+          <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.pii'>
+            <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes;' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Menos</ion-label>
+          <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.half.mii'>
+            <ion-select-option *ngFor='let ingredientIndex of ingredientIndexes' [value]='ingredientIndex'>{{menu.ingredients[ingredientIndex].name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
     </div>
+    <ion-item>
+      <ion-label>Información</ion-label>
+      <ion-select multiple="true" cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.infos'>
+        <ion-select-option *ngFor='let pizzainfo of menu.pizzainfos;' [value]='pizzainfo'>{{pizzainfo}}</ion-select-option>
+      </ion-select>
+    </ion-item>
   </div>
+  <ion-button color='primary' expand='full' (click)='ok()'>OK</ion-button>
 </ion-content>
 <ion-footer>
   <ion-button color='danger' expand='full' (click)='delete()'>Eliminar</ion-button>

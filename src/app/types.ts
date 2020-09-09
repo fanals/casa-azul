@@ -38,6 +38,7 @@ export interface MenuType {
   articleCategories: ArticleCategoryMenuType[],
   ingredients: IngredientMenuType[],
   ingredientsCategories: IngredientCategoryMenuType[],
+  pizzainfos: string[]
 }
 
 export enum ArticleCategoryEnum {
@@ -61,6 +62,7 @@ export interface ArticleType {
   half?: ArticleType, // Half pizza
   pii?: number[], // Plus ingredient Indexes
   mii?: number[], // Minus ingredient Indexes
+  infos?: string
 }
 
 export interface BatchType {

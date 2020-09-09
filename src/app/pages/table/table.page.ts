@@ -140,6 +140,7 @@ export class TablePage implements OnInit {
   async modifyArticle(batch, i) {
     const modal = await this.modalController.create({
       component: ArticlePage,
+      cssClass: 'fullscreen',
       componentProps: {
         article: batch.articles[i],
       },

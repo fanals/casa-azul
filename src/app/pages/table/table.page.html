@@ -40,6 +40,7 @@
             <div class='quantity'>{{ article.q }}</div>
             <div class='name'>
               {{menu.articles[article.ami].name}}
+              <div>{{article.infos}}</div>
               <div *ngFor='let ingredientIndex of article.pii;'>
                 + {{menu.ingredients[ingredientIndex].name}}
               </div>
@@ -65,6 +66,7 @@
             <div class='quantity'>{{ article.q }}</div>
             <div class='name'>
               {{menu.articles[article.ami].name}}
+              <div>{{article.infos}}</div>
               <div *ngFor='let ingredientIndex of article.pii;'>
                 + {{menu.ingredients[ingredientIndex].name}}
               </div>
@@ -102,6 +104,7 @@
           <ion-item *ngFor='let article of table.bills[this.selectedBillIndex].newBatch.articles; let i = index' class='article click-effect' (click)='modifyArticle(table.bills[this.selectedBillIndex].newBatch, i)'>
             <div class='name'>
               {{menu.articles[article.ami].name}}
+              <div>{{article.infos}}</div>
               <div *ngFor='let ingredientIndex of article.pii;'>
                 + {{menu.ingredients[ingredientIndex].name}}
               </div>
@@ -130,6 +133,7 @@
           <ion-item *ngFor='let article of batch.articles; let i = index' class='article click-effect' (click)='modifyArticle(batch, i)'>
             <div class='name'>
               {{menu.articles[article.ami].name}}
+              <div>{{article.infos}}</div>
               <div *ngFor='let ingredientIndex of article.pii;'>
                 + {{menu.ingredients[ingredientIndex].name}}
               </div>

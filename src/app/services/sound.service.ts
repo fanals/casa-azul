@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { ConsoleService } from './console.service';
 import { Platform } from '@ionic/angular';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,22 +11,18 @@ export class SoundService {
 
   constructor(private nativeAudio: NativeAudio,
               private platform: Platform,
+              private userService:UserService,
               private console: ConsoleService) {
     this.platform.ready().then(() => {
-      this.nativeAudio.preloadSimple('pizza', 'assets/sounds/pizza.mp3').then(() => {
-        this.console.log('Pizza sound loaded');
-      }, (error) => {
-        this.console.log('Pizza sound Error', error);
-      });
-      this.nativeAudio.preloadSimple('kitchen', 'assets/sounds/kitchen.mp3').then(() => {
-        this.console.log('kitchen sound loaded');
-      }, (error) => {
-        this.console.log('kitchen sound Error', error);
-      });
-      this.nativeAudio.preloadSimple('bar', 'assets/sounds/bar.mp3').then(() => {
-        this.console.log('bar sound loaded');
-      }, (error) => {
-        this.console.log('bar sound Error', error);
+      this.userService.get().then(user => {
+        let device = user.device.slug;
+        if (['pizza', 'bar', 'kitchen'].indexOf(device)) {
+          this.nativeAudio.preloadSimple(device, 'assets/sounds/'+device+'.mp3').then(() => {
+            this.console.log(device+' sound loaded');
+          }, (error) => {
+            this.console.log(device+' sound Error', error);
+          });
+        }
       });
     });
   }

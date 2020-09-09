@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Pedidos</ion-title>
     <ion-buttons slot="end">
-      <ion-button color='success' (click)='toggleHistory()'>Pedidos listos</ion-button>
+      <ion-button color='success' (click)='toggleHistory()'>Ver pedidos hechos</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -20,7 +20,8 @@
         <div *ngFor='let article of order.articles; let i = index' class='article'>
           <div class='quantity'>{{ article.q }}</div>
           <div>
-            {{ menu.articles[article.ami].name}}
+            {{menu.articles[article.ami].name}}
+            <div>{{article.infos}}</div>
             <div *ngFor='let ingredientIndex of article.pii;'>
               MAS {{menu.ingredients[ingredientIndex].name}}
             </div>
