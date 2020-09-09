@@ -54,11 +54,13 @@ export interface ArticleMenuType {
   ingredientCategoryIndex: number, // -1 if has no ingredients
   deviceCategory: ArticleCategoryEnum,
   category: string,
+  questions: any[]
 }
 
 export interface ArticleType {
   ami: number, // Article Menu Index
   q: number, // Quantity
+  questionsAnswers: number[], // Answers to question
   half?: ArticleType, // Half pizza
   pii?: number[], // Plus ingredient Indexes
   mii?: number[], // Minus ingredient Indexes

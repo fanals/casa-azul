@@ -108,7 +108,7 @@ export class MenuService {
         {name: 'pizza', ingredientIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]},
         {name: 'ensalada', ingredientIndexes: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70]},
       ],
-      pizzainfos: ['Blanca', 'Roja', 'Bien cocido', 'Poco cocido']
+      pizzainfos: ['Blanca', 'Roja', 'Bien cocida', 'Poca cocida']
     };
     for (let i = 0, max = menu.categories.length; i < max; ++i) {
       let category = menu.categories[i];
@@ -116,7 +116,7 @@ export class MenuService {
       let articleIndexes = [];
       for (let j = 0, maxj = category.articles.length; j < maxj; ++j) {
         let article = category.articles[j];
-        formattedMenu.articles[articleIndex] = {id: article.id, name: article.name, price:article.price, ingredientCategoryIndex: ingredientCategoryIndex, category: category.name, deviceCategory: this._getArticleCategory(category)};
+        formattedMenu.articles[articleIndex] = {id: article.id, name: article.name, price:article.price, ingredientCategoryIndex: ingredientCategoryIndex, category: category.name, deviceCategory: this._getArticleCategory(category), questions: article.questions};
         articleIndexes.push(articleIndex);
         articleIndex++;
       }

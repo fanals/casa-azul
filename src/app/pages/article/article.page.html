@@ -8,6 +8,16 @@
 </ion-header>
 
 <ion-content *ngIf='articleMenu'>
+  <div *ngIf='articleMenu.questions'>
+    <ion-list>
+      <ion-item *ngFor='let question of articleMenu.questions;let questionIndex = index;'>
+        <ion-label>{{question.text}}</ion-label>
+        <ion-select cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.questionsAnswers[questionIndex]'>
+          <ion-select-option *ngFor='let answer of question.answers;let answerIndex = index' [value]='answerIndex'>{{answer.text}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </div>
   <div *ngIf='canModifyIngredients'>
     <ion-list>
       <ion-item>

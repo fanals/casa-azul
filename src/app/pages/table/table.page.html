@@ -63,7 +63,7 @@
       <ion-list class='articles' lines='full'>
         <div>
           <ion-item *ngFor='let article of bill.articles' class='article'>
-            <div class='quantity'>{{ article.q }}</div>
+            <div class='quantity'>{{ article.q }} </div>
             <div class='name'>
               {{menu.articles[article.ami].name}}
               <div>{{article.infos}}</div>
@@ -102,26 +102,33 @@
           </ion-item-divider>
           <ion-button (click)='sendToKitchen()' expand='full' color='success'>Enviar</ion-button>
           <ion-item *ngFor='let article of table.bills[this.selectedBillIndex].newBatch.articles; let i = index' class='article click-effect' (click)='modifyArticle(table.bills[this.selectedBillIndex].newBatch, i)'>
-            <div class='name'>
-              {{menu.articles[article.ami].name}}
-              <div>{{article.infos}}</div>
-              <div *ngFor='let ingredientIndex of article.pii;'>
-                + {{menu.ingredients[ingredientIndex].name}}
-              </div>
-              <div *ngFor='let ingredientIndex of article.mii;'>
-                - {{menu.ingredients[ingredientIndex].name}}
-              </div>
-              <div *ngIf='article.half && article.half.ami != null'>
-                Mitad {{menu.articles[article.half.ami].name}}
-                <div *ngFor='let ingredientIndex of article.half.pii;'>
-                  + {{menu.ingredients[ingredientIndex].name}}
+            <div class='inner-article'>
+              <div class='left-side'>
+                <div class='name'>{{menu.articles[article.ami].name}}</div>
+                <div class='article-infos'>
+                  <div>{{article.infos}}</div>
+                  <div>
+                    <div *ngFor='let answerIndex of article.questionsAnswers;let i = index'>{{menu.articles[article.ami].questions[i].answers[answerIndex].text}}</div>
+                  </div>
+                  <div *ngFor='let ingredientIndex of article.pii;'>
+                    + {{menu.ingredients[ingredientIndex].name}}
+                  </div>
+                  <div *ngFor='let ingredientIndex of article.mii;'>
+                    - {{menu.ingredients[ingredientIndex].name}}
+                  </div>
+                  <div *ngIf='article.half && article.half.ami != null'>
+                    Mitad {{menu.articles[article.half.ami].name}}
+                    <div *ngFor='let ingredientIndex of article.half.pii;'>
+                      + {{menu.ingredients[ingredientIndex].name}}
+                    </div>
+                    <div *ngFor='let ingredientIndex of article.half.mii;'>
+                      - {{menu.ingredients[ingredientIndex].name}}
+                    </div>
+                  </div>
                 </div>
-                <div *ngFor='let ingredientIndex of article.half.mii;'>
-                  - {{menu.ingredients[ingredientIndex].name}}
-                </div>
               </div>
+              <div class='price'>{{billService.getArticlePrice(article)}}</div>
             </div>
-            <div class='price'>{{billService.getArticlePrice(article)}}</div>
           </ion-item>
         </div>
         <div *ngFor='let batch of table.bills[selectedBillIndex].batches;'>
@@ -131,26 +138,33 @@
             </ion-label>
           </ion-item-divider>
           <ion-item *ngFor='let article of batch.articles; let i = index' class='article click-effect' (click)='modifyArticle(batch, i)'>
-            <div class='name'>
-              {{menu.articles[article.ami].name}}
-              <div>{{article.infos}}</div>
-              <div *ngFor='let ingredientIndex of article.pii;'>
-                + {{menu.ingredients[ingredientIndex].name}}
-              </div>
-              <div *ngFor='let ingredientIndex of article.mii;'>
-                - {{menu.ingredients[ingredientIndex].name}}
-              </div>
-              <div *ngIf='article.half && article.half.ami != null'>
-                Mitad {{menu.articles[article.half.ami].name}}
-                <div *ngFor='let ingredientIndex of article.half.pii;'>
-                  + {{menu.ingredients[ingredientIndex].name}}
+            <div class='inner-article'>
+              <div class='left-side'>
+                <div class='name'>{{menu.articles[article.ami].name}}</div>
+                <div class='article-infos'>
+                  <div>{{article.infos}}</div>
+                  <div>
+                    <div *ngFor='let answerIndex of article.questionsAnswers;let i = index'>{{menu.articles[article.ami].questions[i].answers[answerIndex].text}}</div>
+                  </div>
+                  <div *ngFor='let ingredientIndex of article.pii;'>
+                    + {{menu.ingredients[ingredientIndex].name}}
+                  </div>
+                  <div *ngFor='let ingredientIndex of article.mii;'>
+                    - {{menu.ingredients[ingredientIndex].name}}
+                  </div>
+                  <div *ngIf='article.half && article.half.ami != null'>
+                    Mitad {{menu.articles[article.half.ami].name}}
+                    <div *ngFor='let ingredientIndex of article.half.pii;'>
+                      + {{menu.ingredients[ingredientIndex].name}}
+                    </div>
+                    <div *ngFor='let ingredientIndex of article.half.mii;'>
+                      - {{menu.ingredients[ingredientIndex].name}}
+                    </div>
+                  </div>
                 </div>
-                <div *ngFor='let ingredientIndex of article.half.mii;'>
-                  - {{menu.ingredients[ingredientIndex].name}}
-                </div>
               </div>
+              <div class='price'>{{billService.getArticlePrice(article)}}</div>
             </div>
-            <div class='price'>{{billService.getArticlePrice(article)}}</div>
           </ion-item>
         </div>
       </ion-list>

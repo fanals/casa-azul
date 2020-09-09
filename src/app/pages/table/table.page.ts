@@ -12,6 +12,8 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ServerService } from 'src/app/services/server.service';
 import { PrinterService } from 'src/app/services/printer.service';
+import { ActionsheetService } from 'src/app/services/action-sheet.service';
+import { rejects } from 'assert';
 
 @Component({
   selector: 'app-table',
@@ -39,6 +41,7 @@ export class TablePage implements OnInit {
               public billService: BillService,
               public alertService: AlertService,
               public server: ServerService,
+              public actionSheet: ActionsheetService,
               public modalController: ModalController) {
 
   }
@@ -180,10 +183,44 @@ export class TablePage implements OnInit {
     });
   }
 
+  private _askQuestion(question, answers) {
+    return new Promise(resolve => {
+      this.actionSheet.choose(question, answers, true).then(value => {
+          resolve(value);
+      });
+    });
+  }
+
+  private _getQuestionAnswers(articleIndex) {
+    return new Promise((resolve, reject) => {
+      let questions = this.menu.articles[articleIndex].questions;
+      let questionAnswers = [];
+      let questionsLoop = (i) => {
+        if (i < questions.length) {
+          this.actionSheet.choose(questions[i].text, questions[i].answers.map(o => o['text'], true)).then(answer => {
+            if (answer !== false) {
+              questionAnswers.push(answer);
+              questionsLoop(++i);
+            } else {
+              reject();
+            }
+          });
+        } else {
+          resolve(questionAnswers);
+        }
+      }
+      questionsLoop(0);
+    });
+  }
+
   public addArticleIndex(articleIndex) {
-    this.table.opened = true;
-    this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q: 1, ami:articleIndex});
-    this.tablesService.save();
+    this._getQuestionAnswers(articleIndex).then((questionsAnswers: []) => {
+      this.table.opened = true;
+      this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q: 1, ami:articleIndex, questionsAnswers: questionsAnswers});
+      this.tablesService.save();
+    }).catch(e => {
+      console.log('Canceled answering questions');
+    });
   }
 
   private _removeArticleIndex(batch, i) {

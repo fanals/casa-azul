@@ -27,13 +27,15 @@ export class ArticlePage implements OnInit {
       this.menu = menu;
       this.article = this.navParams.get('article');
       this.articleMenu = this.menu.articles[this.article.ami];
+      console.log(this.article);
+      console.log(this.articleMenu);
       this.canModifyIngredients = this.articleMenu.ingredientCategoryIndex != -1;
       if (this.canModifyIngredients) {
         this.ingredientIndexes = this.menu.ingredientsCategories[this.articleMenu.ingredientCategoryIndex].ingredientIndexes;
       }
       if (this.articleMenu.deviceCategory == ArticleCategoryEnum['pizza']) {
         if (!this.article.half) {
-          this.article.half = {q: 1, ami: null};
+          this.article.half = {q: 1, ami: null, questionsAnswers: []};
         }
         this.pizzas = this.menuService.getPizzas();
       }
