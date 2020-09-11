@@ -38,8 +38,8 @@ export class BillService {
   public getOrCreate(tableOrder, table, merge, i): BillType {
     let index = merge ? i : table.bills.findIndex((bill) => bill.uuid == tableOrder.uuid);
     // if (index == -1)
-    //   console.log("The bill has been deleted or the bill has already been given to client");
-    if ((merge && !table.bill[index]) || (!merge && (tableOrder.uuid == 'new' || index == -1))) {
+    //   console.log("The bill has been deleted or the bill has already been given to client");    
+    if ((merge && !table.bills[index]) || (!merge && (tableOrder.uuid == 'new' || index == -1))) {
       table.bills.push(this.emptyNewBill({generateUUID: true, withItbis: table.withItbis, withService: table.withService}));
       return table.bills[table.bills.length-1];
     } 

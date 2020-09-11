@@ -4,8 +4,16 @@
   padding: 2px 15px;
   .quantity {
     margin-right: 10px;
+    font-weight: bold;
   }
   background-color: white;
+  .name {
+    font-weight: bold;
+  }
+  .infos {
+    font-style: italic;
+    padding-left: 10px;
+  }
 }
 ion-item-divider {
   margin-top: 15px;

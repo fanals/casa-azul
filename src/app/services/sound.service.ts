@@ -16,7 +16,7 @@ export class SoundService {
     this.platform.ready().then(() => {
       this.userService.get().then(user => {
         let device = user.device.slug;
-        if (['pizza', 'bar', 'kitchen'].indexOf(device)) {
+        if (['pizza', 'bar', 'kitchen'].indexOf(device) != -1) {
           this.nativeAudio.preloadSimple(device, 'assets/sounds/'+device+'.mp3').then(() => {
             this.console.log(device+' sound loaded');
           }, (error) => {

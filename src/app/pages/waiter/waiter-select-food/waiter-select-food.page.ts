@@ -97,7 +97,13 @@ export class WaiterSelectFoodPage implements OnInit {
   }
 
   addArticleIndex(articleIndex) {
-    this.table.bills[this.currentBillIndex].newBatch.articles.unshift({q:1, ami:articleIndex, questionsAnswers: []});
+    this.menuService.getQuestionAnswers(articleIndex).then((questionsAnswers: []) => {
+      this.table.opened = true;
+      this.table.bills[this.currentBillIndex].newBatch.articles.unshift({q:1, ami:articleIndex, questionsAnswers: questionsAnswers});
+      this.tablesService.save();
+    }).catch(e => {
+      console.log('Canceled answering questions');
+    });
   }
 
   changingBill() {

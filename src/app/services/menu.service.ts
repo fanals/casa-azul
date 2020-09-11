@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { MenuType, IngredientMenuType, ArticleCategoryEnum } from '../types';
 import { CajipadService } from './cajipad.service';
+import { ActionsheetService } from './action-sheet.service';
 
 @Injectable({
   providedIn: 'root'
@@ -85,7 +86,9 @@ export class MenuService {
     {name: 'Tomate', price: 30},
   ];
 
-  constructor(private storage: Storage, private cajipad: CajipadService) {}
+  constructor(private storage: Storage,
+              public actionSheet: ActionsheetService,
+              private cajipad: CajipadService) {}
 
   update() {
     console.log('Update menu');
@@ -164,6 +167,28 @@ export class MenuService {
 
   getPizzas(): number[] {
     return this._menu.articleCategories[this._menu.articleCategories.findIndex(c => c.name == 'pizza')].articleIndexes;
+  }
+
+  public getQuestionAnswers(articleIndex) {
+    return new Promise((resolve, reject) => {
+      let questions = this._menu.articles[articleIndex].questions;
+      let questionAnswers = [];
+      let questionsLoop = (i) => {
+        if (i < questions.length) {
+          this.actionSheet.choose(questions[i].text, questions[i].answers.map(o => o['text'], true)).then(answer => {
+            if (answer !== false) {
+              questionAnswers.push(answer);
+              questionsLoop(++i);
+            } else {
+              reject();
+            }
+          });
+        } else {
+          resolve(questionAnswers);
+        }
+      }
+      questionsLoop(0);
+    });
   }
 
 }

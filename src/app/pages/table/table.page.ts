@@ -40,8 +40,7 @@ export class TablePage implements OnInit {
               public navCtrl: NavController,
               public billService: BillService,
               public alertService: AlertService,
-              public server: ServerService,
-              public actionSheet: ActionsheetService,
+              public server: ServerService,              
               public modalController: ModalController) {
 
   }
@@ -183,38 +182,8 @@ export class TablePage implements OnInit {
     });
   }
 
-  private _askQuestion(question, answers) {
-    return new Promise(resolve => {
-      this.actionSheet.choose(question, answers, true).then(value => {
-          resolve(value);
-      });
-    });
-  }
-
-  private _getQuestionAnswers(articleIndex) {
-    return new Promise((resolve, reject) => {
-      let questions = this.menu.articles[articleIndex].questions;
-      let questionAnswers = [];
-      let questionsLoop = (i) => {
-        if (i < questions.length) {
-          this.actionSheet.choose(questions[i].text, questions[i].answers.map(o => o['text'], true)).then(answer => {
-            if (answer !== false) {
-              questionAnswers.push(answer);
-              questionsLoop(++i);
-            } else {
-              reject();
-            }
-          });
-        } else {
-          resolve(questionAnswers);
-        }
-      }
-      questionsLoop(0);
-    });
-  }
-
   public addArticleIndex(articleIndex) {
-    this._getQuestionAnswers(articleIndex).then((questionsAnswers: []) => {
+    this.menuService.getQuestionAnswers(articleIndex).then((questionsAnswers: []) => {
       this.table.opened = true;
       this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q: 1, ami:articleIndex, questionsAnswers: questionsAnswers});
       this.tablesService.save();
