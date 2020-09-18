@@ -64,6 +64,8 @@ export class BillService {
   }
 
   public getArticlePrice(article:ArticleType) {
+    console.log(article.ami);
+    console.log(this._menu.articles[article.ami]);
     let articlePrice = this._menu.articles[article.ami].price;
     let ingredientsPrice = 0;
     if (article.pii) {

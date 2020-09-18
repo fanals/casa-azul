@@ -99,8 +99,9 @@ export class TablePage implements OnInit {
   }
 
   printBill() {
-    this.alertService.confirm().then(() => {
-      //this.printer.print();
+    //this.alertService.confirm().then(() => {
+      this.condensedBills = this.billService.condensed(this.table.bills);
+      this.printer.printBill(this.table, this.table.bills[this.selectedBillIndex], this.condensedBills[this.selectedBillIndex]).then(() => {});
       this.table.billAsked = false;
       this.table.billSent = true;
       this.table.bills[this.selectedBillIndex].sent = true;
@@ -110,17 +111,18 @@ export class TablePage implements OnInit {
       } else {
         this.backButton();
       }
-    });
+      //});
+    //});
   }
 
   addBill() {
-    this.alertService.prompt('Nombre').then((name:string) => {
+    //this.alertService.prompt('Nombre').then((name:string) => {
       let bill = this.billService.emptyNewBill({generateUUID: true, withItbis: this.table.withItbis, withService: this.table.withService});
-      bill.name = name;
+      bill.name = 'Cuenta';
       this.table.bills.push(bill);
       this.tablesService.save();
       this.selectedBillIndex = this.table.bills.length - 1;
-    }).catch(() => {});
+    //}).catch(() => {});
   }
 
   // changingBill() {

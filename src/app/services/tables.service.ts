@@ -47,11 +47,12 @@ export class TablesService {
       { name: 'Extra 17', slug:'playa17', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
       { name: 'Extra 18', slug:'playa18', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
       { name: 'Extra 19', slug:'playa19', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 20', slug:'playa20', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Bar', slug:'bar1', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Extra 20', slug:'playa20', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},      
+      { name: 'Bar', slug:'bar', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
       { name: 'Komida', slug:'komida', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
       { name: 'Fito', slug:'fito', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
-      { name: 'Para llevar', slug:'llevar', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []}
+      { name: 'Viene a buscar', slug:'buscar', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Bar llevar', slug:'barllevar', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []}
     ];
   }
 

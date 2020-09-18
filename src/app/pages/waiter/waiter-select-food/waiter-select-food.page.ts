@@ -108,14 +108,14 @@ export class WaiterSelectFoodPage implements OnInit {
 
   changingBill() {
     if (this.selectedBillIndex == -1) {
-      this.alertService.prompt('Nombre').then((name:string) => {
+      //this.alertService.prompt('Nombre').then((name:string) => {
         this.table.bills.push(this.billService.emptyNewBill({generateUUID: false, withItbis: this.table.withItbis, withService: this.table.withService}));
         this.selectedBillIndex = this.table.bills.length - 1;
         this.currentBillIndex = this.selectedBillIndex;
-        this.table.bills[this.currentBillIndex].name = name;
-      }).catch(() => {
-        this.selectedBillIndex = this.currentBillIndex;
-      });
+        this.table.bills[this.currentBillIndex].name = 'Cuenta';
+      // }).catch(() => {
+      //   this.selectedBillIndex = this.currentBillIndex;
+      // });
     } else {
       this.currentBillIndex = this.selectedBillIndex;
     }

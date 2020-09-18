@@ -63,6 +63,12 @@ export class TotaltodayPage implements OnInit {
     });
   }
 
+  print() {
+    this.printer.printTotalOfTheDay(this.todayDate, this.data.total, this.data.service).then(() => {
+      console.log('Printed total of the day');
+    });
+  }
+
   _getComptaBills() {
     let bills: ComptaBillType[] = this._tables.flatMap(table => {
       return table.history.map(bill => {

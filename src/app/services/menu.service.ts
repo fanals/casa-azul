@@ -52,6 +52,7 @@ export class MenuService {
     {name: 'Salchicha picante', price: 70},
     {name: 'Tocineta', price: 70},
     {name: 'Tomate fresco', price: 30},
+    {name: 'Vegetales', price: 30},
     {name: 'Zucchini', price: 30},
     // Ensalada
     {name: 'Aceitunas', price: 30},
@@ -95,6 +96,7 @@ export class MenuService {
     return new Promise(resolve => {
       this.cajipad.getMenu().then(menu => {
         this._menu = this._formatMenu(menu);
+        console.log(this._menu);
         this.storage.set('menu', this._menu);
         resolve();
       });
@@ -108,8 +110,8 @@ export class MenuService {
       articleCategories: [],
       ingredients: this._ingredients,
       ingredientsCategories: [
-        {name: 'pizza', ingredientIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]},
-        {name: 'ensalada', ingredientIndexes: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70]},
+        {name: 'pizza', ingredientIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]},
+        {name: 'ensalada', ingredientIndexes: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71]},
       ],
       pizzainfos: ['Blanca', 'Roja', 'Bien cocida', 'Poca cocida']
     };

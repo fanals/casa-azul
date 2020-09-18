@@ -20,7 +20,10 @@
         <div *ngFor='let article of order.articles; let i = index' class='article'>
           <div class='quantity'>{{ article.q }}</div>
           <div>
-            <div class='name'>{{menu.articles[article.ami].name}}</div>
+            <div class='name'>
+              {{menu.articles[article.ami].name}}
+              <span *ngIf='article.half && article.half.ami != null'> / {{menu.articles[article.half.ami].name}}</span>
+            </div>
             <div class='infos'>
               <div>{{article.infos}}</div>
               <div>
