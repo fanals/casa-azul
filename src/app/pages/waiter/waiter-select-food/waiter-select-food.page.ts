@@ -131,7 +131,7 @@ export class WaiterSelectFoodPage implements OnInit {
           merge: this.notConnectedToServer,
           waiterName: this.user.name,
           bills: this.table.bills.map(bill => {
-            return {uuid: bill.uuid, name: bill.name, articles: bill.newBatch.articles};
+            return {uuid: bill.uuid, name: bill.name, delivery: bill.delivery, articles: bill.newBatch.articles};
           })
         }
       }).then((table: TableType) => {

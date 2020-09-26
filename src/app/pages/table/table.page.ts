@@ -103,13 +103,17 @@ export class TablePage implements OnInit {
       this.condensedBills = this.billService.condensed(this.table.bills);
       this.printer.printBill(this.table, this.table.bills[this.selectedBillIndex], this.condensedBills[this.selectedBillIndex]).then(() => {});
       this.table.billAsked = false;
-      this.table.billSent = true;
-      this.table.bills[this.selectedBillIndex].sent = true;
-      this.tablesService.save();
-      if (this.table.bills.length > 1) {
-        this.selectBill();
+      if (this.table.closeAfterPrint) {
+        this.closeBill(this.selectedBillIndex);
       } else {
-        this.backButton();
+        this.table.billSent = true;
+        this.table.bills[this.selectedBillIndex].sent = true;  
+        this.tablesService.save();
+        if (this.table.bills.length > 1) {
+          this.selectBill();
+        } else {
+          this.backButton();
+        }
       }
       //});
     //});

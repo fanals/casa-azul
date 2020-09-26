@@ -10,6 +10,18 @@ ion-select {
   }
 }
 
+.delivery {
+  --padding-start: 10px;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  ion-select {
+    background-color: transparent;
+    --padding-start: 0;
+    --padding-end: 5px;
+  }
+}
+
 #table-header {
   .action-buttons {
     ion-button {
@@ -29,7 +41,7 @@ ion-select {
   display: flex;
   height: 100%;
   .bill {
-    width: 135px;
+    width: 140px;
     height: 100%;
     display: flex;
     flex-direction: column;

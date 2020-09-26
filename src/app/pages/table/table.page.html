@@ -168,6 +168,32 @@
           </ion-item>
         </div>
       </ion-list>
+      <ion-list *ngIf='table.withDelivery' lines='full'>
+        <ion-item>
+          <ion-label>Delivery</ion-label>
+          <ion-select [(ngModel)]='table.bills[this.selectedBillIndex].delivery'>
+            <ion-select-option [value]="0">0</ion-select-option>
+            <ion-select-option [value]="50">50</ion-select-option>
+            <ion-select-option [value]="50">60</ion-select-option>
+            <ion-select-option [value]="70">70</ion-select-option>
+            <ion-select-option [value]="80">80</ion-select-option>
+            <ion-select-option [value]="90">90</ion-select-option>
+            <ion-select-option [value]="100">100</ion-select-option>
+            <ion-select-option [value]="110">110</ion-select-option>
+            <ion-select-option [value]="120">120</ion-select-option>
+            <ion-select-option [value]="130">130</ion-select-option>
+            <ion-select-option [value]="140">140</ion-select-option>
+            <ion-select-option [value]="150">150</ion-select-option>
+            <ion-select-option [value]="160">160</ion-select-option>
+            <ion-select-option [value]="170">170</ion-select-option>
+            <ion-select-option [value]="180">180</ion-select-option>
+            <ion-select-option [value]="190">190</ion-select-option>
+            <ion-select-option [value]="200">200</ion-select-option>
+            <ion-select-option [value]="250">250</ion-select-option>
+            <ion-select-option [value]="300">300</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
       <ion-list class='taxes' lines='full'>
         <ion-item class='service'>
           <ion-checkbox slot="start" [(ngModel)]='table.bills[this.selectedBillIndex].service'></ion-checkbox>
@@ -181,7 +207,7 @@
       <ion-list lines='full'>
         <ion-item (click)='printBill()'color='primary' class='total'>
           <ion-button (click)='deleteBill();$event.stopPropagation();' style='margin-right:10px;'><ion-icon name="trash"></ion-icon></ion-button>
-          <ion-label>TOTAL <span class='nb'>{{billService.getTotal(table.bills[this.selectedBillIndex]) | number}}</span></ion-label>
+          <ion-label>TOTAL <span class='nb'>{{billService.getTotal(table.bills[this.selectedBillIndex]) + table.bills[this.selectedBillIndex].delivery | number}}</span></ion-label>
         </ion-item>
       </ion-list>
     </div>

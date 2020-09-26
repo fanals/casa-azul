@@ -125,16 +125,19 @@ export class PrinterService {
             }
           }
         });
-        if (bill.itbis || bill.service) {
+        if (bill.itbis || bill.service || bill.delivery) {
           this._addLine(lines, '--------------------------------', false, false, 'Center');
           this._addLine(lines, 'Subtotal', this.billService.getSubtotal(bill));
+          if (bill.itbis)
+            this._addLine(lines, 'ITBIS', this.billService.getItbis(bill));
+          if (bill.service)
+            this._addLine(lines, 'Servicio 10%', this.billService.getService(bill));
+          if (bill.delivery)
+            this._addLine(lines, 'Delivery', bill.delivery);
         }
-        if (bill.itbis)
-          this._addLine(lines, 'ITBIS', this.billService.getItbis(bill));
-        if (bill.service)
-          this._addLine(lines, 'Servicio 10%', this.billService.getService(bill));
         this._addLine(lines, '--------------------------------', false, false, 'Center');
-        this._addLine(lines, 'TOTAL '+this.billService.getTotal(bill), false, true, 'Center', true);
+        let total = this.billService.getTotal(bill)+bill.delivery;
+        this._addLine(lines, 'TOTAL '+total, false, true, 'Center', true);
         this._addLine(lines, '--------------------------------', false, false, 'Center');
         this._addLine(lines, table.name, false, false, 'Left', true);
         this._addLine(lines, '*** FIN DOCUMENTO NO VENTA ***', false, false, 'Center');

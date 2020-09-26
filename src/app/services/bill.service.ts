@@ -57,6 +57,7 @@ export class BillService {
       uuid: opts.generateUUID ? uuidv4() : 'new',
       service: opts.withService,
       itbis: opts.withItbis,
+      delivery: 0,
       newBatch: this.emptyNewBatch(),
       name: 'Cuenta',
       batches: []

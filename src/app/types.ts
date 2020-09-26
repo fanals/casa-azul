@@ -79,6 +79,7 @@ export interface BillType {
   name: string,
   service: boolean,
   itbis: boolean,
+  delivery: number,
   newBatch: BatchType,
   batches: BatchType[]
 }
@@ -112,6 +113,7 @@ export interface OrderType {
 export interface TableOrderBillType {
   uuid: string;
   name: string;
+  delivery: number,
   articles: ArticleType[];
 }
 
@@ -125,6 +127,8 @@ export interface TableOrderType {
 export interface TableType {
   name: string;
   slug: string;
+  withDelivery: boolean,
+  closeAfterPrint: boolean,
   opened: boolean;
   canChangePlace: boolean;
   withService: boolean;

@@ -18,41 +18,41 @@ export class TablesService {
 
   private _initTables() {
     this._tables = [
-      { name: 'Playa 0', slug:'playa0', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 1', slug:'playa1', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 2', slug:'playa2', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 3', slug:'playa3', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 4', slug:'playa4', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 5', slug:'playa5', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 6', slug:'playa6', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 7', slug:'playa7', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 8', slug:'playa8', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 9', slug:'playa9', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 10', slug:'playa10', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 11', slug:'playa11', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 12', slug:'playa12', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Playa 14', slug:'playa14', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 0', slug:'terraza0', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 1', slug:'terraza1', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 2', slug:'terraza2', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 3', slug:'terraza3', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 4', slug:'terraza4', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 5', slug:'terraza5', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 6', slug:'terraza6', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 7', slug:'terraza7', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 8', slug:'terraza8', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Terraza 9', slug:'terraza9', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 15', slug:'playa15', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 16', slug:'playa16', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 17', slug:'playa17', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 18', slug:'playa18', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 19', slug:'playa19', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
-      { name: 'Extra 20', slug:'playa20', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},      
-      { name: 'Bar', slug:'bar', opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
-      { name: 'Komida', slug:'komida', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
-      { name: 'Fito', slug:'fito', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
-      { name: 'Viene a buscar', slug:'buscar', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
-      { name: 'Bar llevar', slug:'barllevar', opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []}
+      { name: 'Playa 0', slug:'playa0', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 1', slug:'playa1', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 2', slug:'playa2', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 3', slug:'playa3', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 4', slug:'playa4', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 5', slug:'playa5', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 6', slug:'playa6', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 7', slug:'playa7', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 8', slug:'playa8', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 9', slug:'playa9', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 10', slug:'playa10', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 11', slug:'playa11', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 12', slug:'playa12', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Playa 14', slug:'playa14', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 0', slug:'terraza0', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 1', slug:'terraza1', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 2', slug:'terraza2', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 3', slug:'terraza3', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 4', slug:'terraza4', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 5', slug:'terraza5', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 6', slug:'terraza6', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 7', slug:'terraza7', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 8', slug:'terraza8', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Terraza 9', slug:'terraza9', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 15', slug:'playa15', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 16', slug:'playa16', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 17', slug:'playa17', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 18', slug:'playa18', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 19', slug:'playa19', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},
+      { name: 'Extra 20', slug:'playa20', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:true, bills: [], history: []},      
+      { name: 'Bar', slug:'bar', withDelivery: false, closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Komida', slug:'komida', withDelivery: true, closeAfterPrint: true, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Fito', slug:'fito', withDelivery: true, closeAfterPrint: true, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Viene a buscar', withDelivery: false, slug:'buscar', closeAfterPrint: false, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []},
+      { name: 'Bar llevar', withDelivery: false, slug:'barllevar', closeAfterPrint: false, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, canChangePlace:false, bills: [], history: []}
     ];
   }
 
@@ -121,6 +121,7 @@ export class TablesService {
         for (let i = 0, max = tableOrder.bills.length;i<max;++i) {
           let tableOrderBill = tableOrder.bills[i];
           let bill = this.billService.getOrCreate(tableOrderBill.uuid, table, tableOrder, i);
+          bill.delivery = tableOrderBill.delivery;
           if (!tableOrder.merge)
             bill.name = tableOrderBill.name;
           bill.batches.unshift({
