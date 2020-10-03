@@ -40,7 +40,7 @@ export class TablePage implements OnInit {
               public navCtrl: NavController,
               public billService: BillService,
               public alertService: AlertService,
-              public server: ServerService,              
+              public server: ServerService,
               public modalController: ModalController) {
 
   }
@@ -64,10 +64,15 @@ export class TablePage implements OnInit {
     });
   }
 
+  public updateTotalPrice() {
+    this.billService.updateTotalPrice(this.table.bills[this.selectedBillIndex]);
+    this.tablesService.save();
+  }
+
   public closeBill(billIndex) {
     let bill = this.table.bills[billIndex];
     bill.sent = false;
-    if (this.billService.getTotal(bill))
+    if (bill.total)
       this.table.history.unshift(bill);
     this.table.bills.splice(billIndex, 1);
     if (this.table.bills.length) {
@@ -78,7 +83,7 @@ export class TablePage implements OnInit {
       this.table.opened = false;
       this.backButton();
     }
-    this.tablesService.save();
+    this.updateTotalPrice(); 
   }
 
   backButton() {
@@ -94,7 +99,7 @@ export class TablePage implements OnInit {
       } else {
         this.table.bills.splice(this.selectedBillIndex, 1);
       }
-      this.tablesService.save();
+      this.updateTotalPrice();
     });
   }
 
@@ -108,7 +113,7 @@ export class TablePage implements OnInit {
       } else {
         this.table.billSent = true;
         this.table.bills[this.selectedBillIndex].sent = true;  
-        this.tablesService.save();
+        this.updateTotalPrice();
         if (this.table.bills.length > 1) {
           this.selectBill();
         } else {
@@ -124,7 +129,7 @@ export class TablePage implements OnInit {
       let bill = this.billService.emptyNewBill({generateUUID: true, withItbis: this.table.withItbis, withService: this.table.withService});
       bill.name = 'Cuenta';
       this.table.bills.push(bill);
-      this.tablesService.save();
+      this.updateTotalPrice();
       this.selectedBillIndex = this.table.bills.length - 1;
     //}).catch(() => {});
   }
@@ -161,7 +166,7 @@ export class TablePage implements OnInit {
       } else {
         batch.articles[i] = res.data.article;
       }
-      this.tablesService.save();
+      this.updateTotalPrice();
     });
     return await modal.present();
   }
@@ -182,7 +187,7 @@ export class TablePage implements OnInit {
           this.table.bills = [];
           this.table = table;
           this.tableId = tableId;
-          this.tablesService.save();
+          this.updateTotalPrice();
         });
       }
     });
@@ -192,7 +197,7 @@ export class TablePage implements OnInit {
     this.menuService.getQuestionAnswers(articleIndex).then((questionsAnswers: []) => {
       this.table.opened = true;
       this.table.bills[this.selectedBillIndex].newBatch.articles.unshift({q: 1, ami:articleIndex, questionsAnswers: questionsAnswers});
-      this.tablesService.save();
+      this.updateTotalPrice();
     }).catch(e => {
       console.log('Canceled answering questions');
     });
@@ -210,22 +215,24 @@ export class TablePage implements OnInit {
       this.table.bills[billIndex].name = name;
       this.condensedBills[billIndex].name = name;
     });
-    this.tablesService.save();
+    this.updateTotalPrice();
   }
 
   public sendToKitchen() {
     let articles = this.table.bills.filter(bill => !!bill.newBatch.articles.length).flatMap(bill => bill.newBatch.articles);
-    this.server.sendToKitchen(this.user.name, this.table.name, articles);
+    this.alertService.confirm('Enviar a la cocina ?').then(() => {
+      this.server.sendToKitchen(this.user.name, this.table.name, articles);  
+    });
     let bill = this.table.bills[this.selectedBillIndex];
     let batch = this.table.bills[this.selectedBillIndex].newBatch;
     bill.batches.unshift(batch);
     this.table.bills[this.selectedBillIndex].newBatch = this.billService.emptyNewBatch();
-    this.tablesService.save();
+    this.updateTotalPrice();
   }
 
   public selectBill(i = -1) {
     if (this.showingHistory) {
-      if (this.table.bills.length == 1 && !this.billService.getTotal(this.table.bills[0]))
+      if (this.table.bills.length == 1 && !this.table.bills[0].total)
         this.table.bills = [];
       this.table.bills.push(this.table.history[i]);
       this.table.history.splice(i, 1);
@@ -242,7 +249,7 @@ export class TablePage implements OnInit {
         this.condensedBills = this.billService.condensed(this.table.bills);
       }
     }
-    this.tablesService.save();
+    this.updateTotalPrice();
   }
 
   public toggleHistory() {

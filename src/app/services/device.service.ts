@@ -27,6 +27,10 @@ export class DeviceService {
     });
   }
 
+  getDevices() {
+    return this._devices;
+  }
+
   getDeviceBySlug(slug) {
     for (let i = 0, max = this._devices.length; i < max; ++i) {
       if (this._devices[i].slug == slug) {

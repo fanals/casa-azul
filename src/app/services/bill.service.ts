@@ -55,18 +55,27 @@ export class BillService {
     return {
       sent: false,
       uuid: opts.generateUUID ? uuidv4() : 'new',
-      service: opts.withService,
-      itbis: opts.withItbis,
+      subtotal: 0,
+      itbis: 0,
+      service: 0,
       delivery: 0,
+      total: 0,
+      hasService: opts.withService,
+      hasItbis: opts.withItbis,
       newBatch: this.emptyNewBatch(),
       name: 'Cuenta',
       batches: []
     }
   }
 
+  public updateTotalPrice(bill) {
+    bill.subtotal = this.getSubtotal(bill);
+    bill.itbis = this.getItbis(bill, bill.subtotal);
+    bill.service = this.getService(bill, bill.subtotal);
+    bill.total = bill.subtotal + bill.itbis + bill.service;    
+  }
+
   public getArticlePrice(article:ArticleType) {
-    console.log(article.ami);
-    console.log(this._menu.articles[article.ami]);
     let articlePrice = this._menu.articles[article.ami].price;
     let ingredientsPrice = 0;
     if (article.pii) {
@@ -99,7 +108,7 @@ export class BillService {
   }
 
   getService(bill:BillType, subtotal = -1) {
-    if (!bill.service)
+    if (!bill.hasService)
       return 0;
     if (subtotal == -1)
       subtotal = this.getSubtotal(bill);
@@ -107,30 +116,25 @@ export class BillService {
   }
 
   getItbis(bill:BillType, subtotal = -1) {
-    if (!bill.itbis)
+    if (!bill.hasItbis)
       return 0;
     if (subtotal == -1)
       subtotal = this.getSubtotal(bill);
     return Math.round(subtotal * 18 / 100);
   }
 
-  getSubtotal(bill:BillType) {
+  getSubtotal(bill:BillType) {    
     let subtotal = 0;
     for (let i = 0, max = bill.newBatch.articles.length;i<max;++i) {
-      subtotal += this.getArticlePrice(bill.newBatch.articles[i]);
+      subtotal += this.getArticlePrice(bill.newBatch.articles[i]) * bill.newBatch.articles[i].q;
     }
     for (let i = 0, max = bill.batches.length;i<max;++i) {
       let batch = bill.batches[i];
       for (let j = 0, maxj = batch.articles.length;j<maxj;++j) {
-        subtotal += this.getArticlePrice(batch.articles[j]);
+        subtotal += this.getArticlePrice(batch.articles[j]) * batch.articles[j].q;
       }
     }
     return subtotal;
-  }
-
-  getTotal(bill):number {
-    let subtotal = this.getSubtotal(bill);
-    return subtotal + this.getItbis(bill, subtotal) + this.getService(bill, subtotal);
   }
 
   condensed(bills:BillType[]): CondensedBillType[] {

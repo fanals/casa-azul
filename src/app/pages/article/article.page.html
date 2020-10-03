@@ -66,6 +66,12 @@
       </ion-select>
     </ion-item>
   </div>
+  <ion-item>
+    <ion-label>Cantitad</ion-label>
+    <ion-select cancelText="Cancelar" okText="Ok" interface="alert" [(ngModel)]='article.q'>
+      <ion-select-option *ngFor='let item of [].constructor(20);let i = index;' [value]='i+1'>{{i+1}}</ion-select-option>
+    </ion-select>
+  </ion-item>
   <ion-button color='primary' expand='full' (click)='ok()'>OK</ion-button>
 </ion-content>
 <ion-footer>

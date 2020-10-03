@@ -45,7 +45,7 @@ export class WaiterSelectFoodPage implements OnInit {
         this.menu = menu;
         return this.userService.get();
       }).then(user => {
-        this.user = user;
+        this.user = user; 
         return this.server.send({
           service: ServicesEnum['service-get-table'],
           device: DevicesEnum['main'],
@@ -100,10 +100,15 @@ export class WaiterSelectFoodPage implements OnInit {
     this.menuService.getQuestionAnswers(articleIndex).then((questionsAnswers: []) => {
       this.table.opened = true;
       this.table.bills[this.currentBillIndex].newBatch.articles.unshift({q:1, ami:articleIndex, questionsAnswers: questionsAnswers});
-      this.tablesService.save();
+      this.updateTotalPrice();
     }).catch(e => {
       console.log('Canceled answering questions');
     });
+  }
+
+  updateTotalPrice() {
+    this.billService.updateTotalPrice(this.table.bills[this.currentBillIndex]);
+    this.tablesService.save();
   }
 
   changingBill() {
@@ -172,7 +177,7 @@ export class WaiterSelectFoodPage implements OnInit {
       } else {
         batch.articles[i] = res.data.article;
       }
-      this.tablesService.save();
+      this.updateTotalPrice();      
     });
     return await modal.present();
   }

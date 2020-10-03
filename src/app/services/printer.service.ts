@@ -125,18 +125,18 @@ export class PrinterService {
             }
           }
         });
-        if (bill.itbis || bill.service || bill.delivery) {
+        if (bill.hasItbis || bill.hasService || bill.delivery) {
           this._addLine(lines, '--------------------------------', false, false, 'Center');
-          this._addLine(lines, 'Subtotal', this.billService.getSubtotal(bill));
-          if (bill.itbis)
-            this._addLine(lines, 'ITBIS', this.billService.getItbis(bill));
-          if (bill.service)
-            this._addLine(lines, 'Servicio 10%', this.billService.getService(bill));
+          this._addLine(lines, 'Subtotal', bill.subtotal);
+          if (bill.hasItbis)
+            this._addLine(lines, 'ITBIS', bill.itbis);
+          if (bill.hasService)
+            this._addLine(lines, 'Servicio 10%', bill.service);
           if (bill.delivery)
             this._addLine(lines, 'Delivery', bill.delivery);
         }
         this._addLine(lines, '--------------------------------', false, false, 'Center');
-        let total = this.billService.getTotal(bill)+bill.delivery;
+        let total = bill.total+bill.delivery;
         this._addLine(lines, 'TOTAL '+total, false, true, 'Center', true);
         this._addLine(lines, '--------------------------------', false, false, 'Center');
         this._addLine(lines, table.name, false, false, 'Left', true);

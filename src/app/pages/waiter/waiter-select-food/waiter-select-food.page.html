@@ -29,7 +29,7 @@
           <ion-button (click)='sendToServer()' expand='full' color='success'>Enviar</ion-button>
           <ion-item *ngFor='let article of table.bills[this.currentBillIndex].newBatch.articles; let i = index' class='article click-effect' (click)='modifyArticle(table.bills[this.currentBillIndex].newBatch, i)'>
             <div class='inner-article'>
-              <div class='name'>{{menu.articles[article.ami].name}}</div>
+              <div class='name'>{{article.q}} {{menu.articles[article.ami].name}}</div>
               <div class='article-infos'>
                 <div>{{article.infos}}</div>
                 <div *ngFor='let answerIndex of article.questionsAnswers;let i = index'>{{menu.articles[article.ami].questions[i].answers[answerIndex].text}}</div>
@@ -112,17 +112,17 @@
       </ion-item>
       <ion-list lines='full'>
         <ion-item>
-          <ion-checkbox slot="start" [(ngModel)]='table.bills[currentBillIndex].service'></ion-checkbox>
-          <ion-label>SE: <span>{{billService.getService(table.bills[currentBillIndex]) | number}}</span></ion-label>
+          <ion-checkbox slot="start" [(ngModel)]='table.bills[currentBillIndex].hasService' (ionChange)='updateTotalPrice()'></ion-checkbox>
+          <ion-label>SE: <span>{{table.bills[currentBillIndex].service | number}}</span></ion-label>
         </ion-item>
         <ion-item>
-          <ion-checkbox slot="start" [(ngModel)]='table.bills[currentBillIndex].itbis'></ion-checkbox>
-          <ion-label>IT: <span>{{billService.getItbis(table.bills[currentBillIndex]) | number}}</span></ion-label>
+          <ion-checkbox slot="start" [(ngModel)]='table.bills[currentBillIndex].hasItbis' (ionChange)='updateTotalPrice()'></ion-checkbox>
+          <ion-label>IT: <span>{{table.bills[currentBillIndex].itbis | number}}</span></ion-label>
         </ion-item>
       </ion-list>
       <ion-list lines='full'>
         <ion-item (click)='askForBill()' color='primary' class='click-effect total'>
-          <ion-label><span class='nb'>{{billService.getTotal(table.bills[currentBillIndex]) + table.bills[this.selectedBillIndex].delivery | number}}</span></ion-label>
+          <ion-label><span class='nb'>{{table.bills[currentBillIndex].total + table.bills[this.selectedBillIndex].delivery | number}}</span></ion-label>
         </ion-item>
       </ion-list>
     </div>

@@ -77,9 +77,13 @@ export interface BillType {
   sent: boolean,
   uuid: string,
   name: string,
-  service: boolean,
-  itbis: boolean,
+  subtotal: number,
+  service: number,
+  itbis: number,
   delivery: number,
+  total: number,
+  hasService: boolean,
+  hasItbis: boolean,
   newBatch: BatchType,
   batches: BatchType[]
 }

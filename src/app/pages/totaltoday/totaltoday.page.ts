@@ -95,9 +95,9 @@ export class TotaltodayPage implements OnInit {
           }));
         }
         let b: ComptaBillType = {
-          subtotal: this.billService.getSubtotal(bill),
-          servicio: this.billService.getService(bill),
-          itbis: this.billService.getItbis(bill),
+          subtotal: bill.subtotal,
+          servicio: bill.service,
+          itbis: bill.itbis,
           tableSlug: table.slug,
           articles: articles,
         };
@@ -115,10 +115,10 @@ export class TotaltodayPage implements OnInit {
     };
     this._tables.forEach(table => {
       table.history.forEach(bill => {
-        this.data.total += this.billService.getSubtotal(bill) + this.billService.getItbis(bill);
-        this.data.service += this.billService.getService(bill);
+        this.data.total += bill.subtotal + bill.itbis;
+        this.data.service += bill.service;
       });
-      this.data.openedTables = table.bills.reduce((t, bill) => t+this.billService.getTotal(bill), this.data.openedTables);
+      this.data.openedTables = table.bills.reduce((t, bill) => t+bill.total, this.data.openedTables);
     });
   }
 
