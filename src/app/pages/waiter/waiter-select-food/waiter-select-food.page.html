@@ -1,5 +1,8 @@
-<ion-header *ngIf='table' id='table-header'>
-  <ion-toolbar> 
+<ion-header *ngIf='table' id='table-header'>  
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-buttons class='action-buttons'>
       <ion-button color="primary" fill='solid'>{{table.name}}</ion-button>
       <ion-button fill='clear' (click)='editBillName()'>
@@ -7,7 +10,7 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button color="primary" fill='solid' class='show-tables' (click)='backButton()'>Mesas</ion-button>
+      <ion-button color="primary" fill='solid' class='show-tables' (click)='selectTable()'>Mesas</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -129,7 +132,7 @@
     <div class='choosing-articles' *ngIf='menu'>
       <div class='categories'>
         <ng-container *ngFor='let category of menu.articleCategories;let i = index'>
-          <ion-button *ngIf='category.display' color='light' mode="ios" (click)='shortcut(i)'>{{category.name}}</ion-button>
+          <ion-button [hidden]='category.name == "cigarillos" || category.name == "especial"' *ngIf='category.display' color='light' mode="ios" (click)='shortcut(i)'>{{category.name}}</ion-button>
         </ng-container>
       </div>
       <div id='articles-list'>

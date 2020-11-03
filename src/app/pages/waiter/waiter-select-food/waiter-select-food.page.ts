@@ -8,6 +8,7 @@ import { MenuType, TableType, BillType, UserType, BatchType, ArticleType, Servic
 import { UserService } from 'src/app/services/user.service';
 import { BillService } from 'src/app/services/bill.service';
 import { ArticlePage } from '../../article/article.page';
+import { WaiterSelectTablePage } from '../../waiter/waiter-select-table/waiter-select-table.page';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ServerService } from 'src/app/services/server.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -39,13 +40,17 @@ export class WaiterSelectFoodPage implements OnInit {
               public billService: BillService) {}
 
   ngOnInit() {
+    this._openTable(33); // Open para llevar
+  }
+
+  private _openTable(tableId) {
+    this.tableId = tableId;
     this.loading.show().then(() => {
-      this.tableId = Number(this.route.snapshot.paramMap.get('id'));
       this.menuService.get().then(menu => {
         this.menu = menu;
         return this.userService.get();
       }).then(user => {
-        this.user = user; 
+        this.user = user;
         return this.server.send({
           service: ServicesEnum['service-get-table'],
           device: DevicesEnum['main'],
@@ -53,11 +58,13 @@ export class WaiterSelectFoodPage implements OnInit {
         });
       }).then((table: TableType) => {
         this._setTable(table);
+        this.loading.dismiss();
       }).catch((e) => {
         this.alertService.display(e);
         this.notConnectedToServer = true;
         this.tablesService.getTableById(this.tableId).then(table => {
           this._setTable(table);
+          this.loading.dismiss();
         });
       });
     });
@@ -71,7 +78,6 @@ export class WaiterSelectFoodPage implements OnInit {
     } else {
       this.table.bills.forEach(bill => bill.newBatch = this.billService.emptyNewBatch());  
     }
-    this.loading.dismiss();
   }
 
   public editBillName() {
@@ -80,15 +86,28 @@ export class WaiterSelectFoodPage implements OnInit {
     });
   }
 
-  backButton() {
+  public selectTable() {
     if (this.table.bills.findIndex(bill => !!bill.newBatch.articles.length) != -1) {
       let msg = 'No enviaste la orden, si cambias de mesa perdera la orden, seguir como quiera ?';
       this.alertService.confirm(msg).then(() => {
-        this.navCtrl.back({animated: false});
+        this._selectTable();
       });
     } else {
-      this.navCtrl.back({animated: false});
+      this._selectTable();
     }
+  }
+
+  private async _selectTable() {
+    const modal = await this.modalController.create({
+      component: WaiterSelectTablePage,
+      cssClass: 'fullscreen',
+      animated: false,
+      showBackdrop: false
+    });
+    modal.onDidDismiss().then((res:any) => {
+      this._openTable(res.data.tableId);
+    });
+    return await modal.present();
   }
 
   shortcut(i) {
@@ -141,6 +160,7 @@ export class WaiterSelectFoodPage implements OnInit {
         }
       }).then((table: TableType) => {
         this._setTable(table);
+        this.loading.dismiss();
       }).catch((e) => {
         this.loading.dismiss();
         this.alertService.display(e);

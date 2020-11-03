@@ -65,7 +65,8 @@ export class TablePage implements OnInit {
   }
 
   public updateTotalPrice() {
-    this.billService.updateTotalPrice(this.table.bills[this.selectedBillIndex]);
+    if (this.selectedBillIndex != -1)
+      this.billService.updateTotalPrice(this.table.bills[this.selectedBillIndex]);
     this.tablesService.save();
   }
 
@@ -77,6 +78,10 @@ export class TablePage implements OnInit {
     this.table.bills.splice(billIndex, 1);
     if (this.table.bills.length) {
       this.condensedBills.splice(billIndex, 1);
+      if (this.table.bills.findIndex(bill => bill.sent) == -1) {
+        this.table.billAsked = false;
+        this.table.billSent = false;
+      }
     } else {
       this.table.billAsked = false;
       this.table.billSent = false;
@@ -218,11 +223,28 @@ export class TablePage implements OnInit {
     this.updateTotalPrice();
   }
 
+  public validateArticles(sendToKitchen = false) {
+    let articles = this.table.bills.filter(bill => !!bill.newBatch.articles.length).flatMap(bill => bill.newBatch.articles);
+    if (sendToKitchen) {
+      this.server.sendToKitchen(this.user.name, this.table.name, articles);
+      this._addArticlesToBill(articles);
+    } else {
+      this.alertService.confirm('Validar sin enviar a la cocina ?', false).then(() => {
+        this._addArticlesToBill(articles);
+      });
+    }
+  }
+
+  private _addArticlesToBill(articles) {
+    let bill = this.table.bills[this.selectedBillIndex];
+    let batch = this.table.bills[this.selectedBillIndex].newBatch;
+    bill.batches.unshift(batch);
+    this.table.bills[this.selectedBillIndex].newBatch = this.billService.emptyNewBatch();
+    this.updateTotalPrice();
+  }
+
   public sendToKitchen() {
     let articles = this.table.bills.filter(bill => !!bill.newBatch.articles.length).flatMap(bill => bill.newBatch.articles);
-    this.alertService.confirm('Enviar a la cocina ?').then(() => {
-      this.server.sendToKitchen(this.user.name, this.table.name, articles);  
-    });
     let bill = this.table.bills[this.selectedBillIndex];
     let batch = this.table.bills[this.selectedBillIndex].newBatch;
     bill.batches.unshift(batch);

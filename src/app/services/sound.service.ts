@@ -15,7 +15,7 @@ export class SoundService {
               private console: ConsoleService) {
     this.platform.ready().then(() => {
       this.userService.get().then(user => {
-        let device = user.device.slug;
+        let device = user.device ? user.device.slug : 'NOT_SET';
         if (['pizza', 'bar', 'kitchen'].indexOf(device) != -1) {
           this.nativeAudio.preloadSimple(device, 'assets/sounds/'+device+'.mp3').then(() => {
             this.console.log(device+' sound loaded');
@@ -23,6 +23,11 @@ export class SoundService {
             this.console.log(device+' sound Error', error);
           });
         }
+        // this.nativeAudio.preloadSimple('cuenta', 'assets/sounds/cuenta.mp3').then(() => {
+        //   this.console.log(device+' sound loaded');
+        // }, (error) => {
+        //   this.console.log(device+' sound Error', error);
+        // });
       });
     });
   }

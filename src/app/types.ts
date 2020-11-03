@@ -92,7 +92,10 @@ export interface CondensedBillType {
   name: string,
   newBatch: BatchType,
   sent: boolean,
-  articles: ArticleType[]
+  articles: ArticleType[],
+  service: number,
+  itbis: number,
+  total: number,
 }
 
 export enum OrderStateEnum {
@@ -134,7 +137,6 @@ export interface TableType {
   withDelivery: boolean,
   closeAfterPrint: boolean,
   opened: boolean;
-  canChangePlace: boolean;
   withService: boolean;
   withItbis: boolean;
   billAsked: boolean;

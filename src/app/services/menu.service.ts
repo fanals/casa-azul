@@ -39,9 +39,12 @@ export class MenuService {
     {name: 'Mozzarella', price: 70},
     {name: 'Oregano', price: 0},
     {name: 'Papas', price: 30},
-    {name: 'Pechuga de pollo', price: 70},
+    {name: 'Pollo', price: 70},
+    {name: 'Peperon chino', price: 0},
+    {name: 'Perejil', price: 0},
     {name: 'Pesto', price: 30},
     {name: 'Piña', price: 30},
+    {name: 'Queso', price: 70},
     {name: 'Queso camembert', price: 70},
     {name: 'Queso de cabra', price: 70},
     {name: 'Ricotta', price: 70},
@@ -110,10 +113,10 @@ export class MenuService {
       articleCategories: [],
       ingredients: this._ingredients,
       ingredientsCategories: [
-        {name: 'pizza', ingredientIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]},
-        {name: 'ensalada', ingredientIndexes: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71]},
+        {name: 'pizza', ingredientIndexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]},
+        {name: 'ensalada', ingredientIndexes: [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74]},
       ],
-      pizzainfos: ['Blanca', 'Roja', 'Bien cocida', 'Poca cocida']
+      pizzainfos: ['Blanca', 'Roja', 'Poca salsa', 'Poco queso', 'Bien cocida', 'Poca cocida']
     };
     for (let i = 0, max = menu.categories.length; i < max; ++i) {
       let category = menu.categories[i];
@@ -176,20 +179,20 @@ export class MenuService {
       let questions = this._menu.articles[articleIndex].questions;
       let questionAnswers = [];
       let questionsLoop = (i) => {
-        if (i < questions.length) {
+        if (i >= 0) {
           this.actionSheet.choose(questions[i].text, questions[i].answers.map(o => o['text'], true)).then(answer => {
             if (answer !== false) {
               questionAnswers.push(answer);
-              questionsLoop(++i);
+              questionsLoop(--i);
             } else {
               reject();
             }
           });
         } else {
-          resolve(questionAnswers);
+          resolve(questionAnswers.reverse());
         }
       }
-      questionsLoop(0);
+      questionsLoop(questions.length-1);
     });
   }
 

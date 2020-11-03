@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
     devices: ['pizza', 'bar', 'kitchen']
   }, {
     title: 'Casa azul',
-    url: '/waiter-select-table',
+    url: '/waiter-select-food',
     icon: 'restaurant',
     devices: ['waiter']
   }, {

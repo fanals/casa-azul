@@ -3,6 +3,7 @@ import { MenuService } from './menu.service';
 import { MenuType, BillType, ArticleType, BatchType, UserType, CondensedBillType } from '../types';
 import { UserService } from './user.service';
 import { ArticleService } from './article.service';
+import { HelpersService } from './helpers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class BillService {
 
   constructor(public menuService:MenuService,
               public articleService:ArticleService,
+              private helpers: HelpersService,
               public userService:UserService) {
     this._init();
   }
@@ -27,10 +29,10 @@ export class BillService {
     });
   }
 
-  public emptyNewBatch():BatchType {
+  public emptyNewBatch():BatchType { 
     return {
       waiterName: this._user.name,
-      date: 'Now',
+      date: this.helpers.getCurrentTime(),
       articles: []
     }
   }
@@ -123,7 +125,7 @@ export class BillService {
     return Math.round(subtotal * 18 / 100);
   }
 
-  getSubtotal(bill:BillType) {    
+  getSubtotal(bill:BillType) {
     let subtotal = 0;
     for (let i = 0, max = bill.newBatch.articles.length;i<max;++i) {
       subtotal += this.getArticlePrice(bill.newBatch.articles[i]) * bill.newBatch.articles[i].q;
@@ -142,7 +144,7 @@ export class BillService {
     let condensedBills:CondensedBillType[] = [];
     for (let a = 0; a < bills.length; a++) {
       let bill = bills[a];
-      condensedBills[a] = {name: bill.name, newBatch: bill.newBatch, sent: bill.sent, articles: []};
+      condensedBills[a] = {name: bill.name, newBatch: bill.newBatch, sent: bill.sent, articles: [], service: bill.service, itbis: bill.itbis, total: bill.total};
       for (let i = 0; i < bill.batches.length; i++) {
         let batch = bill.batches[i];
         for (let j = 0; j < batch.articles.length; j++) {

@@ -21,7 +21,7 @@ const routes: Routes = [{
     path: 'waiter-select-table',
     loadChildren: () => import('./pages/waiter/waiter-select-table/waiter-select-table.module').then( m => m.WaiterSelectTablePageModule)
   }, {
-    path: 'waiter-select-food/:id',
+    path: 'waiter-select-food',
     loadChildren: () => import('./pages/waiter/waiter-select-food/waiter-select-food.module').then( m => m.WaiterSelectFoodPageModule)
   },
   {

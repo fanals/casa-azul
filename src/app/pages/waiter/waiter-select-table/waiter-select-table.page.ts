@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ServerService } from 'src/app/services/server.service';
 import { ServicesEnum, PacketType, DevicesEnum } from 'src/app/types';
 
@@ -13,6 +13,7 @@ export class WaiterSelectTablePage implements OnInit {
   public openedTables = [];
 
   constructor(public navCtrl:NavController,
+              public modalController: ModalController,
               public server:ServerService) {}
 
   ngOnInit() {
@@ -28,8 +29,9 @@ export class WaiterSelectTablePage implements OnInit {
     });
   }
 
-  openTable(id) {
-    this.navCtrl.navigateForward('waiter-select-food/'+id, {animated: false});
+  openTable(tableId) {
+    this.modalController.dismiss({tableId: tableId});
+    //this.navCtrl.navigateForward('waiter-select-food/'+id, {animated: false});
   }
   
 

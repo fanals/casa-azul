@@ -6,6 +6,26 @@ ion-content {
   border: 5px solid red;
 }
 
+.delete-bill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 52px;
+  margin: 0;
+  padding: 0;
+  width: 56px;
+  z-index: 100;
+  background-color: #a81c1c;
+  color: white;
+  font-size: 30px;
+  line-height: 57px;
+  text-align: center;
+}
+
+.total-label {
+  padding-left: 54px;
+}
+
 .show-tables {
   --padding-start: 20px;
   --padding-end: 20px;
@@ -29,12 +49,15 @@ ion-content {
     text-align: right;
   }
   .bill {
-    border: 5px solid lightsteelblue;
+    border: 2px solid lightsteelblue;
+    border-radius: 0;
+    min-width: 32%;
+    max-width: 33%;
     &.sent {
-      border: 5px solid var(--ion-color-success);
+      border-color: var(--ion-color-success);
     }
     &.history {
-      border: 5px solid var(--ion-color-warning);
+      border-color: var(--ion-color-warning);
     }
   }
 }

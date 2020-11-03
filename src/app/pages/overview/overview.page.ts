@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { ServerService } from 'src/app/services/server.service';
 import { PacketType, DevicesEnum, ServicesEnum, OrderStateEnum, OrderType, MenuType } from 'src/app/types';
 import { MenuService } from 'src/app/services/menu.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-overview',
@@ -22,6 +23,7 @@ export class OverviewPage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public menuService: MenuService,
+              public userService: UserService,
               public server: ServerService) {}
 
   ngOnInit() {
@@ -94,7 +96,12 @@ export class OverviewPage implements OnInit {
   }
 
   openRestaurantPage() {
-    this.navCtrl.navigateRoot('restaurant');
+    this.userService.get().then(user => {
+      if (user.device.slug == 'main')
+        this.navCtrl.navigateRoot('restaurant');
+      else
+        this.navCtrl.navigateRoot('waiter-select-food');
+    });
   }
 
 }

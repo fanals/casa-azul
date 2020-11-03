@@ -1,12 +1,8 @@
 <ion-header id='table-header'>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+  <ion-toolbar>    
     <ion-title>Casa Azul</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <div class='content'>
     <div class='beach'>
@@ -28,8 +24,8 @@
           <div class='button click-effect' [class.opened]='openedTables[9]' (click)='openTable(9)'>9</div>
           <div class='button click-effect' [class.opened]='openedTables[10]' (click)='openTable(10)'>10</div>
           <div class='button double click-effect' [class.opened]='openedTables[11]' (click)='openTable(11)'>11</div>
-          <div class='button click-effect' [class.opened]='openedTables[12]' (click)='openTable(12)'>12</div>
-          <div class='button click-effect' [class.opened]='openedTables[13]' (click)='openTable(13)'>14</div>
+          <div class='button click-effect' [class.opened]='openedTables[12]' (click)='openTable(12)'>14</div>
+          <div class='button click-effect' [class.opened]='openedTables[13]' (click)='openTable(13)'>15</div>
         </div>
       </div>
     </div>
@@ -39,39 +35,36 @@
       </div>
       <div class='flex-1'>
         <div class='top-tables space-evenly flex-wrap'>
-          <div class='button click-effect' [class.opened]='openedTables[19]' (click)='openTable(19)'>5</div>
-          <div class='button click-effect' [class.opened]='openedTables[20]' (click)='openTable(20)'>6</div>
-          <div class='button click-effect' [class.opened]='openedTables[21]' (click)='openTable(21)'>7</div>
-          <div class='button click-effect' [class.opened]='openedTables[22]' (click)='openTable(22)'>8</div>
-          <div class='button click-effect' [class.opened]='openedTables[23]' (click)='openTable(23)'>9</div>
-        </div>
-        <div class='space-evenly flex-wrap'>
           <div class='button click-effect' [class.opened]='openedTables[15]' (click)='openTable(15)'>1</div>
           <div class='button click-effect' [class.opened]='openedTables[16]' (click)='openTable(16)'>2</div>
           <div class='button click-effect' [class.opened]='openedTables[17]' (click)='openTable(17)'>3</div>
-          <div class='button double click-effect' [class.opened]='openedTables[18]' (click)='openTable(18)'>4</div>
+        </div>
+        <div class='space-evenly flex-wrap'>
+          <div class='button click-effect' [class.opened]='openedTables[18]' (click)='openTable(18)'>4</div>
+          <div class='button click-effect' [class.opened]='openedTables[19]' (click)='openTable(19)'>5</div>
+          <div class='button click-effect' [class.opened]='openedTables[20]' (click)='openTable(20)'>6</div>
         </div>
       </div>
     </div>
     <div class='extra space-evenly flex-wrap'>
-      <div class='button click-effect' [class.opened]='openedTables[24]' (click)='openTable(24)'>15</div>
-      <div class='button click-effect' [class.opened]='openedTables[25]' (click)='openTable(25)'>16</div>
-      <div class='button click-effect' [class.opened]='openedTables[26]' (click)='openTable(26)'>17</div>
-      <div class='button click-effect' [class.opened]='openedTables[27]' (click)='openTable(27)'>18</div>
-      <div class='button click-effect' [class.opened]='openedTables[28]' (click)='openTable(28)'>19</div>
-      <div class='button click-effect' [class.opened]='openedTables[29]' (click)='openTable(29)'>20</div>
+      <div class='button click-effect' [class.opened]='openedTables[24]' (click)='openTable(24)'>16</div>
+      <div class='button click-effect' [class.opened]='openedTables[25]' (click)='openTable(25)'>17</div>
+      <div class='button click-effect' [class.opened]='openedTables[26]' (click)='openTable(26)'>18</div>
+      <div class='button click-effect' [class.opened]='openedTables[27]' (click)='openTable(27)'>19</div>
+      <div class='button click-effect' [class.opened]='openedTables[28]' (click)='openTable(28)'>20</div>
+      <div class='button click-effect' [class.opened]='openedTables[29]' (click)='openTable(29)'>Bar</div>
     </div>
     <div class='bar'>
-      <div class='button click-effect' [class.opened]='openedTables[30]' (click)='openTable(30)'>Bar</div>
+      <div class="space-evenly flex-wrap">
+        <div class='button click-effect' [class.opened]='openedTables[30]' (click)='openTable(30)'>Komida</div>
+        <div class='button click-effect' [class.opened]='openedTables[31]' (click)='openTable(31)'>Fito</div>
+      </div>
       <br><br>
-      <div class='button click-effect' [class.opened]='openedTables[31]' (click)='openTable(31)'>Komida</div>
-      <br><br>
-      <div class='button click-effect' [class.opened]='openedTables[32]' (click)='openTable(32)'>Fito</div>
-      <br><br>
-      <div class='button click-effect' [class.opened]='openedTables[33]' (click)='openTable(33)'>Viene a buscar</div>
-      <br><br>
-      <div class='button click-effect' [class.opened]='openedTables[34]' (click)='openTable(34)'>Bar llevar</div>
-      <br><br>
+      <div class="space-evenly flex-wrap">
+        <div class='button click-effect' [class.opened]='openedTables[32]' (click)='openTable(32)'>Buscar</div>
+        <div class='button click-effect' [class.opened]='openedTables[33]' (click)='openTable(33)'>Para llevar</div>
+      </div>
     </div>
+    <br><br>
   </div>
 </ion-content>

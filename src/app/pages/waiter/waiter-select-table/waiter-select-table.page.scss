@@ -48,9 +48,6 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    .button {
-      max-width: 19%;
-    }
     .mesa-zero {
       margin-right: 1%;
       max-width: 14%;
@@ -82,7 +79,7 @@
     padding: 20px 5px;
     background-color: var(--ion-color-medium);
     .button {
-      width: 100%;
+      width: 49%;
     }
   }
 

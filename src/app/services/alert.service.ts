@@ -27,10 +27,10 @@ export class AlertService {
     });
   }
 
-  confirm(message: string = 'Confirmar') {
+  confirm(message: string = 'Confirmar', backdropDismiss = true) {
     return new Promise<string>((resolve) => {
       this.alert.create({
-        backdropDismiss: true,
+        backdropDismiss: backdropDismiss,
         header: message,
         buttons: [{
           text: 'No',

@@ -11,7 +11,7 @@
     </ion-buttons>
     <ion-title>
       {{table.name}}
-      <ion-button class='change-table-button' fill='clear' [hidden]='!table.canChangePlace || !table.opened' color="primary" (click)='changeTable()'>
+      <ion-button class='change-table-button' fill='clear' [hidden]='!table.opened' color="primary" (click)='changeTable()'>
         <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-title>
@@ -84,6 +84,19 @@
               </div>
             </div>
           </ion-item>
+          <ion-item>
+            <ion-row style='width: 100%;'>
+              <ion-col style='text-align: center;'>
+                Servicio: {{bill.service}}
+              </ion-col>
+              <ion-col style='text-align: center;'>
+                ITBIS: {{bill.itbis}}
+              </ion-col>
+            </ion-row>
+          </ion-item>
+          <ion-item>
+            <span style='font-weight: bold;text-align: center;width: 100%;'>Total: {{bill.total | number}}</span>
+          </ion-item>
         </div>
       </ion-list>
     </ion-card>
@@ -100,7 +113,16 @@
               {{table.bills[this.selectedBillIndex].newBatch.waiterName}} - {{table.bills[this.selectedBillIndex].newBatch.date}}
             </ion-label>
           </ion-item-divider>
-          <ion-button (click)='sendToKitchen()' expand='full' color='success'>Confirmar</ion-button>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-button (click)='validateArticles()' expand='full' color='primary'>Validar</ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button (click)='validateArticles(true)' expand='full' color='success'>Enviar a cocina</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid> 
           <ion-item *ngFor='let article of table.bills[this.selectedBillIndex].newBatch.articles; let i = index' class='article click-effect' (click)='modifyArticle(table.bills[this.selectedBillIndex].newBatch, i)'>
             <div class='inner-article'>
               <div class='left-side'>
@@ -204,17 +226,17 @@
           <ion-label>ITBIS <span>{{table.bills[this.selectedBillIndex].itbis | number}}</span></ion-label>
         </ion-item>
       </ion-list>
-      <ion-list lines='full'>
+      <div class='delete-bill' (click)='deleteBill();$event.stopPropagation();'><ion-icon name="trash"></ion-icon></div>
+      <ion-list lines='full'>        
         <ion-item (click)='printBill()'color='primary' class='total'>
-          <ion-button (click)='deleteBill();$event.stopPropagation();' style='margin-right:10px;'><ion-icon name="trash"></ion-icon></ion-button>
-          <ion-label>TOTAL <span class='nb'>{{table.bills[this.selectedBillIndex].total + table.bills[this.selectedBillIndex].delivery | number}}</span></ion-label>
+          <ion-label class='total-label'>TOTAL <span class='nb'>{{table.bills[this.selectedBillIndex].total + table.bills[this.selectedBillIndex].delivery | number}}</span></ion-label>
         </ion-item>
       </ion-list>
     </div>
     <div class='choosing-articles' *ngIf='menu'>
       <div class='categories'>
         <ng-container *ngFor='let category of menu.articleCategories;let i = index'>
-          <ion-button *ngIf='category.display' color='light' mode="ios" (click)='shortcut(i)'>{{category.name}}</ion-button>
+          <ion-button [hidden]='category.name == "cigarillos" || category.name == "especial"' *ngIf='category.display' color='light' mode="ios" (click)='shortcut(i)'>{{category.name}}</ion-button>
         </ng-container>
       </div>
       <div id='articles-list'>

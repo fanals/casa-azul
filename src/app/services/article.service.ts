@@ -9,7 +9,7 @@ export class ArticleService {
   constructor() {}
 
   private _toString(a:ArticleType) {
-    return '['+a.ami+'|'+a.infos+'|'+JSON.stringify(a.questionsAnswers.sort())+'|'+(a.half ? this._toString(a.half) : '')+'|'+(a.mii ? a.mii.sort().join(',') : '')+'|'+(a.pii ? a.pii.sort().join(',') : '')+']';
+    return '['+a.ami+'|'+a.infos+'|'+JSON.stringify(a.questionsAnswers)+'|'+(a.half ? this._toString(a.half) : '')+'|'+(a.mii ? a.mii.sort().join(',') : '')+'|'+(a.pii ? a.pii.sort().join(',') : '')+']';
   }
 
   public areEqual(a1:ArticleType, a2:ArticleType) {

@@ -49,9 +49,9 @@ export class PrinterService {
 
   private _addLine(lines, txtLeft:any, txtRight:any = false, bold = false, alignment = 'Left', bigLetters = false) {
     if (typeof txtLeft == 'number')
-      txtLeft = this._thousandSeparator(txtLeft, ' ');
+      txtLeft = this._thousandSeparator(txtLeft, ',');
     if (typeof txtRight == 'number')
-      txtRight = this._thousandSeparator(txtRight, ' ');
+      txtRight = this._thousandSeparator(txtRight, ',');
     if (bold)
       lines.push({enableEmphasis:true});
     lines.push({appendAlignment:alignment});
@@ -135,9 +135,8 @@ export class PrinterService {
           if (bill.delivery)
             this._addLine(lines, 'Delivery', bill.delivery);
         }
-        this._addLine(lines, '--------------------------------', false, false, 'Center');
-        let total = bill.total+bill.delivery;
-        this._addLine(lines, 'TOTAL '+total, false, true, 'Center', true);
+        this._addLine(lines, '--------------------------------', false, false, 'Center');        
+        this._addLine(lines, 'TOTAL '+this._thousandSeparator(bill.total+bill.delivery, ','), false, true, 'Center', true);
         this._addLine(lines, '--------------------------------', false, false, 'Center');
         this._addLine(lines, table.name, false, false, 'Left', true);
         this._addLine(lines, '*** FIN DOCUMENTO NO VENTA ***', false, false, 'Center');
