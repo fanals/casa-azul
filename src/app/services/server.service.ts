@@ -148,7 +148,7 @@ export class ServerService {
       let timer = setTimeout(() => {
         reject("Didn't find server URL");
       }, 3000);
-      for (let i = 2; i < 50; ++i) {
+      for (let i = 2; i < 300; ++i) {
         let url = 'http://10.0.0.'+i+':8081';
         this._isServer(url).then(serverURL => {
           clearTimeout(timer);

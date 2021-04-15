@@ -20,6 +20,7 @@ export class OverviewPage implements OnInit {
   public menu: MenuType;
   public historyIndex: number = 0;
   public waitingTime: number = 0;
+  public timerInterval:any;
 
   constructor(public navCtrl: NavController,
               public menuService: MenuService,
@@ -29,7 +30,10 @@ export class OverviewPage implements OnInit {
   ngOnInit() {
     this.menuService.get().then(menu => {
       this.menu = menu;
-      this.changedDevice();
+      this.timerInterval = setInterval(() => {
+        if (!this.isShowingHistory)
+          this.changedDevice();
+      }, 5000);
     });
   }
 
@@ -102,6 +106,10 @@ export class OverviewPage implements OnInit {
       else
         this.navCtrl.navigateRoot('waiter-select-food');
     });
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.timerInterval);
   }
 
 }
