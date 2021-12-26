@@ -5,6 +5,8 @@ import { PacketType, DevicesEnum, ServicesEnum, OrderStateEnum, OrderType, MenuT
 import { MenuService } from 'src/app/services/menu.service';
 import { UserService } from 'src/app/services/user.service';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.page.html',
@@ -12,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class OverviewPage implements OnInit {
 
+  public moment = moment;
   public OrderStateEnum = OrderStateEnum;
   public device:string = 'pizza';
   public isShowingHistory:boolean = false;

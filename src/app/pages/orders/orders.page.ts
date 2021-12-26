@@ -14,6 +14,7 @@ import * as moment from 'moment';
 })
 export class OrdersPage implements OnInit {
 
+  public moment = moment;
   public OrderStateEnum = OrderStateEnum;
   public menu: MenuType;
   public user: UserType;

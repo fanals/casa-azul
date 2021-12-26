@@ -12,8 +12,8 @@
 <ion-content *ngIf='menu && orders'>
   <div class='orders'>
     <ion-card *ngFor='let order of orders;' (click)='select(order)' [class.dark]='order.state == OrderStateEnum["selected"]' [class.primary]='order.state == OrderStateEnum["preparing"]' [class.success]='order.state == OrderStateEnum["ready"]'>
-      <ion-card-header>
-        <ion-card-subtitle style='text-transform: initial;'>{{order.waiterName}} - {{order.readyIn}}min</ion-card-subtitle>
+      <ion-card-header style='padding: 5px 10px;'>
+        <ion-card-subtitle style='text-transform: initial;'>{{order.waiterName}} - {{order.readyIn}}min<br><span class="wtgmn-{{moment().diff(moment(order.receivedAt), 'minutes')}}">Hace {{ moment().diff(moment(order.receivedAt), 'minutes') }} minutos</span></ion-card-subtitle>
         <ion-card-title>{{order.name}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>

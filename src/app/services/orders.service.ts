@@ -86,6 +86,7 @@ export class OrdersService {
   }
 
   public add(order: OrderType) {
+    order.receivedAt = moment();
     this.console.log('Adding order', order);
     this.sound.play(this._user.device.slug);
     this.get().then(orders => {

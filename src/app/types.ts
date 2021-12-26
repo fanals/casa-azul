@@ -113,6 +113,7 @@ export interface OrderType {
   otherArticlesOpened: boolean,
   state: OrderStateEnum,
   nbArticles: number,
+  receivedAt?: moment.Moment,
   readyIn?: number,
   startingPreparingAt?: moment.Moment,
 }
