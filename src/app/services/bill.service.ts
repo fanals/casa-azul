@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MenuService } from './menu.service';
-import { MenuType, BillType, ArticleType, BatchType, UserType, CondensedBillType } from '../types';
+import { MenuType, BillType, ArticleType, BatchType, UserType, CondensedBillType, DGIIEnum } from '../types';
 import { UserService } from './user.service';
 import { ArticleService } from './article.service';
 import { HelpersService } from './helpers.service';
@@ -64,17 +64,21 @@ export class BillService {
       total: 0,
       hasService: opts.withService,
       hasItbis: opts.withItbis,
+      merging: false,
       newBatch: this.emptyNewBatch(),
       name: 'Cuenta',
-      batches: []
+      batches: [],
+      dgii: {type:DGIIEnum['NORMAL']}
     }
   }
 
   public updateTotalPrice(bill) {
-    bill.subtotal = this.getSubtotal(bill);
-    bill.itbis = this.getItbis(bill, bill.subtotal);
-    bill.service = this.getService(bill, bill.subtotal);
-    bill.total = bill.subtotal + bill.itbis + bill.service;    
+    if (bill) {
+      bill.subtotal = this.getSubtotal(bill);
+      bill.itbis = this.getItbis(bill, bill.subtotal);
+      bill.service = this.getService(bill, bill.subtotal);
+      bill.total = bill.subtotal + bill.itbis + bill.service;    
+    }
   }
 
   public getArticlePrice(article:ArticleType) {
@@ -158,6 +162,44 @@ export class BillService {
       }
     }
     return condensedBills;
+  }
+
+  getMovingArticles(bill:BillType): BillType {
+    let movingArticles:BillType = this.emptyNewBill({generateUUID: true, withItbis: bill.hasItbis, withService: bill.hasService});
+    movingArticles.batches.push(this.emptyNewBatch());
+    for (let i = 0; i < bill.batches.length; i++) {
+      let batch = bill.batches[i];
+      for (let j = 0; j < batch.articles.length; j++) {
+        let article = batch.articles[j];
+        if (article.moving) {
+          article.moving = false;
+          movingArticles.batches[0].articles.push(JSON.parse(JSON.stringify(article)));
+          article.moving = true;
+        }
+      }
+      batch.articles = batch.articles.filter((value, index, array) => {
+        return !value.moving;
+      });
+    }
+    return movingArticles;
+  }
+
+  separate(bill:BillType) {
+    for (let i = 0; i < bill.batches.length; i++) {
+      let batch = bill.batches[i];
+      for (let j = 0; j < batch.articles.length; j++) {
+        let article = batch.articles[j];
+        if (article.q > 1) {
+          let nbOfArticlesToAdd = article.q - 1;
+          article.q = 1;
+          let articles = [];
+          for (let k = 0; k < nbOfArticlesToAdd; k++) {
+            articles.push(JSON.parse(JSON.stringify(article)));
+          }
+          batch.articles.splice.apply(batch.articles, [j, 0].concat(articles));
+        }
+      }
+    }
   }
 
 }

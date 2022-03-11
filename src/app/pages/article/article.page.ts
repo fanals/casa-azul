@@ -35,7 +35,7 @@ export class ArticlePage implements OnInit {
       }
       if (this.articleMenu.deviceCategory == ArticleCategoryEnum['pizza']) {
         if (!this.article.half) {
-          this.article.half = {q: 1, ami: null, questionsAnswers: []};
+          this.article.half = {q: 1, ami: null, questionsAnswers: [], moving: false};
         }
         this.pizzas = this.menuService.getPizzas();
       }

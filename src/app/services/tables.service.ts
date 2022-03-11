@@ -55,7 +55,11 @@ export class TablesService {
       { name: 'Komida', slug:'komida', withDelivery: true, closeAfterPrint: true, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, bills: [], history: []},
       { name: 'Fito', slug:'fito', withDelivery: true, closeAfterPrint: true, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, bills: [], history: []},
       { name: 'Viene a buscar', withDelivery: false, slug:'buscar', closeAfterPrint: false, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, bills: [], history: []},
-      { name: 'Para llevar', withDelivery: false, slug:'parallevar', closeAfterPrint: false, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, bills: [], history: []}
+      { name: 'Para llevar', withDelivery: false, slug:'parallevar', closeAfterPrint: false, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 21', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 22', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 23', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 24', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []}
     ];
   }
 

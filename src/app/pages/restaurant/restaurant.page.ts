@@ -23,6 +23,10 @@ export class RestaurantPage implements OnInit {
     });
   }
 
+  ionViewDidEnter() {
+    this.tablesService.save();
+  }
+
   openTable(id) {
     this.navCtrl.navigateForward('table/'+id, {animated: false});
   }
@@ -37,8 +41,8 @@ export class RestaurantPage implements OnInit {
     if (this.tables[id].billAsked)
       return 'warning';
     if (this.tables[id].opened)
-      return 'dark';
-    return 'primary';
+      return 'primary';
+    return 'secondary';
   }
 
 }

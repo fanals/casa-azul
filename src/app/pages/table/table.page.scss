@@ -2,8 +2,29 @@ ion-content {
   --overflow: hidden;
 }
 
+.table-action-buttons {
+  ion-button {
+    margin-left: 20px;
+    width: 120px;
+  }
+}
+
+.change-bill-button {
+  width: 70px;
+  left: 0;
+}
+
+.add-bill-button {
+  width: 70px;
+  right: 0px!important;
+}
+
+.comprobante {
+  
+}
+
 .new-batch {
-  border: 5px solid red;
+  border: 5px solid #eb445a;
 }
 
 .delete-bill {
@@ -15,7 +36,7 @@ ion-content {
   padding: 0;
   width: 56px;
   z-index: 100;
-  background-color: #a81c1c;
+  background-color: #eb445a;
   color: white;
   font-size: 30px;
   line-height: 57px;
@@ -33,26 +54,28 @@ ion-content {
 }
 
 .condensed-bills {
+  height: 100%;
+  overflow: scroll;
   display: flex;
   flex-wrap: wrap;
-  ion-card {
-    flex: 1 0 18%;
-    margin: 10px 2px;
-    ion-card-content {
-      padding-left: 5px;
-      padding-right: 5px;
-    }
-  }
+  gap: 0.5%;
+  padding: 10px;
+  align-items:flex-start;
+  align-content:flex-start;
   .quantity {
     width: 40px;
     margin-right: 10px;
     text-align: right;
   }
   .bill {
+    padding-bottom: 10px;
+    margin: 0;
     border: 2px solid lightsteelblue;
     border-radius: 0;
-    min-width: 32%;
-    max-width: 33%;
+    width: 33%;
+    ion-card-title {
+      text-align: center;
+    }
     &.sent {
       border-color: var(--ion-color-success);
     }
@@ -65,33 +88,24 @@ ion-content {
 .bill-name {
   padding-left: 40px;
   padding-right: 40px;
-  width: 278px;
+  width: 300px;
   position: relative;
   text-align: center;
   ion-button {
     position: absolute;
     right: 0;
-    top: -7px;
-  }
-}
-
-.change-table-button {
-  position: absolute;
-  top: -3px;
-  font-size: 15px;
-}
-
-#table-header {
-  .action-buttons {
-    ion-button {
-      margin-left: 5px;
-      --padding-start: 20px;
-      --padding-end: 20px;
+    top: -14px;
+    &.show-bills {
+      width: 50%;
+      left: 0;
+      right: 0;
+      margin: auto;
     }
   }
-  .history-button {
-    margin-right: 40px;
-  }
+}
+
+.table-name-button {
+  font-size: 18px;
 }
 
 #table {
@@ -111,7 +125,10 @@ ion-content {
         .inner-article {
           width: 100%;
           display: flex;
-          padding: 8px 0; 
+          padding: 8px 0;
+          &.moving {
+            background-color: --ion-color-warning;
+          }
           .left-side {
             overflow: hidden;
             text-overflow: ellipsis;

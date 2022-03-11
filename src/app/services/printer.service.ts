@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { AlertService } from './alert.service';
 import { BillService } from './bill.service';
 import { MenuService } from './menu.service';
+import { DGIIEnum, DGII } from 'src/app/types';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class PrinterService {
 
   public _print(commands) {
     this._addLine(commands, '\r\n');
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (this.platform.is('cordova')) {
         this.starprnt.print("BT:PRNT Star", "EscPosMobile", commands).then(result => {
           console.log('Success print!');
@@ -28,6 +29,15 @@ export class PrinterService {
           reject('La impresora no está conectada');
         });
       } else {
+        commands.forEach(element => {
+          if (element.append) {
+            console.log(element.append);
+          }
+
+          if (element.appendMultiple) {
+            console.log(element.appendMultiple);
+          }
+        });
         resolve();
       }
     });
@@ -67,7 +77,12 @@ export class PrinterService {
     lines.push({appendAlignment:'Left'});
   }
 
-  private _header() {    
+  private _header(bill) {
+    let title = "FACTURA PROVISIONAL";
+    if (bill.dgii.type == DGIIEnum["VALOR_FISCAL"])
+      title = "FACTURA CREDITO FISCAL";
+    else if (bill.dgii.type == DGIIEnum["CONSUMIDOR_FINAL"])
+      title = "FACTURA CONSUMIDOR FINAL";
     let lines = [];
     this._addLine(lines, 'CASA AZUL', false, true, 'Center', true);
     this._addLine(lines, 'Calle libertad, Las Terrenas', false, false, 'Center');
@@ -76,8 +91,19 @@ export class PrinterService {
     this._addLine(lines, '');
     this._addLine(lines, moment().format("DD/MM/YYYY HH:mm:ss"));
     this._addLine(lines, '--------------------------------', false, false, 'Center');
-    this._addLine(lines, 'FACTURA PROVISIONAL', false, false, 'Center');
+    this._addLine(lines, title, false, false, 'Center');
     this._addLine(lines, '--------------------------------', false, false, 'Center');
+    
+    if (bill.dgii.type == DGIIEnum["VALOR_FISCAL"]) {
+      this._addLine(lines, 'NCF: '+bill.dgii.ncf);
+      this._addLine(lines, 'RNC: '+bill.dgii.rnc);
+      this._addLine(lines, bill.dgii.name);
+      this._addLine(lines, '--------------------------------', false, false, 'Center');
+    } else if (bill.dgii.type == DGIIEnum["CONSUMIDOR_FINAL"]) {
+      this._addLine(lines, 'NCF: '+bill.dgii.ncf);
+      this._addLine(lines, '--------------------------------', false, false, 'Center');
+    }
+
     return lines;
   }
 
@@ -98,7 +124,7 @@ export class PrinterService {
       this.menuService.get().then(menu => {
         console.log('bill', bill);
         console.log('condensed', condensedBill);
-        let lines = this._header();
+        let lines = this._header(bill);
         condensedBill.articles.forEach(article => {
           this._addLine(lines, article.q+' '+menu.articles[article.ami].name, this.billService.getArticlePrice(article) * article.q);
           if (article.mii) {

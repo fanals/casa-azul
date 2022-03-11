@@ -61,6 +61,7 @@ export interface ArticleType {
   ami: number, // Article Menu Index
   q: number, // Quantity
   questionsAnswers: number[], // Answers to question
+  moving: boolean,
   half?: ArticleType, // Half pizza
   pii?: number[], // Plus ingredient Indexes
   mii?: number[], // Minus ingredient Indexes
@@ -84,8 +85,10 @@ export interface BillType {
   total: number,
   hasService: boolean,
   hasItbis: boolean,
+  merging: boolean,
   newBatch: BatchType,
-  batches: BatchType[]
+  batches: BatchType[],
+  dgii: DGII
 }
 
 export interface CondensedBillType {
@@ -164,7 +167,8 @@ export interface ComptaBillType {
   subtotal: number;
   servicio: number;
   itbis: number;
-  articles: ComptaArticleBillType[]
+  dgii: DGII;
+  articles: ComptaArticleBillType[];
 }
 
 export enum ServicesEnum {
@@ -183,7 +187,22 @@ export enum DevicesEnum {
   'kitchen' = 'kitchen',
   'pizza' = 'pizza',
   'camarero' = 'camarero',
-  'main' = 'main',
+  'main' = 'main'
 }
 
+export enum DGIIEnum {
+  'PREFACTURA',
+  'NORMAL',
+  'REGIMENES_ESPECIALES',
+  'CONSUMIDOR_FINAL',
+  'VALOR_FISCAL',
+  'NOTA_CREDITO',
+  'GUBERNAMENTAL'
+}
 
+export interface DGII {
+  type: DGIIEnum;
+  ncf?: string;
+  rnc?: string;
+  name?: string;
+}

@@ -72,6 +72,7 @@ export class TotaltodayPage implements OnInit {
   _getComptaBills() {
     let bills: ComptaBillType[] = this._tables.flatMap(table => {
       return table.history.map(bill => {
+        console.log('history bill is', bill);
         let articles:ComptaArticleBillType[] = bill.batches.flatMap((batch: BatchType) => {
           return batch.articles.map(article => { 
             let a: ComptaArticleBillType = {
@@ -100,6 +101,7 @@ export class TotaltodayPage implements OnInit {
           itbis: bill.itbis,
           tableSlug: table.slug,
           articles: articles,
+          dgii: bill.dgii
         };
         return b;
       });  
