@@ -19,7 +19,7 @@
     "salti-admin": "0.1.8",
     "socket.io": "1.7.2",
     "object-sizeof": "1.1.1",
-    "validator": "6.2.1",
+    "validator": "13.7.0",
     "bluebird": "3.3.4",
     "hexy": "0.2.7",
     "sprintf-js": "1.0.3"
