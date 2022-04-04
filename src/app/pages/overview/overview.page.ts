@@ -18,6 +18,7 @@ export class OverviewPage implements OnInit {
   public OrderStateEnum = OrderStateEnum;
   public device:string = 'pizza';
   public isShowingHistory:boolean = false;
+  public isRefreshing:boolean = false;
   public orders:OrderType[] = [];
   public history:OrderType[][] = [];
   public menu: MenuType;
@@ -33,15 +34,20 @@ export class OverviewPage implements OnInit {
   ngOnInit() {
     this.menuService.get().then(menu => {
       this.menu = menu;
-      this.timerInterval = setInterval(() => {
-        if (!this.isShowingHistory)
-          this.changedDevice();
-      }, 5000);
+      //this.changedDevice();
+      // this.timerInterval = setInterval(() => {
+      //   if (!this.isShowingHistory)
+      //     this.changedDevice();
+      // }, 5000);
     });
   }
 
   changedDevice() {
+    this.isRefreshing = true;
     this._getOrders().then((orders:OrderType[]) => {
+      setTimeout(() => {
+        this.isRefreshing = false;
+      }, 1000);
       this.orders = orders;
     });
     this._getWaitingTime().then((waitingTime:number) => {

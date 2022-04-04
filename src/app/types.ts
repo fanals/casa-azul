@@ -203,6 +203,7 @@ export enum DGIIEnum {
 export interface DGII {
   type: DGIIEnum;
   ncf?: string;
+  fullncf?: string;
   rnc?: string;
   name?: string;
 }

@@ -29,7 +29,10 @@ const socketIoConfig: SocketIoConfig = {url: 'http://localhost:8081', options: {
       mode: 'ios'
     }),
     HttpClientModule,
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      name: '__casaazuldbseb',
+        driverOrder: ['sqlite', 'websql']
+    }),
     AppRoutingModule,
     SocketIoModule.forRoot(socketIoConfig)
   ],

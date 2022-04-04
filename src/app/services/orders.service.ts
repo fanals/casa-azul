@@ -158,19 +158,19 @@ export class OrdersService {
       let index = -1;
       if (deviceCategory == ArticleCategoryEnum['pizza']) {
         if ((index = separatedArticles.pizza.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
-          separatedArticles.pizza[index].q++;
+          separatedArticles.pizza[index].q += article.q;
         } else {
           separatedArticles.pizza.push(JSON.parse(JSON.stringify(article)));
         }
       } else if (deviceCategory == ArticleCategoryEnum['kitchen']) {
         if ((index = separatedArticles.kitchen.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
-          separatedArticles.kitchen[index].q++;
+          separatedArticles.kitchen[index].q += article.q;
         } else {
           separatedArticles.kitchen.push(JSON.parse(JSON.stringify(article)));
         }
       } else {
         if ((index = separatedArticles.bar.findIndex(a => this.articleService.areEqual(a, article))) != -1) {
-          separatedArticles.bar[index].q++;
+          separatedArticles.bar[index].q += article.q;
         } else {
           separatedArticles.bar.push(JSON.parse(JSON.stringify(article)));
         }

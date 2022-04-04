@@ -21,7 +21,10 @@
 </ion-header>
 
 <ion-content>
-  <h2 style='text-align:center;'>{{waitingTime}}min</h2>
+  <h2 style='text-align:center;'>{{waitingTime}} minutos</h2>
+  <div style='text-align:center;'>
+    <ion-button [hidden]="isRefreshing" color="secondary" (click)='changedDevice()'>Actualizar</ion-button>
+  </div>
   <div class='orders'>
     <ion-card *ngFor='let order of orders;' [class.primary]='order.state == OrderStateEnum["preparing"]' [class.success]='order.state == OrderStateEnum["ready"]'>
       <ion-card-header style='padding: 5px 10px;'>

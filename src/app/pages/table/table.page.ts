@@ -325,7 +325,8 @@ export class TablePage implements OnInit {
                 type: type,
                 rnc: res.rnc,
                 name: res.name,
-                ncf: res.ncf
+                ncf: res.ncf,
+                fullncf: res.fullncf,
               };
               this.printBill();
             }
@@ -339,7 +340,8 @@ export class TablePage implements OnInit {
             let bill = this.table.bills[this.selectedBillIndex];
             bill.dgii = {
               type: type,
-              ncf: res.ncf
+              ncf: res.ncf,
+              fullncf: res.fullncf,
             };
             this.printBill();
           }

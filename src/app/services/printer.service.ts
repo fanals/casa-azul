@@ -95,12 +95,12 @@ export class PrinterService {
     this._addLine(lines, '--------------------------------', false, false, 'Center');
     
     if (bill.dgii.type == DGIIEnum["VALOR_FISCAL"]) {
-      this._addLine(lines, 'NCF: '+bill.dgii.ncf);
+      this._addLine(lines, 'NCF: '+bill.dgii.fullncf);
       this._addLine(lines, 'RNC: '+bill.dgii.rnc);
       this._addLine(lines, bill.dgii.name);
       this._addLine(lines, '--------------------------------', false, false, 'Center');
     } else if (bill.dgii.type == DGIIEnum["CONSUMIDOR_FINAL"]) {
-      this._addLine(lines, 'NCF: '+bill.dgii.ncf);
+      this._addLine(lines, 'NCF: '+bill.dgii.fullncf);
       this._addLine(lines, '--------------------------------', false, false, 'Center');
     }
 
