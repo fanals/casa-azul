@@ -29,7 +29,7 @@
     "cordova-android": "8.1.0",
     "cordova-ios": "5.1.1",
     "macos-release": "^3.0.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "ngx-socket-io": "^3.2.0",
     "nodejs-mobile-cordova": "^0.4.1",
     "rxjs": "~6.5.1",
