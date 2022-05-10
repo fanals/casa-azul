@@ -81,6 +81,7 @@ export class OrdersService {
   }
 
   public save() {
+    this.console.log("Saving orders to storage");
     this.storage.set('orders', this._orders);
     this.storage.set('ordershistory', this._history);
   }

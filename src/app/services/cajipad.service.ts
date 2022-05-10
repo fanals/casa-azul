@@ -61,7 +61,11 @@ export class CajipadService {
           this.http.get(url).subscribe(res => {
             this.loading.dismiss();
             resolve(res);
+          }, error => {
+            resolve({error: error});
           });
+        }, error => {
+          resolve({error: error});
         });
       });
     });

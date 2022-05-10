@@ -57,9 +57,15 @@ export class TablesService {
       { name: 'Viene a buscar', withDelivery: false, slug:'buscar', closeAfterPrint: false, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, bills: [], history: []},
       { name: 'Para llevar', withDelivery: false, slug:'parallevar', closeAfterPrint: false, opened: false, withService: false, withItbis: false, billAsked: false, billSent: false, bills: [], history: []},
       { name: 'Extra 21', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
-      { name: 'Extra 22', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
-      { name: 'Extra 23', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
-      { name: 'Extra 24', withDelivery: false, slug:'playa21', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []}
+      { name: 'Extra 22', withDelivery: false, slug:'playa22', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 23', withDelivery: false, slug:'playa23', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 24', withDelivery: false, slug:'playa24', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 25', withDelivery: false, slug:'playa25', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 26', withDelivery: false, slug:'playa26', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 27', withDelivery: false, slug:'playa27', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 28', withDelivery: false, slug:'playa28', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 29', withDelivery: false, slug:'playa29', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []},
+      { name: 'Extra 30', withDelivery: false, slug:'playa30', closeAfterPrint: false, opened: false, withService: true, withItbis: true, billAsked: false, billSent: false, bills: [], history: []}
     ];
   }
 
@@ -166,7 +172,8 @@ export class TablesService {
   }
 
   public save() {
-    this.storage.set('tables', this._tables);
+    if (this._tables !== undefined)
+      this.storage.set('tables', this._tables);
   }
 
   public getOpenedTables() {

@@ -40,7 +40,7 @@ export class DeviceService {
   }
 
   save() {
-    return new Promise(resolve => { 
+    return new Promise<void>(resolve => { 
       this.storage.set('devices', this._devices).then(res => {
         this.console.log('Written into storage', this._devices);
         resolve();
