@@ -109,6 +109,7 @@ export class OrdersService {
     });
     let history = orders.filter(o => o.state == OrderStateEnum['ready']);
     this._history.unshift(history);
+    this._history = this._history.slice(0, 5); // Keeps only 5 last round of orders
     this._orders = orders.filter(o => o.state != OrderStateEnum['ready']);
     this.save();
     return this._orders;

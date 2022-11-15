@@ -21,8 +21,7 @@
           <div class='quantity'>{{ article.q }}</div>
           <div>
             <div class='name'>
-              {{menu.articles[article.ami].name}}
-              <span *ngIf='article.half && article.half.ami != null'> / {{menu.articles[article.half.ami].name}}</span>
+              {{menu.articles[article.ami].name}} <span *ngIf='article.half && article.half.ami != null'>/</span>
             </div>
             <div class='infos'>
               <div>{{article.infos}}</div>
@@ -36,7 +35,7 @@
                 MAS {{menu.ingredients[ingredientIndex].name}}
               </div>
               <div *ngIf='article.half && article.half.ami != null'>
-                Mitad {{menu.articles[article.half.ami].name}}
+                <span style="font-weight:bold;">Mitad {{menu.articles[article.half.ami].name}}</span>
                 <div *ngFor='let ingredientIndex of article.half.mii;'>
                   SIN {{menu.ingredients[ingredientIndex].name}}
                 </div>
