@@ -11,21 +11,25 @@ export class LoadingService {
 
   constructor(public loadingController: LoadingController) {}
 
-  public show(message = 'Loading', timer = 0) {
-    return new Promise(async (resolve) => {
+  public show(message = 'Loading', timer = 6000) {
+    return new Promise<void>(async (resolve) => {
       this.dismiss();
       this._loading = await this.loadingController.create({
         message: message
       });
-      this._loading.present();
-      if (timer) {
-        this._timer = setTimeout(() => {
-          this._timer = null;
-          this.dismiss();
-        }, timer);
-      }
+      setTimeout(() => {
+        if (this._loading) { 
+          this._loading.present();
+          if (timer) {
+            this._timer = setTimeout(() => {
+              this._timer = null;
+              this.dismiss();
+            }, timer);
+          }
+        }
+      }, Math.random() * 1000);
       resolve();
-    });
+    }); 
   }
 
   public dismiss() {

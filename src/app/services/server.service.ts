@@ -18,6 +18,7 @@ import { Platform } from '@ionic/angular';
 export class ServerService {
 
   public isConnected: boolean = false;
+  public isMonitoring: boolean = false;
   private _kitchenDevices = {};
   private _user:UserType;
 
@@ -65,18 +66,29 @@ export class ServerService {
   }
 
   public startMonitoring(user) {
-    this._user = user;
-    this.console.log("Start monitoring", user.device);
-    this._listening();
-    if (user.device.slug == 'main') {
-      if (this.platform.is('cordova')) {
-        this._startServer().then(() => {
-          this.connect();
+    return new Promise<void>((resolve) => {
+      if (!this.isMonitoring) {
+        this.isMonitoring = true;
+        this._user = user;
+        this.console.log("Start monitoring", user.device);
+        this._listening().then(() => {
+          if (user.device.slug != 'main')
+            resolve();
         });
+        if (user.device.slug == 'main') {
+          resolve();
+          if (this.platform.is('cordova')) {
+            this._startServer().then(() => {
+              this.connect();
+            });
+          }
+        } else {
+          this.connect()
+        }
+      } else {
+        resolve();
       }
-    } else {
-      this.connect();
-    }
+    });
   }
 
   public connect() {
@@ -98,7 +110,7 @@ export class ServerService {
   }
 
   private _startServer() {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       nodejs.channel.on('console-log', (...args) => {
         this.console.log('[NODE]', ...args);
       });
@@ -235,23 +247,26 @@ export class ServerService {
   }
 
   private _listeningForSocketConnection() {
-    this.socket.fromEvent('connect').subscribe(() => {
-      this.console.log('Connected to server');
-      if (this._user.device.slug != 'main')
-        this._setGreenStatusBar();
-      this.isConnected = true;
-      if (['main', 'bar', 'kitchen', 'pizza'].indexOf(this._user.device.slug) != -1) {
-        this.console.log('Emit device: ', this._user.device.slug);
-        this.socket.emit('device', this._user.device.slug);
-      }
-    });
-    this.socket.fromEvent('disconnect').subscribe((e) => {
-      console.log('Disconnected from server', e);
-      this._setRedStatusBar();
-      this.isConnected = false;
-    });
-    this.socket.fromEvent('error').subscribe((e) => {
-      this.console.log('Socket error', e);
+    return new Promise<void>((resolve) => {
+      this.socket.fromEvent('connect').subscribe(() => {
+        this.console.log('Connected to server');
+        resolve();
+        if (this._user.device.slug != 'main')
+          this._setGreenStatusBar();
+        this.isConnected = true;
+        if (['main', 'bar', 'kitchen', 'pizza'].indexOf(this._user.device.slug) != -1) {
+          this.console.log('Emit device: ', this._user.device.slug);
+          this.socket.emit('device', this._user.device.slug);
+        }
+      });
+      this.socket.fromEvent('disconnect').subscribe((e) => {
+        console.log('Disconnected from server', e);
+        this._setRedStatusBar();
+        this.isConnected = false;
+      });
+      this.socket.fromEvent('error').subscribe((e) => {
+        this.console.log('Socket error', e);
+      });
     });
   }
 
@@ -273,13 +288,17 @@ export class ServerService {
   }
 
   private _listening() {
-    this._listeningForSocketConnection();
-    if (this._user.device.slug == 'main') {
-      this._listeningForDeviceConnection();
-      this._listeningForMainServices();
-    } else if (['bar', 'pizza', 'kitchen'].indexOf(this._user.device.slug) != -1) {
-      this._listeningForKitchenServices();
-    }
+    return new Promise<void>((resolve) => {
+      this._listeningForSocketConnection().then(() => {
+        resolve();
+      });
+      if (this._user.device.slug == 'main') {
+        this._listeningForDeviceConnection();
+        this._listeningForMainServices();
+      } else if (['bar', 'pizza', 'kitchen'].indexOf(this._user.device.slug) != -1) {
+        this._listeningForKitchenServices();
+      }
+    });
   }
 
   private _allDevicesAreConnected() {

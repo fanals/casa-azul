@@ -32,6 +32,7 @@ export class OverviewPage implements OnInit {
               public server: ServerService) {}
 
   ngOnInit() {
+    console.log("Get menu from overview");
     this.menuService.get().then(menu => {
       this.menu = menu;
       //this.changedDevice();

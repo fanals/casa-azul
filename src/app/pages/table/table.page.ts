@@ -61,6 +61,7 @@ export class TablePage implements OnInit {
         this.selectBill();
       }
     });
+    console.log("Get menu from table");
     this.menuService.get().then(menu => {
       this.menu = menu;
     });
@@ -360,10 +361,12 @@ export class TablePage implements OnInit {
   }
 
   public stopMovingArticles() {
-    for (let i = 0; i < this.table.bills[this.selectedBillIndex].batches.length; i++) {
-      let batch = this.table.bills[this.selectedBillIndex].batches[i];
-      for (let j = 0; j < batch.articles.length; j++) {
-        batch.articles[j].moving = false;
+    if (this.selectedBillIndex != -1) {
+      for (let i = 0; i < this.table.bills[this.selectedBillIndex].batches.length; i++) {
+        let batch = this.table.bills[this.selectedBillIndex].batches[i];
+        for (let j = 0; j < batch.articles.length; j++) {
+          batch.articles[j].moving = false;
+        }
       }
     }
     this.movingArticles = false;

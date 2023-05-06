@@ -40,31 +40,38 @@ export class WaiterSelectFoodPage implements OnInit {
               public billService: BillService) {}
 
   ngOnInit() {
-    this._openTable(33); // Open para llevar
+    this._openTable(33).then(() => {
+      this.selectTable();
+    });
   }
 
   private _openTable(tableId) {
-    this.tableId = tableId;
-    this.loading.show().then(() => {
-      this.menuService.get().then(menu => {
-        this.menu = menu;
-        return this.userService.get();
-      }).then(user => {
-        this.user = user;
-        return this.server.send({
-          service: ServicesEnum['service-get-table'],
-          device: DevicesEnum['main'],
-          data: this.tableId
-        });
-      }).then((table: TableType) => {
-        this._setTable(table);
-        this.loading.dismiss();
-      }).catch((e) => {
-        this.alertService.display(e);
-        this.notConnectedToServer = true;
-        this.tablesService.getTableById(this.tableId).then(table => {
+    return new Promise<void>((resolve) => {
+      this.tableId = tableId;
+      this.loading.show().then(() => {
+        console.log("Get menu from waiter select food");
+        this.menuService.get().then(menu => {
+          this.menu = menu;
+          return this.userService.get();
+        }).then(user => {
+          this.user = user;
+          return this.server.send({
+            service: ServicesEnum['service-get-table'],
+            device: DevicesEnum['main'],
+            data: this.tableId
+          });
+        }).then((table: TableType) => {
           this._setTable(table);
           this.loading.dismiss();
+          resolve();
+        }).catch((e) => {
+          this.alertService.display(e);
+          this.notConnectedToServer = true;
+          this.tablesService.getTableById(this.tableId).then(table => {
+            this._setTable(table);
+            this.loading.dismiss();
+            resolve();
+          });
         });
       });
     });

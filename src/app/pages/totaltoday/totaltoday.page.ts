@@ -35,6 +35,7 @@ export class TotaltodayPage implements OnInit {
       this._tables = tables;
       this._setData();
     });
+    console.log("Get menu from totaltoday");
     this.menuService.get().then(menu => {
       this._menu = menu;
     });

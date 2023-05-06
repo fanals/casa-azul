@@ -25,12 +25,14 @@ export class AppComponent implements OnInit {
     url: '/totaltoday',
     icon: 'wallet',
     devices: ['main']
-  }, {
-    title: 'Empleados',
-    url: '/employees',
-    icon: 'happy',
-    devices: ['main']
-  }, {
+  },
+  // {
+  //   title: 'Empleados',
+  //   url: '/employees',
+  //   icon: 'happy',
+  //   devices: ['main']
+  // },
+  {
     title: 'Pedidos',
     url: '/orders',
     icon: 'restaurant',
@@ -47,19 +49,19 @@ export class AppComponent implements OnInit {
     devices: ['main', 'waiter']
   }, {
     title: 'Usuario',
-    url: '/user',
+    url: '/user/0',
     icon: 'person',
     devices: null
-  }, {
-    title: 'Configuración',
-    url: '/config',
-    icon: 'construct',
-    devices: null
-  }, {
-    title: 'Console',
-    url: '/console',
-    icon: 'book',
-    devices: null
+  // }, {
+  //   title: 'Configuración',
+  //   url: '/config',
+  //   icon: 'construct',
+  //   devices: null
+  // }, {
+  //   title: 'Console',
+  //   url: '/console',
+  //   icon: 'book',
+  //   devices: null
   }];
 
   constructor(
@@ -78,7 +80,6 @@ export class AppComponent implements OnInit {
       this.statusBar.backgroundColorByName('black');
       this.userService.isLoggedIn().then(user => {
         this.user = user;
-        this.server.startMonitoring(user);
       });
     });
   }

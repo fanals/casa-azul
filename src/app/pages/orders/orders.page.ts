@@ -31,6 +31,7 @@ export class OrdersPage implements OnInit {
               public ordersService: OrdersService) {}
 
   ngOnInit() {
+    console.log("Get menu from orders");
     this.menuService.get().then(menu => {
       this.menu = menu;
     });

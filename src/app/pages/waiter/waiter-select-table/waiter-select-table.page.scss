@@ -30,11 +30,17 @@
       .button {
         width: 100%;
         max-width: 100%;
-        line-height: 200px;
+        line-height: 312px;
       }
     }
     .top-tables {
       margin-bottom: 2%;
+    }
+    .middle-tables {
+      margin-bottom: 2%;
+      .button {
+        max-width: 22%;
+      }
     }
     .double {
       width: 140px;

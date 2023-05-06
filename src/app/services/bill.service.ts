@@ -26,7 +26,7 @@ export class BillService {
     });
     this.userService.get().then(user => {
       this._user = user;
-    });
+    });  
   }
 
   public emptyNewBatch():BatchType { 

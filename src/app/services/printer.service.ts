@@ -121,6 +121,7 @@ export class PrinterService {
 
   public printBill(table, bill, condensedBill) {
     return new Promise(resolve => {
+      console.log("Get menu from printer service");
       this.menuService.get().then(menu => {
         console.log('bill', bill);
         console.log('condensed', condensedBill);

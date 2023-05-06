@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Kazul</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img class='logo' src='assets/logo-kazul.png' />
+  <ion-list>
+    <ion-item [hidden]="!displayRestaurants">
+      <ion-label>Restaurantes</ion-label>
+      <ion-select value="" okText="Ok" cancelText="Cancelar" [(ngModel)]='restaurant'>
+        <ion-select-option value="zapote">El Zapote</ion-select-option>
+        <ion-select-option value="katana">Katana Sushi</ion-select-option>
+        <ion-select-option value="trecaravelle">Le Tre Caravelle</ion-select-option>
+        <ion-select-option value="mammamia">Mamma Mia</ion-select-option>
+        <ion-select-option value="casaazul">Pizzeria Casa Azul</ion-select-option>
+        <ion-select-option value="reyenao">Reyenao</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button style="margin: 30px" [hidden]="!restaurant" expand="block" color="primary" (click)='askP()'>Conectarse</ion-button>
+  </ion-list>
+</ion-content>

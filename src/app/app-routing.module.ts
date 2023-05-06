@@ -3,8 +3,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [{
     path: '',
-    redirectTo: 'user',
+    redirectTo: 'connect',
     pathMatch: 'full'
+  }, {
+    path: 'connect',
+    loadChildren: () => import('./pages/connect/connect.module').then( m => m.ConnectPageModule)
   }, {
     path: 'config',
     loadChildren: () => import('./pages/config/config.module').then( m => m.ConfigPageModule)
@@ -29,7 +32,7 @@ const routes: Routes = [{
     loadChildren: () => import('./pages/console/console.module').then( m => m.ConsolePageModule)
   },
   {
-    path: 'user',
+    path: 'user/:onStartup',
     loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   },
   {

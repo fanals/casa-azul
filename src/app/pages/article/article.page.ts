@@ -23,6 +23,7 @@ export class ArticlePage implements OnInit {
               public menuService:MenuService) {}
 
   ngOnInit() {
+    console.log("Get menu from article");
     this.menuService.get().then(menu => {
       this.menu = menu;
       this.article = this.navParams.get('article');
