@@ -3,7 +3,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { TablesService } from 'src/app/services/tables.service';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, Platform } from '@ionic/angular';
 import { MenuType, TableType, BillType, UserType, BatchType, ArticleType, ServicesEnum, PacketType, TableOrderType, TableOrderBillType, DevicesEnum } from 'src/app/types';
 import { UserService } from 'src/app/services/user.service';
 import { BillService } from 'src/app/services/bill.service';
@@ -12,6 +12,7 @@ import { WaiterSelectTablePage } from '../../waiter/waiter-select-table/waiter-s
 import { LoadingService } from 'src/app/services/loading.service';
 import { ServerService } from 'src/app/services/server.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-waiter-select-food',
@@ -27,6 +28,7 @@ export class WaiterSelectFoodPage implements OnInit {
   public notConnectedToServer = false;
   public selectedBillIndex = 0;
   public currentBillIndex = 0;
+  private onResumeSubscription: Subscription = null;
 
   constructor(public menuService: MenuService,
               public alertService: AlertService,
@@ -36,6 +38,7 @@ export class WaiterSelectFoodPage implements OnInit {
               public userService: UserService,
               public loading: LoadingService,
               public server: ServerService,
+              public platform: Platform,
               public navCtrl: NavController,
               public billService: BillService) {}
 
@@ -43,6 +46,16 @@ export class WaiterSelectFoodPage implements OnInit {
     this._openTable(33).then(() => {
       this.selectTable();
     });
+  }
+
+  ionViewDidEnter() {
+    if (!this.onResumeSubscription) {
+      this.onResumeSubscription = this.platform.resume.subscribe(() => {
+        if (!this.table.bills[this.currentBillIndex].newBatch.articles.length) {
+          window.location.href = "";
+        }
+      });
+    }
   }
 
   private _openTable(tableId) {
@@ -207,6 +220,10 @@ export class WaiterSelectFoodPage implements OnInit {
       this.updateTotalPrice();      
     });
     return await modal.present();
+  }
+
+  ngOnDestroy() {
+    this.onResumeSubscription.unsubscribe();
   }
 
 }

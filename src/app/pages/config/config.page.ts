@@ -4,6 +4,7 @@ import { ServerService } from 'src/app/services/server.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SoundService } from 'src/app/services/sound.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-config',
@@ -15,6 +16,7 @@ export class ConfigPage implements OnInit {
   constructor(public menu: MenuService,
               public alert: AlertService,
               public sound: SoundService,
+              public navCtrl: NavController,
               public loading: LoadingService,
               public server: ServerService) {}
 
@@ -22,7 +24,10 @@ export class ConfigPage implements OnInit {
   }
 
   updateMenu() {
-    this.menu.update();
+    this.menu.update().then(() => {
+      this.alert.display('OK, menu actualizado');
+      this.navCtrl.navigateRoot('connect');
+    });
   }
 
   forceReconnectionToServer() {

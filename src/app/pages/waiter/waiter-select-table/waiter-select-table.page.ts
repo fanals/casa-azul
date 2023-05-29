@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, Platform, NavController } from '@ionic/angular';
 import { ServerService } from 'src/app/services/server.service';
 import { ServicesEnum, PacketType, DevicesEnum } from 'src/app/types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-waiter-select-table',
@@ -11,12 +12,15 @@ import { ServicesEnum, PacketType, DevicesEnum } from 'src/app/types';
 export class WaiterSelectTablePage implements OnInit {
 
   public openedTables = [];
+  private onResumeSubscription: Subscription = null;
 
   constructor(public navCtrl:NavController,
+              public platform: Platform,
               public modalController: ModalController,
               public server:ServerService) {}
 
   ngOnInit() {
+
   }
 
   ionViewDidEnter() {
@@ -27,12 +31,20 @@ export class WaiterSelectTablePage implements OnInit {
       console.log('Opened tabled are', openedTables);
       this.openedTables = openedTables;
     });
+    if (!this.onResumeSubscription) {
+      this.onResumeSubscription = this.platform.resume.subscribe(() => {
+        window.location.href = "";
+      });
+    }
   }
 
   openTable(tableId) {
     this.modalController.dismiss({tableId: tableId});
     //this.navCtrl.navigateForward('waiter-select-food/'+id, {animated: false});
   }
-  
 
+  ngOnDestroy() {
+    this.onResumeSubscription.unsubscribe();
+  }
+  
 }

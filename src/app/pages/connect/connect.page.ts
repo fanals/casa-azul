@@ -26,7 +26,7 @@ export class ConnectPage implements OnInit {
 
   ionViewDidEnter() {
     this.platform.ready().then(() => {
-      this.storage.get('restaurant').then((restaurant: string) => {
+      this.storage.get('loggedinasrestaurant').then((restaurant: string) => {
         if (restaurant == "casaazul") {
           this.navCtrl.navigateRoot('user/1');
         } else {
@@ -39,7 +39,7 @@ export class ConnectPage implements OnInit {
   askP() {
     this.alertService.prompt('Contraseña', '').then(p => {
       if (this.restaurant == "casaazul" && p == "sachaCHAUD89") {
-        this.storage.set('restaurant', "casaazul").then(res => {
+        this.storage.set('loggedinasrestaurant', "casaazul").then(res => {
           this.navCtrl.navigateRoot('user/1');
         }).catch(error => console.log('Error saving restaurant', error));
       } else {

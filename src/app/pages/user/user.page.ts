@@ -81,9 +81,15 @@ export class UserPage implements OnInit {
   }
 
   logout() {
-    this.storage.set('restaurant', null).then(res => {
-      this.navCtrl.navigateRoot('connect');
-    }).catch(error => console.log('Error setting restaurant to null', error));
+    this.alert.prompt('Contraseña', '').then(p => {
+      if (p == "sachaCHAUD89") {
+        this.storage.set('loggedinasrestaurant', null).then(res => {
+          this.navCtrl.navigateRoot('connect');
+        }).catch(error => console.log('Error setting restaurant to null', error));
+      } else {
+        this.alert.display("Contraseña incorrecta");
+      }
+    });
   }
 
   compareWithFn = (o1, o2) => {

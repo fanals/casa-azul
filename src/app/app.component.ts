@@ -52,12 +52,12 @@ export class AppComponent implements OnInit {
     url: '/user/0',
     icon: 'person',
     devices: null
-  // }, {
-  //   title: 'Configuración',
-  //   url: '/config',
-  //   icon: 'construct',
-  //   devices: null
-  // }, {
+  }, {
+    title: 'Configuración',
+    url: '/config',
+    icon: 'construct',
+    devices: null
+  //}, {
   //   title: 'Console',
   //   url: '/console',
   //   icon: 'book',
