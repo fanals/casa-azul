@@ -191,7 +191,7 @@ export class MenuService {
   _getArticleCategory(category) {
     if (category.name == 'pizza')
       return ArticleCategoryEnum['pizza'];
-    if (['carne', 'pescado', 'pasta', 'ensalada', 'postre', 'extra'].findIndex(c => c == category.name) != -1)
+    if (['carne', 'pescado', 'pasta', 'ensalada', 'postre', 'extra', 'desayuno'].findIndex(c => c == category.name) != -1)
       return ArticleCategoryEnum['kitchen'];
     return ArticleCategoryEnum['bar'];
   }
